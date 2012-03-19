@@ -8,12 +8,18 @@ Ext.define('E4ds.controller.LoggingEvents', {
 	refs: [ {
 		ref: 'loggingeventList',
 		selector: 'loggingeventlist'
-	} ],
+	}, {
+		ref: 'pagingtoolbar',
+		selector: 'loggingeventlist pagingtoolbar'
+	}, {
+		ref: 'exportButton',
+		selector: 'loggingeventlist button[action=export]'
+	}],
 
 	init: function() {
 		this.control({
 			'loggingeventlist': {
-				beforeactivate: this.onBeforeActivate,
+				add: this.onAdd
 			},
 			'loggingeventlist button[action=deleteall]': {
 				click: this.deleteAll
@@ -30,16 +36,14 @@ Ext.define('E4ds.controller.LoggingEvents', {
 	filterLogLevel: function(field, newValue, oldValue) {
 		var myStore = this.getLoggingEventsStore();
 		if (newValue) {
-			myStore.remoteFilter = false;
 			myStore.clearFilter(true);
-			myStore.remoteFilter = true;
 			myStore.filter('level', newValue);
-			this.getLoggingeventList().down('button[action=export]').setParams({
+			this.getExportButton().setParams({
 				level: newValue
 			});
 		} else {
 			myStore.clearFilter();
-			this.getLoggingeventList().down('button[action=export]').setParams();
+			this.getExportButton().setParams();
 		}
 	},
 
@@ -59,14 +63,12 @@ Ext.define('E4ds.controller.LoggingEvents', {
 		
 	},
 
-	onBeforeActivate: function(cmp, options) {
-		if (options) {
-			this.getLoggingEventsStore().clearFilter();
-		}
+	onAdd: function(cmp, options) {
+		this.getLoggingEventsStore().clearFilter();
 	},
 
 	doGridRefresh: function() {
-		this.getLoggingeventList().down('pagingtoolbar').doRefresh();
+		this.getPagingtoolbar().doRefresh();
 	}
 
 });

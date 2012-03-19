@@ -64,7 +64,7 @@ Ext.define('E4ds.view.user.List', {
 				action: 'export',
 				iconCls: 'icon-excel',
 				href: 'usersExport.xls',
-				target: '_self',
+				hrefTarget: '_self',
 			}, '->', {
 				fieldLabel: i18n.filter,
 				labelWidth: 40,

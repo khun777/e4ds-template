@@ -5,6 +5,8 @@ Ext.define('E4ds.controller.PollChart', {
 	models: [ 'PollChart' ],
 	views: [ 'poll.PollChart' ],
 
+	polling: true,
+	
 	refs: [ {
 		ref: 'pollchart',
 		selector: 'pollchart'
@@ -19,10 +21,10 @@ Ext.define('E4ds.controller.PollChart', {
 	init: function() {
 		this.control({
 			'pollchart': {
-				beforerender: this.onBeforeRender,
-				destroy: this.onDestroy,
-				beforeactivate: this.onBeforeActivate,
-				beforedeactivate: this.onBeforeDeActivate
+				add: this.onAdd,
+				destroy: this.stopPoll,
+				beforeactivate: this.startPoll,
+				beforedeactivate: this.stopPoll
 			},
 			'pollchart button[action=control]': {
 				click: this.controlPolling
@@ -30,7 +32,8 @@ Ext.define('E4ds.controller.PollChart', {
 		});
 	},
 
-	onBeforeRender: function(cmp) {
+	onAdd: function(cmp) {
+		console.log('onAdd');
 		var store = this.getPollChartStore(), model = this.getPollChartModel();
 
 		this.provider = Ext.direct.Manager.getProvider('chartdatapoller');
@@ -41,37 +44,40 @@ Ext.define('E4ds.controller.PollChart', {
 
 			var record = model.create({
 				time: event.data.date,
-				points: event.data.value
+				processCpuLoad: event.data.processCpuLoad,
+				systemCpuLoad: event.data.systemCpuLoad
 			});
 
 			store.add(record);
 		});
+		this.startPoll();
 	},
 
 	controlPolling: function(button, event) {
 		if (button.getText() == 'Start') {
 			button.setText(i18n.chart_stop);
 			button.setIconCls('icon-stop');
-			this.provider.connect();
+			this.polling = true;
+			this.startPoll();
 		} else {
 			button.setText(i18n.chart_start);
 			button.setIconCls('icon-start');
-			this.provider.disconnect();
+			this.stopPoll();
 		}
 	},
 
-	onBeforeActivate: function() {
-		if (this.getControlButton().getText() !== i18n.chart_start) {
+	startPoll: function() {
+		console.log('startPoll');
+		if (this.polling) {
 			this.provider.connect();
 		}
 	},
 
-	onBeforeDeActivate: function() {
+	stopPoll: function() {
+		console.log('stopPoll');
+		this.polling = false;
 		this.provider.disconnect();
 	},
 
-	onDestroy: function() {
-		this.provider.disconnect();
-	}
 
 });

@@ -59,7 +59,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 				action: 'export',
 				iconCls: 'icon-excel',
 				href: 'loggingEventExport.xls',				
-				target: '_self',
+				hrefTarget: '_self',
 			}, '-', {
 				text: i18n.logevents_delete,
 				action: 'deleteall',

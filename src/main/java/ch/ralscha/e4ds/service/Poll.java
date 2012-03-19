@@ -2,19 +2,27 @@ package ch.ralscha.e4ds.service;
 
 public class Poll {
 	private String date;
-	private int value;
+	private double processCpuLoad;
+	private double systemCpuLoad;
 
-	public Poll(String date, int value) {
+	public Poll(final String date, final double processCpuLoad, final double systemCpuLoad) {
 		this.date = date;
-		this.value = value;
+		this.processCpuLoad = processCpuLoad;
+		this.systemCpuLoad = systemCpuLoad;
 	}
 
 	public String getDate() {
 		return date;
 	}
 
-	public int getValue() {
-		return value;
+	public double getProcessCpuLoad() {
+		return processCpuLoad;
 	}
+
+	public double getSystemCpuLoad() {
+		return systemCpuLoad;
+	}
+
+
 
 }

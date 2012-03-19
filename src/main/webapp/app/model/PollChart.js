@@ -1,4 +1,13 @@
 Ext.define('E4ds.model.PollChart', {
 	extend: 'Ext.data.Model',
-	fields: [ 'time', 'points' ]
+	fields: [ {
+		name: 'time',
+		type: 'string'
+	}, {
+		name: 'processCpuLoad',
+		type: 'float'
+	}, {
+		name: 'systemCpuLoad',
+		type: 'float'
+	} ]
 });

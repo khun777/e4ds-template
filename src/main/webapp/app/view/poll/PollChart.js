@@ -1,7 +1,7 @@
 Ext.define('E4ds.view.poll.PollChart', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.pollchart',
-        stateId: 'pollChart',
+	stateId: 'pollChart',
 	title: i18n.chart_title,
 
 	layout: 'fit',
@@ -16,8 +16,9 @@ Ext.define('E4ds.view.poll.PollChart', {
 		if (!store.getCount()) {
 			for ( var i = 0; i < 20; i++) {
 				store.add([ {
-					"time": "00:00:00",
-					"points": 0
+					'time': '00:00:00',
+					'processCpuLoad': 0,
+					'systemCpuLoad': 0
 				} ]);
 			}
 		}
@@ -40,21 +41,13 @@ Ext.define('E4ds.view.poll.PollChart', {
 			axes: [ {
 				type: 'Numeric',
 				position: 'left',
-				fields: [ 'points' ],
-				maximum: 2000,
+				fields: [ 'processCpuLoad', 'systemCpuLoad' ],
+				maximum: 1,
 				minimum: 0,
-				title: i18n.chart_points,
-				label: {
-					renderer: Ext.util.Format.numberRenderer('0')
-				},
-				grid: {
-					odd: {
-						opacity: 0.5,
-						fill: '#eee',
-						stroke: '#bbb',
-						'stroke-width': 0.5
-					}
-				}
+				majorTickSteps: 9,
+				minorTickSteps: 4,
+				title: i18n.chart_cpuload,
+				grid: true
 			}, {
 				type: 'Category',
 				position: 'bottom',
@@ -63,27 +56,26 @@ Ext.define('E4ds.view.poll.PollChart', {
 			} ],
 			series: [ {
 				type: 'line',
-				highlight: {
-					size: 7,
-					radius: 7
-				},
 				tips: {
 					width: 130,
 					renderer: function(storeItem, item) {
-						this.setTitle(i18n.chart_received + ' ' + storeItem.get('points') + ' ' + i18n.chart_pointsat
-								+ ' ' + storeItem.get('time'));
+						this.setTitle(i18n.chart_processcpuload + ': ' + storeItem.get('processCpuLoad'));
 					}
 				},
 				axis: 'left',
 				xField: 'time',
-				yField: 'points',
-				markerConfig: {
-					type: 'circle',
-					size: 4,
-					radius: 4,
-					'stroke-width': 0,
-					fill: 'red'
-				}
+				yField: 'processCpuLoad'
+			}, {
+				type: 'line',
+				tips: {
+					width: 130,
+					renderer: function(storeItem, item) {
+						this.setTitle(i18n.chart_systemcpuload + ': ' + storeItem.get('systemCpuLoad'));
+					}
+				},
+				axis: 'left',
+				xField: 'time',
+				yField: 'systemCpuLoad'
 			} ]
 		} ];
 
