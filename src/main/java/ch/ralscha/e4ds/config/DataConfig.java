@@ -43,10 +43,10 @@ public class DataConfig {
 	@Bean
 	public DataSource dataSource() throws NamingException {
 		Context ctx = new InitialContext();
-		
+
 		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/ds");
 		setupLog(ds);
-		
+
 		return ds;
 	}
 
