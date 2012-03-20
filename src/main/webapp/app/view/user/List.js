@@ -6,7 +6,7 @@ Ext.define('E4ds.view.user.List', {
 
 	title: i18n.user_users,
 	closable: true,
-	
+
 	requires: [ 'Ext.ux.form.field.FilterField' ],
 
 	initComponent: function() {
@@ -14,31 +14,31 @@ Ext.define('E4ds.view.user.List', {
 		var me = this;
 
 		me.columns = [ {
-		text: i18n.user_username,
-		dataIndex: 'userName',
-		flex: 1
-	}, {
-		text: i18n.user_firstname,
-		dataIndex: 'firstName',
-		flex: 1
-	}, {
-		text: i18n.user_lastname,
-		dataIndex: 'name',
-		flex: 1
-	}, {
-		text: i18n.user_email,
-		dataIndex: 'email',
-		flex: 1
-	}, {
-		text: i18n.user_enabled,
-		dataIndex: 'enabled',
-		width: 70,
-		renderer: function(value) {
-			if (value === true) {
-				return i18n.yes;
+			text: i18n.user_username,
+			dataIndex: 'userName',
+			flex: 1
+		}, {
+			text: i18n.user_firstname,
+			dataIndex: 'firstName',
+			flex: 1
+		}, {
+			text: i18n.user_lastname,
+			dataIndex: 'name',
+			flex: 1
+		}, {
+			text: i18n.user_email,
+			dataIndex: 'email',
+			flex: 1
+		}, {
+			text: i18n.user_enabled,
+			dataIndex: 'enabled',
+			width: 70,
+			renderer: function(value) {
+				if (value === true) {
+					return i18n.yes;
+				}
+				return '';
 			}
-			return '';
-		}
 		} ];
 
 		me.dockedItems = [ {
@@ -68,7 +68,7 @@ Ext.define('E4ds.view.user.List', {
 			}, '->', {
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
-				xtype: 'filterfield'				
+				xtype: 'filterfield'
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
