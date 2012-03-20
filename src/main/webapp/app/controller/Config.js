@@ -5,9 +5,6 @@ Ext.define('E4ds.controller.Config', {
 	stores: [ 'LogLevels' ],
 
 	refs: [ {
-		ref: 'configedit',
-		selector: 'configedit'
-	}, {
 		ref: 'logLevelCB',
 		selector: 'configedit combobox[name=logLevel]'
 	} ],

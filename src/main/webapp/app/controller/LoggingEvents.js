@@ -6,9 +6,6 @@ Ext.define('E4ds.controller.LoggingEvents', {
 	models: [ 'LoggingEvent' ],
 
 	refs: [ {
-		ref: 'loggingeventList',
-		selector: 'loggingeventlist'
-	}, {
 		ref: 'pagingtoolbar',
 		selector: 'loggingeventlist pagingtoolbar'
 	}, {
