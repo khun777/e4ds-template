@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = { "ch.ralscha.extdirectspring", "ch.ralscha.e4ds" })
-@PropertySource({ "default.properties", "version.properties" })
+@PropertySource({ "version.properties" })
 public class ComponentConfig {
 	//nothing here
 }
