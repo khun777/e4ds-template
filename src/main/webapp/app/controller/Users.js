@@ -16,6 +16,9 @@ Ext.define('E4ds.controller.Users', {
 	}, {
 		ref: 'exportButton',
 		selector: 'userlist button[action=export]'
+	}, {
+		ref: 'pagingtoolbar',
+		selector: 'userlist pagingtoolbar'
 	}],
 
 	init: function() {
@@ -23,7 +26,7 @@ Ext.define('E4ds.controller.Users', {
 			'userlist': {
 				itemdblclick: this.editUserFromDblClick,
 				itemclick: this.enableActions,
-				beforerender: this.onBeforeRender
+				add: this.onAdd								
 			},
 			'useredit button[action=save]': {
 				click: this.updateUser
@@ -46,17 +49,17 @@ Ext.define('E4ds.controller.Users', {
 	handleFilter: function(field, newValue) {
 		var myStore = this.getUsersStore();
 		if (newValue) {
-			myStore.remoteFilter = false;
+		    myStore.remoteFilter = false;
 			myStore.clearFilter(true);
 			myStore.remoteFilter = true;
 			myStore.filter('filter', newValue);
-			
+
 			this.getExportButton().setParams({
 				filter: newValue
-			});			
+			});
 		} else {
 			myStore.clearFilter();
-			this.getExportButton().setParams();				
+			this.getExportButton().setParams();
 		}
 	},
 
@@ -88,7 +91,7 @@ Ext.define('E4ds.controller.Users', {
 	deleteUser: function(button) {
 		var record = this.getUserList().getSelectionModel().getSelection()[0];
 		if (record) {
-			Ext.Msg.confirm(i18n.user_delete+'?', i18n.delete_confirm + ' ' + record.data.name,
+			Ext.Msg.confirm(i18n.user_delete + '?', i18n.delete_confirm + ' ' + record.data.name,
 					this.afterConfirmDeleteUser, this);
 		}
 	},
@@ -123,7 +126,6 @@ Ext.define('E4ds.controller.Users', {
 		this.toggleButton(enable, 'button[action=edit]');
 	},
 
-
 	updateUser: function(button) {
 		var form = this.getUserEditForm(), record = form.getRecord();
 
@@ -140,18 +142,13 @@ Ext.define('E4ds.controller.Users', {
 		});
 	},
 
-	onBeforeRender: function() {
-		var myStore = this.getUsersStore();
-		myStore.remoteFilter = false;
-		myStore.clearFilter();
-		myStore.remoteFilter = true;
-			this.doGridRefresh();
+	onAdd: function() {
+		this.getUsersStore().clearFilter();
 	},
 
 	doGridRefresh: function() {
-		this.getUserList().down('pagingtoolbar').doRefresh();
+		this.getPagingtoolbar().doRefresh();
 		this.toggleEditButtons(false);
-
 	}
 
 });
