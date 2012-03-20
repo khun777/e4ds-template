@@ -4,10 +4,15 @@ Ext.define('E4ds.view.poll.PollChart', {
 	stateId: 'pollChart',
 	title: i18n.chart_title,
 
-	layout: 'fit',
+	layout: {
+		type: 'vbox',
+		align: 'stretch'
+	},
 	closable: true,
 
-	requires: [ 'Ext.chart.*' ],
+	requires: [ 'Ext.chart.*', 
+	            'E4ds.view.poll.CpuLoadChart',
+	            'E4ds.view.poll.PhysicalMemoryChart'],
 
 	initComponent: function() {
 
@@ -23,48 +28,32 @@ Ext.define('E4ds.view.poll.PollChart', {
 		} ];
 
 		me.items = [ {
-			xtype: 'chart',
-			animate: true,
-			shadow: true,
-			store: 'PollChart',
-			axes: [ {
-				type: 'Numeric',
-				position: 'left',
-				fields: [ 'processCpuLoad', 'systemCpuLoad' ],
-				maximum: 1,
-				minimum: 0,
-				majorTickSteps: 9,
-				minorTickSteps: 4,
-				title: i18n.chart_cpuload,
-				grid: true
+			xtype: 'panel',
+			flex: 1,
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},			
+			items: [ {
+				xtype: 'cpuloadchart',
+				flex: 1
 			}, {
-				type: 'Category',
-				position: 'bottom',
-				fields: [ 'time' ],
-				title: i18n.chart_pollingtime
-			} ],
-			series: [ {
-				type: 'line',
-				tips: {
-					width: 130,
-					renderer: function(storeItem, item) {
-						this.setTitle(i18n.chart_processcpuload + ': ' + storeItem.get('processCpuLoad'));
-					}
-				},
-				axis: 'left',
-				xField: 'time',
-				yField: 'processCpuLoad'
+				xtype: 'physicalmemorychart',
+				flex: 1
+			} ]
+		}, {
+			xtype: 'panel',
+			flex: 1,
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},			
+			items: [ {
+				xtype: 'cpuloadchart',
+				flex: 1
 			}, {
-				type: 'line',
-				tips: {
-					width: 130,
-					renderer: function(storeItem, item) {
-						this.setTitle(i18n.chart_systemcpuload + ': ' + storeItem.get('systemCpuLoad'));
-					}
-				},
-				axis: 'left',
-				xField: 'time',
-				yField: 'systemCpuLoad'
+				xtype: 'cpuloadchart',
+				flex: 1
 			} ]
 		} ];
 

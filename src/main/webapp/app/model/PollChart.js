@@ -9,5 +9,11 @@ Ext.define('E4ds.model.PollChart', {
 	}, {
 		name: 'systemCpuLoad',
 		type: 'float'
-	} ]
+	}, {
+		name: 'freePhysicalMemorySize',
+		type: 'float'
+	}, {
+		name: 'totalPhysicalMemorySize',
+		type: 'float'		
+	}]
 });

@@ -2,18 +2,19 @@ package ch.ralscha.e4ds.service;
 
 public class Poll {
 	private long id;
-	private String date;
+	private String time;
 	private double processCpuLoad;
 	private double systemCpuLoad;
+	private long freePhysicalMemorySize;
+	private long totalPhysicalMemorySize;
 
-	public Poll(final long id, final String date, final double processCpuLoad, final double systemCpuLoad) {
-		this.date = date;
-		this.processCpuLoad = processCpuLoad;
-		this.systemCpuLoad = systemCpuLoad;
+	public Poll(final long id, final String time) {
+		this.id = id;
+		this.time = time;
 	}
 
-	public String getDate() {
-		return date;
+	public String getTime() {
+		return time;
 	}
 
 	public double getProcessCpuLoad() {
@@ -26,6 +27,30 @@ public class Poll {
 
 	public long getId() {
 		return id;
+	}
+
+	public long getFreePhysicalMemorySize() {
+		return freePhysicalMemorySize;
+	}
+
+	public void setFreePhysicalMemorySize(long freePhysicalMemorySize) {
+		this.freePhysicalMemorySize = freePhysicalMemorySize;
+	}
+
+	public long getTotalPhysicalMemorySize() {
+		return totalPhysicalMemorySize;
+	}
+
+	public void setTotalPhysicalMemorySize(long totalPhysicalMemorySize) {
+		this.totalPhysicalMemorySize = totalPhysicalMemorySize;
+	}
+
+	public void setProcessCpuLoad(double processCpuLoad) {
+		this.processCpuLoad = processCpuLoad;
+	}
+
+	public void setSystemCpuLoad(double systemCpuLoad) {
+		this.systemCpuLoad = systemCpuLoad;
 	}
 
 }

@@ -36,12 +36,21 @@ public class PollService {
 		ObjectName oname = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
 		double processCpuLoad = (double) mbeanServer.getAttribute(oname, "ProcessCpuLoad");
 		double systemCpuLoad = (double) mbeanServer.getAttribute(oname, "SystemCpuLoad");
-
+		long freePhysicalMemorySize = (long)mbeanServer.getAttribute(oname, "FreePhysicalMemorySize");
+		long totalPhysicalMemorySize = (long)mbeanServer.getAttribute(oname, "TotalPhysicalMemorySize");
+				
 		if (processCpuLoad < 0) {
 			processCpuLoad = 0;
 		}
 
 		long now = DateTime.now().getMillis();
-		return new Poll(now, fmt.print(now), processCpuLoad, systemCpuLoad);
+		Poll p = new Poll(now, fmt.print(now));
+		
+		p.setProcessCpuLoad(processCpuLoad);
+		p.setSystemCpuLoad(systemCpuLoad);
+		p.setFreePhysicalMemorySize(freePhysicalMemorySize);
+		p.setTotalPhysicalMemorySize(totalPhysicalMemorySize);
+		
+		return p;
 	}
 }

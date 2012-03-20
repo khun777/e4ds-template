@@ -28,12 +28,7 @@ Ext.define('E4ds.controller.PollChart', {
 			store.removeAt(0);
 		}
 
-		store.add(model.create({
-			id: event.data.id,
-			time: event.data.date,
-			processCpuLoad: event.data.processCpuLoad,
-			systemCpuLoad: event.data.systemCpuLoad
-		}));
+		store.add(model.create(event.data));
 	},
 
 	onAdd: function(cmp) {
