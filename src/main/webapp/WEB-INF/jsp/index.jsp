@@ -54,7 +54,6 @@
       <!-- 
       <script src="extjs/locale/ext-lang-de.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
        -->
-      <script src="ux/lang-de.js?v=<spring:eval expression='@environment["application.version"]'/>"></script>
     <% } %>	
     
 </head>
