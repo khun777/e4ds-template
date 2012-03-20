@@ -33,7 +33,9 @@ Ext.define('E4ds.controller.LoggingEvents', {
 	filterLogLevel: function(field, newValue, oldValue) {
 		var myStore = this.getLoggingEventsStore();
 		if (newValue) {
+			myStore.remoteFilter = false;
 			myStore.clearFilter(true);
+			myStore.remoteFilter = true;
 			myStore.filter('level', newValue);
 			this.getExportButton().setParams({
 				level: newValue
