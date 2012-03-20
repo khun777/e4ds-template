@@ -26,20 +26,22 @@ import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 public class PollService {
 
 	private DateTimeFormatter fmt = DateTimeFormat.forPattern("HH:mm:ss");
-	
+
 	@ExtDirectMethod(value = POLL, event = "chartdata")
 	@PreAuthorize("isAuthenticated()")
-	public Poll getPollData() throws MalformedObjectNameException, AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException {
-		
+	public Poll getPollData() throws MalformedObjectNameException, AttributeNotFoundException,
+			InstanceNotFoundException, MBeanException, ReflectionException {
+
 		MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
 		ObjectName oname = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		double processCpuLoad = (double)mbeanServer.getAttribute(oname, "ProcessCpuLoad");
-		double systemCpuLoad = (double)mbeanServer.getAttribute(oname, "SystemCpuLoad");
-		
+		double processCpuLoad = (double) mbeanServer.getAttribute(oname, "ProcessCpuLoad");
+		double systemCpuLoad = (double) mbeanServer.getAttribute(oname, "SystemCpuLoad");
+
 		if (processCpuLoad < 0) {
 			processCpuLoad = 0;
 		}
-		
-		return new Poll(fmt.print(new DateTime()), processCpuLoad, systemCpuLoad);
+
+		long now = DateTime.now().getMillis();
+		return new Poll(now, fmt.print(now), processCpuLoad, systemCpuLoad);
 	}
 }

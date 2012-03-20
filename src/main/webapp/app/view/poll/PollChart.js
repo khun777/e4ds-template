@@ -10,18 +10,8 @@ Ext.define('E4ds.view.poll.PollChart', {
 	requires: [ 'Ext.chart.*' ],
 
 	initComponent: function() {
-		var me = this;
 
-		var store = Ext.StoreManager.get('PollChart');
-		if (!store.getCount()) {
-			for ( var i = 0; i < 20; i++) {
-				store.add([ {
-					'time': '00:00:00',
-					'processCpuLoad': 0,
-					'systemCpuLoad': 0
-				} ]);
-			}
-		}
+		var me = this;
 
 		me.dockedItems = [ {
 			xtype: 'toolbar',
@@ -36,8 +26,7 @@ Ext.define('E4ds.view.poll.PollChart', {
 			xtype: 'chart',
 			animate: true,
 			shadow: true,
-			store: store,
-			height: 600,
+			store: 'PollChart',
 			axes: [ {
 				type: 'Numeric',
 				position: 'left',

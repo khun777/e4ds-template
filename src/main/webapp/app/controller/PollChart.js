@@ -6,17 +6,6 @@ Ext.define('E4ds.controller.PollChart', {
 	views: [ 'poll.PollChart' ],
 
 	polling: true,
-	
-	refs: [ {
-		ref: 'pollchart',
-		selector: 'pollchart'
-	}, {
-		ref: 'pollchartCmp',
-		selector: 'pollchart chart'
-	}, {
-		ref: 'controlButton',
-		selector: 'pollchart button[action=control]'
-	} ],
 
 	init: function() {
 		this.control({
@@ -32,29 +21,30 @@ Ext.define('E4ds.controller.PollChart', {
 		});
 	},
 
-	onAdd: function(cmp) {
-		console.log('onAdd');
+	onData: function(provider, event) {
 		var store = this.getPollChartStore(), model = this.getPollChartModel();
 
+		if (store.getCount() > 10) {
+			store.removeAt(0);
+		}
+
+		store.add(model.create({
+			id: event.data.id,
+			time: event.data.date,
+			processCpuLoad: event.data.processCpuLoad,
+			systemCpuLoad: event.data.systemCpuLoad
+		}));
+	},
+
+	onAdd: function(cmp) {
 		this.provider = Ext.direct.Manager.getProvider('chartdatapoller');
-		this.provider.addListener('data', function(provider, event) {
-			if (store.getCount() > 20) {
-				store.removeAt(0);
-			}
-
-			var record = model.create({
-				time: event.data.date,
-				processCpuLoad: event.data.processCpuLoad,
-				systemCpuLoad: event.data.systemCpuLoad
-			});
-
-			store.add(record);
-		});
+		this.provider.addListener('data', this.onData, this);
+		this.polling = true;
 		this.startPoll();
 	},
 
 	controlPolling: function(button, event) {
-		if (button.getText() == 'Start') {
+		if (!this.polling) {
 			button.setText(i18n.chart_stop);
 			button.setIconCls('icon-stop');
 			this.polling = true;
@@ -62,22 +52,20 @@ Ext.define('E4ds.controller.PollChart', {
 		} else {
 			button.setText(i18n.chart_start);
 			button.setIconCls('icon-start');
+			this.polling = false;
 			this.stopPoll();
 		}
 	},
 
 	startPoll: function() {
-		console.log('startPoll');
 		if (this.polling) {
 			this.provider.connect();
 		}
 	},
 
 	stopPoll: function() {
-		console.log('stopPoll');
-		this.polling = false;
+		this.provider.removeListener('data', this.onData);
 		this.provider.disconnect();
 	},
-
 
 });

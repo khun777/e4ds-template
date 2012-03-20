@@ -1,6 +1,6 @@
 Ext.define('E4ds.model.PollChart', {
 	extend: 'Ext.data.Model',
-	fields: [ {
+	fields: [ 'id', {
 		name: 'time',
 		type: 'string'
 	}, {
