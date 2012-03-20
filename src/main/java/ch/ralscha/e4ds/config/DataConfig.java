@@ -40,6 +40,7 @@ public class DataConfig {
 	@Autowired
 	private Environment environment;
 
+	@Bean
 	public DataSource dataSource() throws NamingException {
 		Context ctx = new InitialContext();
 		
