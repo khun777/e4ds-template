@@ -13,7 +13,10 @@ Ext.define('E4ds.controller.Users', {
 	}, {
 		ref: 'userEditWindow',
 		selector: 'useredit'
-	} ],
+	}, {
+		ref: 'exportButton',
+		selector: 'userlist button[action=export]'
+	}],
 
 	init: function() {
 		this.control({
@@ -48,12 +51,12 @@ Ext.define('E4ds.controller.Users', {
 			myStore.remoteFilter = true;
 			myStore.filter('filter', newValue);
 			
-			this.getUserList().down('button[action=export]').setParams({
+			this.getExportButton().setParams({
 				filter: newValue
 			});			
 		} else {
 			myStore.clearFilter();
-			this.getUserList().down('button[action=export]').setParams();				
+			this.getExportButton().setParams();				
 		}
 	},
 
