@@ -16,6 +16,7 @@ import ch.ralscha.e4ds.util.DateTimeSerializer;
 import com.google.common.collect.Lists;
 
 public class LoggingEventDto {
+	private long id;
 	private DateTime dateTime;
 	private String message;
 	private String level;
@@ -25,7 +26,7 @@ public class LoggingEventDto {
 	private String stacktrace;
 
 	public LoggingEventDto(LoggingEvent event) {
-
+		this.id = event.getEventId();
 		this.dateTime = new DateTime(event.getTimestmp().longValue());
 		this.message = event.getFormattedMessage();
 		this.level = event.getLevelString();
@@ -99,6 +100,10 @@ public class LoggingEventDto {
 
 	public void setStacktrace(String stacktrace) {
 		this.stacktrace = stacktrace;
+	}
+
+	public long getId() {
+		return id;
 	}
 
 }
