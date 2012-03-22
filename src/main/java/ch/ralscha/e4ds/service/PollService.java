@@ -11,6 +11,7 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
+import javax.management.openmbean.CompositeDataSupport;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -33,23 +34,37 @@ public class PollService {
 			InstanceNotFoundException, MBeanException, ReflectionException {
 
 		MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-		ObjectName oname = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		double processCpuLoad = (double) mbeanServer.getAttribute(oname, "ProcessCpuLoad");
-		double systemCpuLoad = (double) mbeanServer.getAttribute(oname, "SystemCpuLoad");
-		long freePhysicalMemorySize = (long) mbeanServer.getAttribute(oname, "FreePhysicalMemorySize");
-		long totalPhysicalMemorySize = (long) mbeanServer.getAttribute(oname, "TotalPhysicalMemorySize");
+		ObjectName osName = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
+		double processCpuLoad = (double) mbeanServer.getAttribute(osName, "ProcessCpuLoad");
+		double systemCpuLoad = (double) mbeanServer.getAttribute(osName, "SystemCpuLoad");
+		long freePhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "FreePhysicalMemorySize");
+		long totalPhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "TotalPhysicalMemorySize");
 
+		ObjectName memoryName = new ObjectName(ManagementFactory.MEMORY_MXBEAN_NAME);
+		CompositeDataSupport heapMemory = (CompositeDataSupport)mbeanServer.getAttribute(memoryName, "HeapMemoryUsage");
+		
+		long usedHeapMemory = (long)heapMemory.get("used");
+		long committedHeapMemory = (long)heapMemory.get("committed");
+		long maxHeapMemory = (long)heapMemory.get("max");		
+		
 		if (processCpuLoad < 0) {
 			processCpuLoad = 0;
+		}
+		
+		if (systemCpuLoad < 0) {
+			systemCpuLoad = 0;
 		}
 
 		long now = DateTime.now().getMillis();
 		Poll p = new Poll(now, fmt.print(now));
 
-		p.setProcessCpuLoad(processCpuLoad);
-		p.setSystemCpuLoad(systemCpuLoad);
+		p.setProcessCpuLoad((int)(processCpuLoad*100.0));
+		p.setSystemCpuLoad((int)(systemCpuLoad*100.0));
 		p.setFreePhysicalMemorySize(freePhysicalMemorySize);
 		p.setTotalPhysicalMemorySize(totalPhysicalMemorySize);
+		p.setUsedHeapMemory(usedHeapMemory);
+		p.setCommittedHeapMemory(committedHeapMemory);
+		p.setMaxHeapMemory(maxHeapMemory);
 
 		return p;
 	}

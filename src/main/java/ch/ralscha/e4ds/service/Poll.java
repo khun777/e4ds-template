@@ -3,10 +3,13 @@ package ch.ralscha.e4ds.service;
 public class Poll {
 	private long id;
 	private String time;
-	private double processCpuLoad;
-	private double systemCpuLoad;
+	private int processCpuLoad;
+	private int systemCpuLoad;
 	private long freePhysicalMemorySize;
 	private long totalPhysicalMemorySize;
+	private long usedHeapMemory;
+	private long committedHeapMemory;
+	private long maxHeapMemory;
 
 	public Poll(final long id, final String time) {
 		this.id = id;
@@ -17,11 +20,11 @@ public class Poll {
 		return time;
 	}
 
-	public double getProcessCpuLoad() {
+	public int getProcessCpuLoad() {
 		return processCpuLoad;
 	}
 
-	public double getSystemCpuLoad() {
+	public int getSystemCpuLoad() {
 		return systemCpuLoad;
 	}
 
@@ -45,12 +48,36 @@ public class Poll {
 		this.totalPhysicalMemorySize = totalPhysicalMemorySize;
 	}
 
-	public void setProcessCpuLoad(double processCpuLoad) {
+	public void setProcessCpuLoad(int processCpuLoad) {
 		this.processCpuLoad = processCpuLoad;
 	}
 
-	public void setSystemCpuLoad(double systemCpuLoad) {
+	public void setSystemCpuLoad(int systemCpuLoad) {
 		this.systemCpuLoad = systemCpuLoad;
+	}
+
+	public long getUsedHeapMemory() {
+		return usedHeapMemory;
+	}
+
+	public void setUsedHeapMemory(long usedHeapMemory) {
+		this.usedHeapMemory = usedHeapMemory;
+	}
+
+	public long getCommittedHeapMemory() {
+		return committedHeapMemory;
+	}
+
+	public void setCommittedHeapMemory(long committedHeapMemory) {
+		this.committedHeapMemory = committedHeapMemory;
+	}
+
+	public long getMaxHeapMemory() {
+		return maxHeapMemory;
+	}
+
+	public void setMaxHeapMemory(long maxHeapMemory) {
+		this.maxHeapMemory = maxHeapMemory;
 	}
 
 }

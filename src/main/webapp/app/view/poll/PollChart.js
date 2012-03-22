@@ -10,9 +10,7 @@ Ext.define('E4ds.view.poll.PollChart', {
 	},
 	closable: true,
 
-	requires: [ 'Ext.chart.*', 
-	            'E4ds.view.poll.CpuLoadChart',
-	            'E4ds.view.poll.PhysicalMemoryChart'],
+	requires: [ 'Ext.chart.*', 'E4ds.view.poll.HeapMemoryChart', 'E4ds.view.poll.PhysicalMemoryChart' ],
 
 	initComponent: function() {
 
@@ -28,32 +26,70 @@ Ext.define('E4ds.view.poll.PollChart', {
 		} ];
 
 		me.items = [ {
-			xtype: 'panel',
+			xtype: 'container',
 			flex: 1,
 			layout: {
 				type: 'hbox',
 				align: 'stretch'
-			},			
+			},
 			items: [ {
-				xtype: 'cpuloadchart',
+				xtype: 'heapmemorychart',
 				flex: 1
 			}, {
 				xtype: 'physicalmemorychart',
 				flex: 1
 			} ]
 		}, {
-			xtype: 'panel',
+			xtype: 'container',
 			flex: 1,
 			layout: {
 				type: 'hbox',
 				align: 'stretch'
-			},			
+			},
 			items: [ {
-				xtype: 'cpuloadchart',
-				flex: 1
+				xtype: 'chart',
+				animate: true,
+				store: 'PollChart',
+				insetPadding: 40,
+				flex: 1,				
+				axes: [ {
+					type: 'gauge',
+					position: 'gauge',
+					minimum: 0,
+					maximum: 100,
+					steps: 10,
+					margin: 5,
+					title: 'System CPU Load'
+				} ],
+				series: [ {
+					type: 'gauge',
+					field: 'systemCpuLoad',
+					donut: 30,
+	                colorSet: ['#82B525', '#ddd']
+				} ]
 			}, {
-				xtype: 'cpuloadchart',
-				flex: 1
+
+				xtype: 'chart',
+				animate: true,
+				store: 'PollChart',
+				insetPadding: 40,
+				flex: 1,				
+				axes: [ {
+					type: 'gauge',
+					position: 'gauge',
+					minimum: 0,
+					maximum: 100,
+					steps: 10,
+					margin: 5,
+					title: 'Process CPU Load'
+				} ],
+				series: [ {
+					type: 'gauge',
+					field: 'processCpuLoad',
+					donut: 30,
+	                colorSet: ['#3AA8CB', '#ddd']
+				} ]
+			
 			} ]
 		} ];
 

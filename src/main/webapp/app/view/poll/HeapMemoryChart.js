@@ -1,10 +1,11 @@
-Ext.define('E4ds.view.poll.PhysicalMemoryChart', {
+Ext.define('E4ds.view.poll.HeapMemoryChart', {
 	extend: 'Ext.chart.Chart',
-	alias: 'widget.physicalmemorychart',
+	alias: 'widget.heapmemorychart',
 
-	animate: false,
+	animate: true,
 	shadow: true,
 	store: 'PollChart',
+	
 	legend: {
 	    position: 'top'
 	},
@@ -20,9 +21,9 @@ Ext.define('E4ds.view.poll.PhysicalMemoryChart', {
 		me.axes = [ {
 			type: 'Numeric',
 			position: 'left',
-			fields: [ 'freePhysicalMemorySize', 'totalPhysicalMemorySize' ],
+			fields: [ 'maxHeapMemory', 'committedHeapMemory', 'usedHeapMemory' ],
 			minimum: 0,
-			title: 'Physical Memory',
+			title: 'Heap Memory',
 			label: {
 				renderer: this.labelRenderer
 			},
@@ -35,18 +36,22 @@ Ext.define('E4ds.view.poll.PhysicalMemoryChart', {
 
 		me.series = [ {
 			type: 'line',
-			fill: true,
 			axis: 'left',
 			xField: 'time',
-			yField: 'freePhysicalMemorySize',
-			title: 'Free Physical Memory Size'
+			yField: 'maxHeapMemory',
+			title: 'Max'
 		}, {
 			type: 'line',
-			fill: true,
 			axis: 'left',
 			xField: 'time',
-			yField: 'totalPhysicalMemorySize',
-			title: 'Total Physical Memory Size'
+			yField: 'committedHeapMemory',
+			title: 'Committed'
+		}, {
+			type: 'line',
+			axis: 'left',
+			xField: 'time',
+			yField: 'usedHeapMemory',
+			title: 'Used'
 		} ];
 		
 		me.callParent(arguments);
