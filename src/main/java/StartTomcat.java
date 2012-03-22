@@ -5,5 +5,4 @@ public class StartTomcat {
 		System.setProperty("spring.profiles.active", "development");
 		EmbeddedTomcat.create().addContextEnvironmentAndResourceFromFile("./src/main/config/tomcat.xml").startAndWait();
 	}
-
 }
