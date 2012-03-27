@@ -10,7 +10,6 @@
     <http pattern="/ux/**" security="none" />
     
 	<http use-expressions="true">
-		
 		<intercept-url pattern="/login.*" access="permitAll()" />
 		<intercept-url pattern="/wro/login*" access="permitAll()" />
 		<intercept-url pattern="/i18n.js" access="permitAll()" />
