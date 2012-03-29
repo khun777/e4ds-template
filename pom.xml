@@ -350,9 +350,6 @@
 				<configuration>
 					<path>/</path>
 					<contextFile>${basedir}/src/main/config/tomcat.xml</contextFile>
-					<systemProperties>
-						<spring.profiles.active>development</spring.profiles.active>
-					</systemProperties>
 				</configuration>
 
 				<dependencies>
