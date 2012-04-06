@@ -8,9 +8,18 @@ Ext.define('E4ds.view.loggingevent.List', {
 
 	requires: [ 'Ext.ux.RowExpander', 'Ext.ux.form.field.ClearButton' ],
 
-	constructor: function() {
+	plugins : [ {
+		ptype: 'rowexpander',
+		expandOnEnter: false,
+		expandOnDblClick: false,
+		selectRowOnExpand: true,			
+		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">',
+				'<p>{message}</p>', '</tpl>' ]
+	} ],
+	
+	initComponent: function() {
 		var me = this;
-		
+
 		me.columns = [ {
 			text: i18n.logevents_timestamp,
 			dataIndex: 'dateTime',
@@ -36,20 +45,6 @@ Ext.define('E4ds.view.loggingevent.List', {
 			width: 70
 		} ];
 
-		me.plugins = [ {
-			ptype: 'rowexpander',
-			expandOnEnter: false,
-			expandOnDblClick: false,
-			selectRowOnExpand: true,			
-			rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">',
-					'<p>{message}</p>', '</tpl>' ]
-		} ];
-
-		me.callParent(arguments);
-	},
-
-	initComponent: function() {
-		var me = this;
 		
 		me.dockedItems = [ {
 			xtype: 'toolbar',
