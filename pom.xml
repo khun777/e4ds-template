@@ -371,7 +371,7 @@
 							<goal>process</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/java</outputDirectory>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
 							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
 						</configuration>
 					</execution>
