@@ -460,27 +460,7 @@
 					<packagingExcludes>WEB-INF/classes/StartTomcat*</packagingExcludes>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>false</downloadJavadocs>
-				</configuration>
-			</plugin>
 			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-idea-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<dependenciesAsLibraries>true</dependenciesAsLibraries>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
