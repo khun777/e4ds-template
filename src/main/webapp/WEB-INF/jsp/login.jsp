@@ -11,17 +11,17 @@
 	<link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" /> 
     <title>e4ds-template</title>
     
-    <link rel="stylesheet" type="text/css" href="http://rasc.ch/extjs-4.1.0-rc2/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="http://rasc.ch/extjs-4.1.0-rc3/resources/css/ext-all.css">
     <!-- 
     <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css?v=<spring:eval expression='@environment["extjs.version"]'/>">    
      -->
     
     <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />    
     <c:if test="${isDevelopment}">
-            <link rel="stylesheet" type="text/css" href="resources/css/app.css">
+         <link rel="stylesheet" type="text/css" href="resources/css/app-sprite.css">
 		<link rel="stylesheet" type="text/css" href="ux/css/Notification.css">
 	    
-	    <script charset="utf-8" src="http://rasc.ch/extjs-4.1.0-rc2/ext-all-debug.js"></script>
+	    <script charset="utf-8" src="http://rasc.ch/extjs-4.1.0-rc3/ext-all-debug.js"></script>
 	    <!-- 
 	    <script src="extjs/ext-all-debug.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
 	     -->
@@ -34,7 +34,7 @@
       <link rel="stylesheet" type="text/css" href="wro/login.css?v=<spring:eval expression='@environment["application.version"]'/>" />
         <script src="i18n.js"></script>
         
-		<script charset="utf-8" src="http://rasc.ch/extjs-4.1.0-rc2/ext-all.js"></script>
+		<script charset="utf-8" src="http://rasc.ch/extjs-4.1.0-rc3/ext-all.js"></script>
 		<!-- 
       <script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script> 
 		 -->
@@ -43,7 +43,7 @@
 	    
 	<% Locale locale = RequestContextUtils.getLocale(request); %>
     <% if (locale != null && locale.getLanguage().toLowerCase().equals("de")) { %>
-      <script src="http://rasc.ch/extjs-4.1.0-rc2/locale/ext-lang-de.js"></script>
+      <script src="http://rasc.ch/extjs-4.1.0-rc3/locale/ext-lang-de.js"></script>
       <!-- 
       <script src="extjs/locale/ext-lang-de.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
        -->

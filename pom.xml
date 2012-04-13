@@ -222,13 +222,7 @@
 			<version>2.2</version>
 		</dependency>
 
-        <!-- 
-		<dependency>
-			<groupId>resources</groupId>
-			<artifactId>extjs</artifactId>
-			<version>${extjs.version}</version>
-		</dependency>
-         -->
+		<!-- <dependency> <groupId>resources</groupId> <artifactId>extjs</artifactId> <version>${extjs.version}</version> </dependency> -->
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-core</artifactId>
@@ -306,15 +300,7 @@
 
 	</dependencies>
 
-	<!-- 
-	<repositories>
-		<repository>
-			<id>ralscha</id>
-			<name>My Private Repository</name>
-			<url>http://rasc.ch/repository</url>
-		</repository>
-	</repositories>
- 	-->
+	<!-- <repositories> <repository> <id>ralscha</id> <name>My Private Repository</name> <url>http://rasc.ch/repository</url> </repository> </repositories> -->
 
 	<build>
 		<resources>
@@ -386,6 +372,41 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>generate-resources</id>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+
+								<taskdef resource="smartsprites.xml">
+									<classpath refid="maven.plugin.classpath" />
+								</taskdef>
+
+								<smartsprites rootdir="${basedir}/src/main/webapp/resources/css" cssfileencoding="UTF-8" cssfilesuffix="-sprite"
+									loglevel="INFO" spritepngdepth="AUTO" spritepngie6="false" />
+
+
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.carrotsearch</groupId>
+						<artifactId>smartsprites</artifactId>
+						<version>0.2.8</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
@@ -440,11 +461,51 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-idea-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<dependenciesAsLibraries>true</dependenciesAsLibraries>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/java/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -459,6 +520,19 @@
 										<versionRange>[1.0.2,)</versionRange>
 										<goals>
 											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.7,)</versionRange>
+										<goals>
+											<goal>run</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

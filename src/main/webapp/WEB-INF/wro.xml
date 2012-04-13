@@ -44,7 +44,7 @@
     <js>/app/controller/Users.js</js>
     <js>/app.js</js>
     
-    <css>/resources/css/app.css</css>
+    <css>/resources/css/app-sprite.css</css>
     <css>/ux/css/ClearButton.css</css>
     <css>/ux/css/Notification.css</css>
     <css>/ux/css/BoxSelect.css</css>
@@ -54,7 +54,7 @@
     <js>/ux/window/Notification.js</js>
     <js>/login.js</js>
     
-    <css>/resources/css/app.css</css>
+    <css>/resources/css/app-sprite.css</css>
     <css>/ux/css/Notification.css</css>
   </group>
 
