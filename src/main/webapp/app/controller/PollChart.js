@@ -5,24 +5,28 @@ Ext.define('E4ds.controller.PollChart', {
 	models: [ 'PollChart' ],
 	views: [ 'poll.PollChart' ],
 
-	polling: true,
-
+	refs: [ {
+		ref: 'startStopButton',
+		selector: 'pollchart button[action=control]'
+	} ],
+	
 	init: function() {
 		this.control({
 			'pollchart': {
 				add: this.onAdd,
-				destroy: this.stopPoll,
-				beforeactivate: this.startPoll,
-				beforedeactivate: this.stopPoll
+				destroy: this.stopPolling,
+				beforeactivate: this.startPolling,
+				beforedeactivate: this.stopPolling
 			},
 			'pollchart button[action=control]': {
-				click: this.controlPolling
+				click: this.startOrStop
 			}
 		});
 	},
 
 	onData: function(provider, event) {
-		var store = this.getPollChartStore(), model = this.getPollChartModel();
+		var store = this.getPollChartStore(), 
+		    model = this.getPollChartModel();
 
 		if (store.getCount() > 10) {
 			store.removeAt(0);
@@ -33,34 +37,42 @@ Ext.define('E4ds.controller.PollChart', {
 
 	onAdd: function(cmp) {
 		this.provider = Ext.direct.Manager.getProvider('chartdatapoller');
-		this.provider.addListener('data', this.onData, this);
-		this.polling = true;
-		this.startPoll();
+		this.startPolling();
 	},
 
-	controlPolling: function(button, event) {
-		if (!this.polling) {
+	startOrStop: function() {
+		if (!this.provider.isConnected()) {
+			this.startPolling();
+		} else {
+			this.stopPolling();
+		}
+	},
+	
+	startPolling: function() {
+		var button = this.getStartStopButton();
+		if (button) {
 			button.setText(i18n.chart_stop);
 			button.setIconCls('icon-stop');
-			this.polling = true;
-			this.startPoll();
-		} else {
+		}
+		
+		if (!this.provider.isConnected()) {
+			this.provider.addListener('data', this.onData, this);
+			this.provider.connect();
+		} 
+	},
+	
+	stopPolling: function() {
+		var button = this.getStartStopButton();
+		if (button) {
 			button.setText(i18n.chart_start);
 			button.setIconCls('icon-start');
-			this.polling = false;
-			this.stopPoll();
 		}
-	},
-
-	startPoll: function() {
-		if (this.polling) {
-			this.provider.connect();
+		
+		if (this.provider.isConnected()) {
+			this.provider.removeListener('data', this.onData);
+			this.provider.disconnect();			
 		}
-	},
+	}
 
-	stopPoll: function() {
-		this.provider.removeListener('data', this.onData);
-		this.provider.disconnect();
-	},
 
 });
