@@ -30,6 +30,8 @@
     <js>/app/view/navigation/Header.js</js>
     <js>/app/view/navigation/SideBar.js</js>
     <js>/app/view/navigation/UserOptions.js</js>
+    <js>/app/view/poll/HeapMemoryChart.js</js>
+    <js>/app/view/poll/PhysicalMemoryChart.js</js>
     <js>/app/view/poll/PollChart.js</js>
     <js>/app/view/user/Edit.js</js>
     <js>/app/view/user/List.js</js>
@@ -42,7 +44,7 @@
     <js>/app/controller/Users.js</js>
     <js>/app.js</js>
     
-    <css>/resources/css/app.css</css>
+    <css>/resources/css/app-sprite.css</css>
     <css>/ux/css/ClearButton.css</css>
     <css>/ux/css/Notification.css</css>
     <css>/ux/css/BoxSelect.css</css>
@@ -52,7 +54,7 @@
     <js>/ux/window/Notification.js</js>
     <js>/login.js</js>
     
-    <css>/resources/css/app.css</css>
+    <css>/resources/css/app-sprite.css</css>
     <css>/ux/css/Notification.css</css>
   </group>
 

@@ -15,7 +15,7 @@
 		<spring.security.version>3.1.0.RELEASE</spring.security.version>
 
 		<hibernate.version>4.1.2</hibernate.version>
-		<querydsl.version>2.3.3</querydsl.version>
+		<querydsl.version>2.5.0</querydsl.version>
 
 		<slf4j.version>1.6.4</slf4j.version>
 		<logback.version>1.0.1</logback.version>
@@ -27,7 +27,7 @@
 
 		<maven.build.timestamp.format>yyyy-MM-dd'T'hh:mm:ss.SSSZ</maven.build.timestamp.format>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
-		<extjs.version>4.0.7</extjs.version>
+		<extjs.version>4.1.0</extjs.version>
 	</properties>
 
 
@@ -100,15 +100,15 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-springsecurity3</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -118,9 +118,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javassist</groupId>
+			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.12.1.GA</version>
+			<version>3.16.1-GA</version>
 		</dependency>
 
 		<dependency>
@@ -213,18 +213,10 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.2</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>0.7.1.RELEASE</version>
+			<version>2.3</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>resources</groupId> <artifactId>extjs</artifactId> <version>${extjs.version}</version> </dependency> -->
-
 		<dependency>
 			<groupId>ro.isdc.wro4j</groupId>
 			<artifactId>wro4j-core</artifactId>
@@ -273,7 +265,7 @@
 		<dependency>
 			<groupId>ch.ralscha</groupId>
 			<artifactId>embeddedtc</artifactId>
-			<version>0.0.6</version>
+			<version>0.0.7</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -302,7 +294,7 @@
 
 	</dependencies>
 
-	<!-- <repositories> <repository> <id>ralscha</id> <name>My Private Repository</name> <url>http://ralscha.ch/repository</url> </repository> </repositories> -->
+	<!-- <repositories> <repository> <id>ralscha</id> <name>My Private Repository</name> <url>http://rasc.ch/repository</url> </repository> </repositories> -->
 
 	<build>
 		<resources>
@@ -337,12 +329,7 @@
 				<version>2.0-beta-1</version>
 				<configuration>
 					<path>/</path>
-					<systemProperties>
-						<systemProperty>
-							<key>spring.profiles.active</key>
-							<value>development</value>
-						</systemProperty>
-					</systemProperties>
+					<contextFile>${basedir}/src/main/config/tomcat.xml</contextFile>
 				</configuration>
 
 				<dependencies>
@@ -374,6 +361,41 @@
 						<groupId>com.mysema.querydsl</groupId>
 						<artifactId>querydsl-apt</artifactId>
 						<version>${querydsl.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>generate-resources</id>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+
+								<taskdef resource="smartsprites.xml">
+									<classpath refid="maven.plugin.classpath" />
+								</taskdef>
+
+								<smartsprites rootdir="${basedir}/src/main/webapp/resources/css" cssfileencoding="UTF-8" cssfilesuffix="-sprite"
+									loglevel="INFO" spritepngdepth="AUTO" spritepngie6="false" />
+
+
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.carrotsearch</groupId>
+						<artifactId>smartsprites</artifactId>
+						<version>0.2.8</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -429,15 +451,35 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<packagingExcludes>WEB-INF/classes/StartJetty*</packagingExcludes>
+					<packagingExcludes>WEB-INF/classes/StartTomcat*</packagingExcludes>
 				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/java/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -452,6 +494,19 @@
 										<versionRange>[1.0.2,)</versionRange>
 										<goals>
 											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[1.7,)</versionRange>
+										<goals>
+											<goal>run</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

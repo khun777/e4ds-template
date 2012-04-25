@@ -1,26 +1,20 @@
 Ext.define('E4ds.view.poll.PollChart', {
 	extend: 'Ext.panel.Panel',
 	alias: 'widget.pollchart',
-        stateId: 'pollChart',
+	stateId: 'pollChart',
 	title: i18n.chart_title,
 
-	layout: 'fit',
+	layout: {
+		type: 'vbox',
+		align: 'stretch'
+	},
 	closable: true,
 
-	requires: [ 'Ext.chart.*' ],
+	requires: [ 'Ext.chart.*', 'E4ds.view.poll.HeapMemoryChart', 'E4ds.view.poll.PhysicalMemoryChart' ],
 
 	initComponent: function() {
-		var me = this;
 
-		var store = Ext.StoreManager.get('PollChart');
-		if (!store.getCount()) {
-			for ( var i = 0; i < 20; i++) {
-				store.add([ {
-					"time": "00:00:00",
-					"points": 0
-				} ]);
-			}
-		}
+		var me = this;
 
 		me.dockedItems = [ {
 			xtype: 'toolbar',
@@ -32,58 +26,70 @@ Ext.define('E4ds.view.poll.PollChart', {
 		} ];
 
 		me.items = [ {
-			xtype: 'chart',
-			animate: true,
-			shadow: true,
-			store: store,
-			height: 600,
-			axes: [ {
-				type: 'Numeric',
-				position: 'left',
-				fields: [ 'points' ],
-				maximum: 2000,
-				minimum: 0,
-				title: i18n.chart_points,
-				label: {
-					renderer: Ext.util.Format.numberRenderer('0')
-				},
-				grid: {
-					odd: {
-						opacity: 0.5,
-						fill: '#eee',
-						stroke: '#bbb',
-						'stroke-width': 0.5
-					}
-				}
+			xtype: 'container',
+			flex: 1,
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},
+			items: [ {
+				xtype: 'heapmemorychart',
+				flex: 1
 			}, {
-				type: 'Category',
-				position: 'bottom',
-				fields: [ 'time' ],
-				title: i18n.chart_pollingtime
-			} ],
-			series: [ {
-				type: 'line',
-				highlight: {
-					size: 7,
-					radius: 7
-				},
-				tips: {
-					width: 130,
-					renderer: function(storeItem, item) {
-						this.setTitle(i18n.chart_received + ' ' + storeItem.get('points') + ' ' + i18n.chart_pointsat
-								+ ' ' + storeItem.get('time'));
-					}
-				},
-				axis: 'left',
-				xField: 'time',
-				yField: 'points',
-				markerConfig: {
-					type: 'circle',
-					size: 4,
-					radius: 4,
-					'stroke-width': 0,
-					fill: 'red'
-				}
+				xtype: 'physicalmemorychart',
+				flex: 1
+			} ]
+		}, {
+			xtype: 'container',
+			flex: 1,
+			layout: {
+				type: 'hbox',
+				align: 'stretch'
+			},
+			items: [ {
+				xtype: 'chart',
+				animate: true,
+				store: 'PollChart',
+				insetPadding: 40,
+				flex: 1,				
+				axes: [ {
+					type: 'gauge',
+					position: 'gauge',
+					minimum: 0,
+					maximum: 100,
+					steps: 10,
+					margin: 5,
+					title: 'System CPU Load'
+				} ],
+				series: [ {
+					type: 'gauge',
+					field: 'systemCpuLoad',
+					donut: 30,
+	                colorSet: ['#82B525', '#ddd']
+				} ]
+			}, {
+
+				xtype: 'chart',
+				animate: true,
+				store: 'PollChart',
+				insetPadding: 40,
+				flex: 1,				
+				axes: [ {
+					type: 'gauge',
+					position: 'gauge',
+					minimum: 0,
+					maximum: 100,
+					steps: 10,
+					margin: 5,
+					title: 'Process CPU Load'
+				} ],
+				series: [ {
+					type: 'gauge',
+					field: 'processCpuLoad',
+					donut: 30,
+	                colorSet: ['#3AA8CB', '#ddd']
+				} ]
+			
 			} ]
 		} ];
 

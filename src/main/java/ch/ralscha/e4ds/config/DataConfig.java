@@ -2,6 +2,9 @@ package ch.ralscha.e4ds.config;
 
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import liquibase.integration.spring.SpringLiquibase;
@@ -28,7 +31,6 @@ import ch.qos.logback.core.db.DataSourceConnectionSource;
 import ch.qos.logback.core.util.StatusPrinter;
 
 import com.google.common.collect.Maps;
-import com.jolbox.bonecp.BoneCPDataSource;
 
 @Configuration
 @EnableTransactionManagement
@@ -38,28 +40,13 @@ public class DataConfig {
 	@Autowired
 	private Environment environment;
 
-	@Bean(destroyMethod = "close")
-	public DataSource dataSource() {
+	@Bean
+	public DataSource dataSource() throws NamingException {
+		Context ctx = new InitialContext();
 
-		BoneCPDataSource ds = new BoneCPDataSource();
-		ds.setDriverClass(environment.getProperty("database.driver"));
-		ds.setJdbcUrl(environment.getProperty("database.url"));
-		ds.setUsername(environment.getProperty("database.username"));
-		ds.setPassword(environment.getProperty("database.password"));
-
-		ds.setIdleConnectionTestPeriodInMinutes(240);
-		ds.setIdleMaxAgeInMinutes(60);
-		ds.setMaxConnectionsPerPartition(5);
-		ds.setMinConnectionsPerPartition(1);
-		ds.setPartitionCount(3);
-		ds.setAcquireIncrement(5);
-		ds.setStatementsCacheSize(200);
-		ds.setReleaseHelperThreads(1);
-
-		//Debugging
-		//ds.setCloseConnectionWatch(true);
-
+		DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/ds");
 		setupLog(ds);
+
 		return ds;
 	}
 
@@ -108,7 +95,7 @@ public class DataConfig {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource());
 		emf.setPersistenceProvider(new org.hibernate.ejb.HibernatePersistence());
@@ -128,12 +115,12 @@ public class DataConfig {
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager() {
+	public PlatformTransactionManager transactionManager() throws NamingException {
 		return new JpaTransactionManager(entityManagerFactory().getObject());
 	}
 
 	@Bean
-	public SpringLiquibase liquibaseBean() {
+	public SpringLiquibase liquibaseBean() throws NamingException {
 		SpringLiquibase bean = new SpringLiquibase();
 		bean.setDataSource(dataSource());
 		bean.setChangeLog("classpath:db/changelog.xml");

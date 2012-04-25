@@ -2,8 +2,6 @@ import ch.ralscha.embeddedtc.EmbeddedTomcat;
 
 public class StartTomcat {
 	public static void main(String[] args) throws Exception {
-		System.setProperty("spring.profiles.active", "development");
-		EmbeddedTomcat.create().startAndWait();
+		EmbeddedTomcat.create().addContextEnvironmentAndResourceFromFile("./src/main/config/tomcat.xml").startAndWait();
 	}
-
 }

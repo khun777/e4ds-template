@@ -6,72 +6,73 @@ Ext.define('E4ds.controller.PollChart', {
 	views: [ 'poll.PollChart' ],
 
 	refs: [ {
-		ref: 'pollchart',
-		selector: 'pollchart'
-	}, {
-		ref: 'pollchartCmp',
-		selector: 'pollchart chart'
-	}, {
-		ref: 'controlButton',
+		ref: 'startStopButton',
 		selector: 'pollchart button[action=control]'
 	} ],
-
+	
 	init: function() {
 		this.control({
 			'pollchart': {
-				beforerender: this.onBeforeRender,
-				destroy: this.onDestroy,
-				beforeactivate: this.onBeforeActivate,
-				beforedeactivate: this.onBeforeDeActivate
+				add: this.onAdd,
+				destroy: this.stopPolling,
+				beforeactivate: this.startPolling,
+				beforedeactivate: this.stopPolling
 			},
 			'pollchart button[action=control]': {
-				click: this.controlPolling
+				click: this.startOrStop
 			}
 		});
 	},
 
-	onBeforeRender: function(cmp) {
-		var store = this.getPollChartStore(), model = this.getPollChartModel();
+	onData: function(provider, event) {
+		var store = this.getPollChartStore(), 
+		    model = this.getPollChartModel();
 
+		if (store.getCount() > 10) {
+			store.removeAt(0);
+		}
+
+		store.add(model.create(event.data));
+	},
+
+	onAdd: function(cmp) {
 		this.provider = Ext.direct.Manager.getProvider('chartdatapoller');
-		this.provider.addListener('data', function(provider, event) {
-			if (store.getCount() > 20) {
-				store.removeAt(0);
-			}
-
-			var record = model.create({
-				time: event.data.date,
-				points: event.data.value
-			});
-
-			store.add(record);
-		});
+		this.startPolling();
 	},
 
-	controlPolling: function(button, event) {
-		if (button.getText() == 'Start') {
+	startOrStop: function() {
+		if (!this.provider.isConnected()) {
+			this.startPolling();
+		} else {
+			this.stopPolling();
+		}
+	},
+	
+	startPolling: function() {
+		var button = this.getStartStopButton();
+		if (button) {
 			button.setText(i18n.chart_stop);
 			button.setIconCls('icon-stop');
+		}
+		
+		if (!this.provider.isConnected()) {
+			this.provider.addListener('data', this.onData, this);
 			this.provider.connect();
-		} else {
+		} 
+	},
+	
+	stopPolling: function() {
+		var button = this.getStartStopButton();
+		if (button) {
 			button.setText(i18n.chart_start);
 			button.setIconCls('icon-start');
-			this.provider.disconnect();
 		}
-	},
-
-	onBeforeActivate: function() {
-		if (this.getControlButton().getText() !== i18n.chart_start) {
-			this.provider.connect();
+		
+		if (this.provider.isConnected()) {
+			this.provider.removeListener('data', this.onData);
+			this.provider.disconnect();			
 		}
-	},
-
-	onBeforeDeActivate: function() {
-		this.provider.disconnect();
-	},
-
-	onDestroy: function() {
-		this.provider.disconnect();
 	}
+
 
 });

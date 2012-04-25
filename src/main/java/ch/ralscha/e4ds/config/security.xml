@@ -7,10 +7,9 @@
     <http pattern="/favicon.ico" security="none" />
     <http pattern="/resources/**" security="none" />
     <http pattern="/extjs/**" security="none" />
-    <http pattern="/ux/**" security="none" />
+    <http pattern="/ux/**" security="none" />    
     
 	<http use-expressions="true">
-		
 		<intercept-url pattern="/login.*" access="permitAll()" />
 		<intercept-url pattern="/wro/login*" access="permitAll()" />
 		<intercept-url pattern="/i18n.js" access="permitAll()" />

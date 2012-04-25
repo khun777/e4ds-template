@@ -2,6 +2,17 @@ package ch.ralscha.e4ds.service;
 
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.POLL;
 
+import java.lang.management.ManagementFactory;
+
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
+import javax.management.openmbean.CompositeDataSupport;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -19,7 +30,43 @@ public class PollService {
 
 	@ExtDirectMethod(value = POLL, event = "chartdata")
 	@PreAuthorize("isAuthenticated()")
-	public Poll getPollData() {
-		return new Poll(fmt.print(new DateTime()), (int) (Math.random() * 1000));
+	public Poll getPollData() throws MalformedObjectNameException, AttributeNotFoundException,
+			InstanceNotFoundException, MBeanException, ReflectionException {
+
+		MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
+		ObjectName osName = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
+		double processCpuLoad = (double) mbeanServer.getAttribute(osName, "ProcessCpuLoad");
+		double systemCpuLoad = (double) mbeanServer.getAttribute(osName, "SystemCpuLoad");
+		long freePhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "FreePhysicalMemorySize");
+		long totalPhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "TotalPhysicalMemorySize");
+
+		ObjectName memoryName = new ObjectName(ManagementFactory.MEMORY_MXBEAN_NAME);
+		CompositeDataSupport heapMemory = (CompositeDataSupport) mbeanServer
+				.getAttribute(memoryName, "HeapMemoryUsage");
+
+		long usedHeapMemory = (long) heapMemory.get("used");
+		long committedHeapMemory = (long) heapMemory.get("committed");
+		long maxHeapMemory = (long) heapMemory.get("max");
+
+		if (processCpuLoad < 0) {
+			processCpuLoad = 0;
+		}
+
+		if (systemCpuLoad < 0) {
+			systemCpuLoad = 0;
+		}
+
+		long now = DateTime.now().getMillis();
+		Poll p = new Poll(now, fmt.print(now));
+
+		p.setProcessCpuLoad((int) (processCpuLoad * 100.0));
+		p.setSystemCpuLoad((int) (systemCpuLoad * 100.0));
+		p.setFreePhysicalMemorySize(freePhysicalMemorySize);
+		p.setTotalPhysicalMemorySize(totalPhysicalMemorySize);
+		p.setUsedHeapMemory(usedHeapMemory);
+		p.setCommittedHeapMemory(committedHeapMemory);
+		p.setMaxHeapMemory(maxHeapMemory);
+
+		return p;
 	}
 }

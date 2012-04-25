@@ -5,30 +5,28 @@ Ext.define('E4ds.controller.Config', {
 	stores: [ 'LogLevels' ],
 
 	refs: [ {
-		ref: 'configedit',
-		selector: 'configedit'
+		ref: 'logLevelCB',
+		selector: 'configedit combobox[name=logLevel]'
 	} ],
 
 	init: function() {
 
 		this.control({
 			'configedit': {
-				activate: Ext.bind(loggingEventService.getCurrentLevel, this, [ this.showCurrentLevel, this ])
+				activate: Ext.bind(loggingEventService.getCurrentLevel, this, [ this.showCurrentLevel, this ]),
+				add: Ext.bind(loggingEventService.getCurrentLevel, this, [ this.showCurrentLevel, this ])
 			}
 		});
 	},
 
 	showCurrentLevel: function(logLevel) {
-		if (this.getConfigedit()) {
-		var cb = this.getConfigedit().down('combobox[name=logLevel]');
+		var cb = this.getLogLevelCB();
 		cb.setValue(logLevel);
-		cb.on('change', this.logLevelChange);
-		}
+		cb.addListener('change', this.logLevelChange);
 	},
 
 	logLevelChange: function(field, newValue, oldValue) {
 		loggingEventService.changeLogLevel(newValue);
-		
 		Ext.ux.window.Notification.info(i18n.successful, i18n.config_loglevelchanged);
 	}
 
