@@ -35,8 +35,8 @@ public class PollService {
 
 		MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
 		ObjectName osName = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
-		double processCpuLoad = (double) mbeanServer.getAttribute(osName, "ProcessCpuLoad");
-		double systemCpuLoad = (double) mbeanServer.getAttribute(osName, "SystemCpuLoad");
+		double processCpuLoad = (Double) mbeanServer.getAttribute(osName, "ProcessCpuLoad");
+		double systemCpuLoad = (Double) mbeanServer.getAttribute(osName, "SystemCpuLoad");
 		long freePhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "FreePhysicalMemorySize");
 		long totalPhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "TotalPhysicalMemorySize");
 
