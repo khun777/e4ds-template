@@ -85,11 +85,10 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-
+<!-- FOR DEVELOPMENT
 	<servlet>
 	    <servlet-name>H2Console</servlet-name>
 	    <servlet-class>org.h2.server.web.WebServlet</servlet-class>
-	    <!--
 	    <init-param>
 	        <param-name>webAllowOthers</param-name>
 	        <param-value></param-value>
@@ -98,7 +97,7 @@
 	        <param-name>trace</param-name>
 	        <param-value></param-value>
 	    </init-param>
-	    -->
+	    
 	    <load-on-startup>1</load-on-startup>
 	</servlet>
 	
@@ -106,7 +105,7 @@
 	    <servlet-name>H2Console</servlet-name>
 	    <url-pattern>/h2/*</url-pattern>
 	</servlet-mapping>
-
+-->
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
