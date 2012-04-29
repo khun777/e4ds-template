@@ -22,7 +22,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.util.StringUtils;
 
 @Entity
-@Table(name = "`User`")
+@Table(name = "AppUser")
 @JsonIgnoreProperties("new")
 public class User extends AbstractPersistable<Long> {
 
@@ -57,7 +57,7 @@ public class User extends AbstractPersistable<Long> {
 	private Date createDate;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "UserRoles", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+	@JoinTable(name = "AppUserRoles", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
 	private Set<Role> roles;
 
 	public void update(User modifiedUser, boolean personalOptionsUpdate) {
