@@ -37,16 +37,16 @@ public class PollService {
 		ObjectName osName = new ObjectName(ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME);
 		double processCpuLoad = (Double) mbeanServer.getAttribute(osName, "ProcessCpuLoad");
 		double systemCpuLoad = (Double) mbeanServer.getAttribute(osName, "SystemCpuLoad");
-		long freePhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "FreePhysicalMemorySize");
-		long totalPhysicalMemorySize = (long) mbeanServer.getAttribute(osName, "TotalPhysicalMemorySize");
+		long freePhysicalMemorySize = (Long) mbeanServer.getAttribute(osName, "FreePhysicalMemorySize");
+		long totalPhysicalMemorySize = (Long) mbeanServer.getAttribute(osName, "TotalPhysicalMemorySize");
 
 		ObjectName memoryName = new ObjectName(ManagementFactory.MEMORY_MXBEAN_NAME);
 		CompositeDataSupport heapMemory = (CompositeDataSupport) mbeanServer
 				.getAttribute(memoryName, "HeapMemoryUsage");
 
-		long usedHeapMemory = (long) heapMemory.get("used");
-		long committedHeapMemory = (long) heapMemory.get("committed");
-		long maxHeapMemory = (long) heapMemory.get("max");
+		long usedHeapMemory = (Long) heapMemory.get("used");
+		long committedHeapMemory = (Long) heapMemory.get("committed");
+		long maxHeapMemory = (Long) heapMemory.get("max");
 
 		if (processCpuLoad < 0) {
 			processCpuLoad = 0;
