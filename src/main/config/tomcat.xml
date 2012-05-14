@@ -11,7 +11,8 @@
             maxIdle="4"
             maxActive="10" maxWait="10000"
             defaultAutoCommit="false"/>
-        
+    
+    <!-- Uncomment the following line to activa production profile --> 
     <Environment name="spring.profiles.active" value="development" type="java.lang.String" override="false"/>
-          
+
 </Context>
