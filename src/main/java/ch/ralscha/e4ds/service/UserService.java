@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import ch.ralscha.e4ds.config.JpaUserDetails;
 import ch.ralscha.e4ds.entity.QUser;
@@ -37,7 +37,6 @@ import ch.ralscha.e4ds.repository.UserCustomRepository;
 import ch.ralscha.e4ds.repository.UserRepository;
 import ch.ralscha.e4ds.util.Util;
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
-import ch.ralscha.extdirectspring.bean.ExtDirectResponse;
 import ch.ralscha.extdirectspring.bean.ExtDirectResponseBuilder;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResponse;
@@ -95,16 +94,15 @@ public class UserService {
 	}
 
 	@ExtDirectMethod(FORM_POST)
-	@ResponseBody
 	@RequestMapping(value = "/userFormPost", method = RequestMethod.POST)
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
-	public ExtDirectResponse userFormPost(HttpServletRequest request, Locale locale,
+	public void userFormPost(HttpServletRequest request, HttpServletResponse response, Locale locale,
 			@RequestParam(required = false, defaultValue = "false") boolean options,
 			@RequestParam(required = false) String roleIds, @RequestParam(value = "id", required = false) Long userId,
 			@Valid User modifiedUser, BindingResult result) {
 
-		//Check uniqueness of userName and email
+		// Check uniqueness of userName and email
 		if (!result.hasErrors()) {
 			if (!options) {
 				BooleanBuilder bb = new BooleanBuilder(QUser.user.userName.equalsIgnoreCase(modifiedUser.getUserName()));
@@ -169,9 +167,7 @@ public class UserService {
 			}
 		}
 
-		ExtDirectResponseBuilder builder = new ExtDirectResponseBuilder(request);
-		builder.addErrors(result);
-		return builder.build();
+		ExtDirectResponseBuilder.create(request, response).addErrors(result).buildAndWrite();
 
 	}
 
