@@ -32,9 +32,9 @@
 
 		/**
 		 * @cfg {Boolean} Hide the clear button until the mouse is over the
-		 *      field (default: false).
+		 *      field (default: true).
 		 */
-		hideClearButtonWhenMouseOut: false,
+		hideClearButtonWhenMouseOut: true,
 
 		/**
 		 * @cfg {Boolean} When the clear buttons is hidden/shown, this will
@@ -119,7 +119,7 @@
 		 * Creates the Element and DOM for the clear button
 		 */
 		createClearButtonEl: function() {
-			var animateWithClass = this.animateClearButton && this.animateWithCss3;
+			//var animateWithClass = this.animateClearButton && this.animateWithCss3;
 			this.clearButtonEl = this.textField.bodyEl.createChild({
 				tag: 'div',
 				cls: this.clearButtonCls

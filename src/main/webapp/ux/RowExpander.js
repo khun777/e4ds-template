@@ -178,8 +178,7 @@ Ext.define('Ext.ux.RowExpander', {
         var rowNode = this.view.getNode(rowIdx),
             row = Ext.get(rowNode),
             nextBd = Ext.get(row).down(this.rowBodyTrSelector),
-            record = this.view.getRecord(rowNode),
-            grid = this.getCmp();
+            record = this.view.getRecord(rowNode);
 
         if (row.hasCls(this.rowCollapsedCls)) {
             row.removeCls(this.rowCollapsedCls);

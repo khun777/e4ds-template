@@ -240,7 +240,7 @@ Ext.define('Ext.ux.BoxReorderer', {
     doSwap: function(newIndex) {
         var me = this,
             items = me.container.items,
-            orig, dest, tmpIndex, temp;
+            orig, dest, tmpIndex;
 
         newIndex = me.findReorderable(newIndex);
 
