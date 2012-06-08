@@ -2,6 +2,7 @@ package ch.ralscha.e4ds.web;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class I18nMessageController implements InitializingBean {
 
 		response.setContentType("application/x-javascript;charset=UTF-8");
 
-		final ResourceBundle rb = ResourceBundle.getBundle("messages", locale);
+		ResourceBundle rb = ResourceBundle.getBundle("messages", locale);
 
 		Map<String, String> messages = Maps.newHashMap();
 		Enumeration<String> e = rb.getKeys();
@@ -54,11 +55,11 @@ public class I18nMessageController implements InitializingBean {
 			messages.put(key, rb.getString(key));
 		}
 
-		final String output = prefix + jsonHandler.writeValueAsString(messages) + postfix;
+		String output = prefix + jsonHandler.writeValueAsString(messages) + postfix;
 		response.setContentLength(output.getBytes().length);
 		
-		final ServletOutputStream out = response.getOutputStream();
-		out.write(output.getBytes(Charset.forName("UTF-8")));
+		ServletOutputStream out = response.getOutputStream();
+		out.write(output.getBytes(StandardCharsets.UTF_8));
 		out.flush();		
 	}
 
