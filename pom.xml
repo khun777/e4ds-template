@@ -17,8 +17,8 @@
 		<hibernate.version>4.1.4.Final</hibernate.version>
 		<querydsl.version>2.6.0</querydsl.version>
 
-		<slf4j.version>1.6.4</slf4j.version>
-		<logback.version>1.0.4</logback.version>
+		<slf4j.version>1.6.5</slf4j.version>
+		<logback.version>1.0.6</logback.version>
 
 		<eds.version>1.1.1-SNAPSHOT</eds.version>
 
@@ -296,7 +296,6 @@
 
 	<repositories>
 
-
 		<repository>
 			<id>sonatype</id>
 			<name>sonatype</name>
@@ -305,7 +304,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-
 
 	</repositories>
 
