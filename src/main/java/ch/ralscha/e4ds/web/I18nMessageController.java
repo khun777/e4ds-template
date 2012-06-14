@@ -1,7 +1,6 @@
 package ch.ralscha.e4ds.web;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -27,19 +26,20 @@ import com.google.common.collect.Maps;
 @Controller
 public class I18nMessageController implements InitializingBean {
 
-	@Autowired(required=false)
+	@Autowired(required = false)
 	private JsonHandler jsonHandler;
-	
+
 	private final static String prefix = "var i18n = ";
+
 	private final static String postfix = ";";
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (jsonHandler == null) {
 			jsonHandler = new JsonHandler();
-		}		
+		}
 	}
-	
+
 	@RequestMapping(value = "/i18n.js", method = RequestMethod.GET)
 	public void i18n(final HttpServletRequest request, final HttpServletResponse response, final Locale locale)
 			throws JsonGenerationException, JsonMappingException, IOException {
@@ -57,12 +57,10 @@ public class I18nMessageController implements InitializingBean {
 
 		String output = prefix + jsonHandler.writeValueAsString(messages) + postfix;
 		response.setContentLength(output.getBytes().length);
-		
+
 		ServletOutputStream out = response.getOutputStream();
 		out.write(output.getBytes(StandardCharsets.UTF_8));
-		out.flush();		
+		out.flush();
 	}
-
-
 
 }

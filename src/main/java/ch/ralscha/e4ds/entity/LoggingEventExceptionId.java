@@ -15,10 +15,10 @@ public class LoggingEventExceptionId implements java.io.Serializable {
 	private short i;
 
 	public LoggingEventExceptionId() {
-		//no action
+		// no action
 	}
 
-	public LoggingEventExceptionId(long eventId, short i) {
+	public LoggingEventExceptionId(final long eventId, final short i) {
 		this.eventId = eventId;
 		this.i = i;
 	}
@@ -27,7 +27,7 @@ public class LoggingEventExceptionId implements java.io.Serializable {
 		return this.eventId;
 	}
 
-	public void setEventId(long eventId) {
+	public void setEventId(final long eventId) {
 		this.eventId = eventId;
 	}
 
@@ -35,12 +35,12 @@ public class LoggingEventExceptionId implements java.io.Serializable {
 		return this.i;
 	}
 
-	public void setI(short i) {
+	public void setI(final short i) {
 		this.i = i;
 	}
 
 	@Override
-	public boolean equals(Object other) {
+	public boolean equals(final Object other) {
 		if ((this == other)) {
 			return true;
 		}

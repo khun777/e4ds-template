@@ -50,7 +50,7 @@ public class DataConfig {
 		return ds;
 	}
 
-	private void setupLog(DataSource dataSource) {
+	private void setupLog(final DataSource dataSource) {
 		boolean development = environment.acceptsProfiles("development");
 
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -102,7 +102,7 @@ public class DataConfig {
 		emf.setPackagesToScan("ch.ralscha.e4ds.entity");
 
 		Map<String, String> properties = Maps.newHashMap();
-		//properties.put("hibernate.show_sql", "true");
+		// properties.put("hibernate.show_sql", "true");
 
 		String dialect = environment.getProperty("hibernate.dialect");
 		if (dialect != null) {

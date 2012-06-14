@@ -40,7 +40,7 @@ public class LoggingEventService {
 	@ExtDirectMethod(STORE_READ)
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ExtDirectStoreResponse<LoggingEventDto> load(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreResponse<LoggingEventDto> load(final ExtDirectStoreReadRequest request) {
 
 		Pageable pageRequest = Util.createPageRequest(request, mapGuiColumn2DbField);
 
@@ -64,7 +64,7 @@ public class LoggingEventService {
 	@ExtDirectMethod
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deleteAll(String level) {
+	public void deleteAll(final String level) {
 		if (StringUtils.hasText(level)) {
 			loggingEventRepository.delete(loggingEventRepository.findByLevelString(level));
 		} else {
@@ -85,7 +85,7 @@ public class LoggingEventService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void changeLogLevel(String levelString) {
+	public void changeLogLevel(final String levelString) {
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.ralscha.e4ds");
 		Level level = Level.toLevel(levelString);

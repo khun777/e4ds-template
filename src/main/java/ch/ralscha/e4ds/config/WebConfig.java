@@ -30,12 +30,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private Environment environment;
 
 	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+	public void configureDefaultServletHandling(final DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
 
 	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
+	public void addViewControllers(final ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/index.html").setViewName("index");
 		registry.addViewController("/login.html").setViewName("login");
@@ -72,12 +72,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		messageSource.setBasename("classpath:messages");
 		messageSource.setFallbackToSystemLocale(false);
 
-		//development
-		//messageSource.setCacheSeconds(60);
+		// development
+		// messageSource.setCacheSeconds(60);
 
 		return messageSource;
 	}
-	
+
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new StandardServletMultipartResolver();

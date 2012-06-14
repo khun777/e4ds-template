@@ -67,7 +67,7 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ExtDirectStoreResponse<User> load(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreResponse<User> load(final ExtDirectStoreReadRequest request) {
 
 		String filterValue = null;
 		if (!request.getFilters().isEmpty()) {
@@ -87,7 +87,7 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_MODIFY)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void destroy(List<User> destroyUsers) {
+	public void destroy(final List<User> destroyUsers) {
 		for (User user : destroyUsers) {
 			userRepository.delete(user);
 		}
@@ -97,10 +97,11 @@ public class UserService {
 	@RequestMapping(value = "/userFormPost", method = RequestMethod.POST)
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
-	public void userFormPost(HttpServletRequest request, HttpServletResponse response, Locale locale,
-			@RequestParam(required = false, defaultValue = "false") boolean options,
-			@RequestParam(required = false) String roleIds, @RequestParam(value = "id", required = false) Long userId,
-			@Valid User modifiedUser, BindingResult result) {
+	public void userFormPost(final HttpServletRequest request, final HttpServletResponse response, final Locale locale,
+			@RequestParam(required = false, defaultValue = "false") final boolean options,
+			@RequestParam(required = false) final String roleIds,
+			@RequestParam(value = "id", required = false) final Long userId, @Valid final User modifiedUser,
+			final BindingResult result) {
 
 		// Check uniqueness of userName and email
 		if (!result.hasErrors()) {

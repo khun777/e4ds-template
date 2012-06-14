@@ -20,7 +20,7 @@ public class LogCleanup {
 	@Scheduled(cron = "0 0 4 * * *")
 	public void doCleanup() {
 
-		//Delete all log entries that are older than 1 day
+		// Delete all log entries that are older than 1 day
 		DateTime yesterday = new DateTime().minusDays(1);
 
 		Iterable<LoggingEvent> eventsToDelete = loggingEventRepository.findAll(QLoggingEvent.loggingEvent.timestmp

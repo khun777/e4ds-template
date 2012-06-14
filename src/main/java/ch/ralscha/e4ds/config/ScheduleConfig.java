@@ -6,5 +6,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 public class ScheduleConfig {
-	//right now there is nothing here
+	// right now there is nothing here
 }

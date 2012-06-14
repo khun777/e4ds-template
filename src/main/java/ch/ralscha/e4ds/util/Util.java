@@ -19,14 +19,15 @@ import com.google.common.collect.Lists;
 public class Util {
 
 	private Util() {
-		//do not instantiate this class
+		// do not instantiate this class
 	}
 
-	public static Pageable createPageRequest(ExtDirectStoreReadRequest request) {
+	public static Pageable createPageRequest(final ExtDirectStoreReadRequest request) {
 		return createPageRequest(request, Collections.<String, String> emptyMap());
 	}
 
-	public static Pageable createPageRequest(ExtDirectStoreReadRequest request, Map<String, String> mapGuiColumn2Dbfield) {
+	public static Pageable createPageRequest(final ExtDirectStoreReadRequest request,
+			final Map<String, String> mapGuiColumn2Dbfield) {
 
 		List<Order> orders = Lists.newArrayList();
 		for (SortInfo sortInfo : request.getSorters()) {

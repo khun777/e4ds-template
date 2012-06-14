@@ -19,14 +19,19 @@ public class JpaUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private ImmutableSet<GrantedAuthority> authorities;
-	private String password;
-	private String username;
-	private boolean enabled;
-	private String fullName;
+	private final ImmutableSet<GrantedAuthority> authorities;
+
+	private final String password;
+
+	private final String username;
+
+	private final boolean enabled;
+
+	private final String fullName;
+
 	private Locale locale;
 
-	public JpaUserDetails(User user) {
+	public JpaUserDetails(final User user) {
 		this.password = user.getPasswordHash();
 		this.username = user.getUserName();
 		this.enabled = user.isEnabled();

@@ -26,7 +26,7 @@ import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 @Lazy
 public class PollService {
 
-	private DateTimeFormatter fmt = DateTimeFormat.forPattern("HH:mm:ss");
+	private final DateTimeFormatter fmt = DateTimeFormat.forPattern("HH:mm:ss");
 
 	@ExtDirectMethod(value = POLL, event = "chartdata")
 	@PreAuthorize("isAuthenticated()")
