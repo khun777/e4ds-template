@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -65,6 +66,9 @@ public class UserService {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private Environment environment;
+
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ExtDirectStoreResponse<User> load(final ExtDirectStoreReadRequest request) {
@@ -88,8 +92,11 @@ public class UserService {
 	@ExtDirectMethod(STORE_MODIFY)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void destroy(final List<User> destroyUsers) {
+		boolean demo = environment.acceptsProfiles("demo");
 		for (User user : destroyUsers) {
-			userRepository.delete(user);
+			if (!demo || (!user.getUserName().equals("admin") && !user.getUserName().equals("user"))) {
+				userRepository.delete(user);
+			}
 		}
 	}
 
@@ -131,38 +138,41 @@ public class UserService {
 		}
 
 		if (!result.hasErrors()) {
+			boolean demo = environment.acceptsProfiles("demo");
+			if (!demo || (!modifiedUser.getUserName().equals("admin") && !modifiedUser.getUserName().equals("user"))) {
 
-			if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
-				modifiedUser.setPasswordHash(passwordEncoder.encodePassword(modifiedUser.getPasswordHash(), null));
-			}
-
-			if (!options) {
-				Set<Role> roles = Sets.newHashSet();
-				if (StringUtils.hasText(roleIds)) {
-					Iterable<String> roleIdsIt = Splitter.on(",").split(roleIds);
-					for (String roleId : roleIdsIt) {
-						roles.add(roleRepository.findOne(Long.valueOf(roleId)));
-					}
+				if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
+					modifiedUser.setPasswordHash(passwordEncoder.encodePassword(modifiedUser.getPasswordHash(), null));
 				}
 
-				if (userId != null) {
-					User dbUser = userRepository.findOne(userId);
-					if (dbUser != null) {
-						dbUser.getRoles().clear();
-						dbUser.getRoles().addAll(roles);
-						dbUser.update(modifiedUser, false);
+				if (!options) {
+					Set<Role> roles = Sets.newHashSet();
+					if (StringUtils.hasText(roleIds)) {
+						Iterable<String> roleIdsIt = Splitter.on(",").split(roleIds);
+						for (String roleId : roleIdsIt) {
+							roles.add(roleRepository.findOne(Long.valueOf(roleId)));
+						}
+					}
+
+					if (userId != null) {
+						User dbUser = userRepository.findOne(userId);
+						if (dbUser != null) {
+							dbUser.getRoles().clear();
+							dbUser.getRoles().addAll(roles);
+							dbUser.update(modifiedUser, false);
+						}
+					} else {
+						modifiedUser.setCreateDate(new Date());
+						modifiedUser.setRoles(roles);
+						userRepository.save(modifiedUser);
 					}
 				} else {
-					modifiedUser.setCreateDate(new Date());
-					modifiedUser.setRoles(roles);
-					userRepository.save(modifiedUser);
-				}
-			} else {
-				Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				if (principal instanceof JpaUserDetails) {
-					User dbUser = userRepository.findByUserName(((JpaUserDetails) principal).getUsername());
-					if (dbUser != null) {
-						dbUser.update(modifiedUser, true);
+					Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+					if (principal instanceof JpaUserDetails) {
+						User dbUser = userRepository.findByUserName(((JpaUserDetails) principal).getUsername());
+						if (dbUser != null) {
+							dbUser.update(modifiedUser, true);
+						}
 					}
 				}
 			}
