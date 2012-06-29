@@ -1,18 +1,18 @@
 #appLoadingIndicator {
-          position: absolute;
-          top: 50%;
-          left: 50%;	
-          margin-top: -100px;
-          margin-left: -100px;
-          width: 200px;
-          height: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;	
+    margin-top: -100px;
+    margin-left: -100px;
+    width: 200px;
+    height: 200px;
     text-align: center;    
 }
 #appLoadingIndicator span {
     display: inline-block;
     vertical-align: middle;
-    width: 10px;
-    height: 10px;
+    width: 40px;
+    height: 40px;
     margin: 50px auto;
     background: black;
     border-radius: 50px;
