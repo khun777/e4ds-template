@@ -11,40 +11,55 @@
 	<link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" /> 	
     <title>e4ds-template</title>
     
-    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all.css">
+	<style type="text/css">
+	    <%@ include file="loader.css"%>
+	</style>
+    
+    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all.css">    
     <!-- 
     <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css?v=<spring:eval expression='@environment["extjs.version"]'/>">
      -->
+     
     <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />
     <c:if test="${isDevelopment}">  
 	    <link rel="stylesheet" type="text/css" href="resources/css/app-sprite.css">
 	    <link rel="stylesheet" type="text/css" href="ux/css/ClearButton.css">
 	    <link rel="stylesheet" type="text/css" href="ux/css/Notification.css">
 	    <link rel="stylesheet" type="text/css" href="ux/css/BoxSelect.css">
-	    
-	    <script charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all-debug.js"></script>
+    </c:if> 
+    
+    <c:if test="${not isDevelopment}">
+		<link rel="stylesheet" type="text/css" href="wro/app.css?v=<spring:eval expression='@environment["application.version"]'/>" />
+    </c:if>
+    
+</head>
+<body>
+    <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+	<div id="appLoadingIndicator">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	
+    <c:if test="${isDevelopment}">  
+	    <script src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all-debug.js"></script>
 	    <!-- 
 	    <script src="extjs/ext-all-debug.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
 	     -->
 	     
 	    <script src="i18n.js"></script>
-	    <script src="loader.js"></script>
-		
+	    <script src="loader.js"></script>		
 	    <script src="api.js"></script>
 	    <script src="direct.js"></script>
-	    	    
 	    <script src="app.js"></script>
     </c:if> 
     
     <c:if test="${not isDevelopment}">
-		<link rel="stylesheet" type="text/css" href="wro/app.css?v=<spring:eval expression='@environment["application.version"]'/>" />
-		<script src="i18n.js"></script>
-		
-		<script charset="utf-8" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
+		<script src="i18n.js"></script>		
+		<script src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>		
 		<!-- 
 		<script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
-		 -->
-		 
+		 -->		 
 	    <script src="wro/app.js?v=<spring:eval expression='@environment["application.version"]'/>"></script>   
     </c:if>
 
@@ -55,7 +70,5 @@
       <script src="extjs/locale/ext-lang-de.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
        -->
     <% } %>	
-    
-</head>
-<body></body>
+</body>
 </html>
