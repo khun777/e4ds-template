@@ -13,10 +13,7 @@ default package. Simply run this class like a normal java program inside
 your development environment. 
 
 
-Switch between production and development mode with a system property
-Development:
-System.setProperty("spring.profiles.active", "development");
+Switch between production and development mode comment or uncomment
+line in /e4ds-template/src/main/config/tomcat.xml 
 
-Production:
-System.setProperty("spring.profiles.active", "production");
-or delete the line. production is the default profile.
+   <Environment name="spring.profiles.active" value="development" type="java.lang.String" override="false"/>
