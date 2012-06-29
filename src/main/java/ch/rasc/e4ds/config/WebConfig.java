@@ -48,7 +48,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-	
+
 	@Bean
 	public LocaleResolver localeResolver() {
 		AppLocaleResolver resolver = new AppLocaleResolver();
