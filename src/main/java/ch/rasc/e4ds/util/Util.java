@@ -22,11 +22,11 @@ public class Util {
 		// do not instantiate this class
 	}
 
-	public static Pageable createPageRequest(final ExtDirectStoreReadRequest request) {
+	public static Pageable createPageRequest(ExtDirectStoreReadRequest request) {
 		return createPageRequest(request, Collections.<String, String> emptyMap());
 	}
 
-	public static Pageable createPageRequest(final ExtDirectStoreReadRequest request,
+	public static Pageable createPageRequest(ExtDirectStoreReadRequest request,
 			final Map<String, String> mapGuiColumn2Dbfield) {
 
 		List<Order> orders = Lists.newArrayList();

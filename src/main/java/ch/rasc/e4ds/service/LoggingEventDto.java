@@ -32,7 +32,7 @@ public class LoggingEventDto {
 
 	private String stacktrace;
 
-	public LoggingEventDto(final LoggingEvent event) {
+	public LoggingEventDto(LoggingEvent event) {
 		this.id = event.getEventId();
 		this.dateTime = new DateTime(event.getTimestmp().longValue());
 		this.message = event.getFormattedMessage();
@@ -59,7 +59,7 @@ public class LoggingEventDto {
 			Collections.sort(exceptionList, new Comparator<LoggingEventException>() {
 
 				@Override
-				public int compare(final LoggingEventException o1, final LoggingEventException o2) {
+				public int compare(LoggingEventException o1, LoggingEventException o2) {
 					return o1.getId().getI() - o2.getId().getI();
 				}
 			});
@@ -105,7 +105,7 @@ public class LoggingEventDto {
 		return stacktrace;
 	}
 
-	public void setStacktrace(final String stacktrace) {
+	public void setStacktrace(String stacktrace) {
 		this.stacktrace = stacktrace;
 	}
 

@@ -31,7 +31,7 @@ public class JpaUserDetails implements UserDetails {
 
 	private Locale locale;
 
-	public JpaUserDetails(final User user) {
+	public JpaUserDetails(User user) {
 		this.password = user.getPasswordHash();
 		this.username = user.getUserName();
 		this.enabled = user.isEnabled();

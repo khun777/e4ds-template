@@ -39,7 +39,7 @@ public class NavigationService {
 
 	@ExtDirectMethod(TREE_LOAD)
 	@PreAuthorize("isAuthenticated()")
-	public MenuNode getNavigation(final Locale locale) {
+	public MenuNode getNavigation(Locale locale) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -49,7 +49,7 @@ public class NavigationService {
 		return copyOfRoot;
 	}
 
-	private void upateIdAndLeaf(final MutableInt id, final MenuNode parent, final Locale locale) {
+	private void upateIdAndLeaf(MutableInt id, MenuNode parent, Locale locale) {
 		parent.setId(id.intValue());
 		parent.setText(messageSource.getMessage(parent.getText(), null, parent.getText(), locale));
 		id.add(1);

@@ -17,7 +17,7 @@ public class UserCustomRepository {
 	@Autowired
 	private UserRepository userRepository;
 
-	public Page<User> findWithFilter(final String filterValue, final Pageable pageable) {
+	public Page<User> findWithFilter(String filterValue, Pageable pageable) {
 		if (!StringUtils.hasText(filterValue)) {
 			return userRepository.findAll(pageable);
 		}

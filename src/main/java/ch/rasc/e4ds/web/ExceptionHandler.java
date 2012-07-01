@@ -18,8 +18,8 @@ public class ExceptionHandler implements HandlerExceptionResolver {
 	private final static Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
 	@Override
-	public ModelAndView resolveException(final HttpServletRequest request, final HttpServletResponse response,
-			final Object handler, final Exception ex) {
+	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
+			final Object handler, Exception ex) {
 
 		logger.error("error", ex);
 		ExtDirectResponseBuilder.create(request, response).setException(ex).buildAndWrite();

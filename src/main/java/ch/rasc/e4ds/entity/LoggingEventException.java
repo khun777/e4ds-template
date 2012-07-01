@@ -26,7 +26,7 @@ public class LoggingEventException {
 		return this.id;
 	}
 
-	public void setId(final LoggingEventExceptionId id) {
+	public void setId(LoggingEventExceptionId id) {
 		this.id = id;
 	}
 
@@ -34,7 +34,7 @@ public class LoggingEventException {
 		return this.traceLine;
 	}
 
-	public void setTraceLine(final String traceLine) {
+	public void setTraceLine(String traceLine) {
 		this.traceLine = traceLine;
 	}
 
@@ -42,7 +42,7 @@ public class LoggingEventException {
 		return this.eventId;
 	}
 
-	public void setEventId(final LoggingEvent eventId) {
+	public void setEventId(LoggingEvent eventId) {
 		this.eventId = eventId;
 	}
 

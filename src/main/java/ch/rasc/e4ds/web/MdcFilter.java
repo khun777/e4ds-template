@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class MdcFilter implements Filter {
 
 	@Override
-	public void init(final FilterConfig config) {
+	public void init(FilterConfig config) {
 		// no action
 	}
 
@@ -26,8 +26,8 @@ public class MdcFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
-			throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+			ServletException {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {

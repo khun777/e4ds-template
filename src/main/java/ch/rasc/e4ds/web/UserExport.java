@@ -40,7 +40,7 @@ public class UserExport {
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/usersExport.xls", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void userExport(final HttpServletResponse response, final Locale locale,
+	public void userExport(HttpServletResponse response, Locale locale,
 			@RequestParam(required = false) final String filter) throws Exception {
 
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -122,12 +122,12 @@ public class UserExport {
 		sheet.autoSizeColumn(4);
 		sheet.autoSizeColumn(5);
 
-		OutputStream out = response.getOutputStream();
-		workbook.write(out);
-		out.close();
+		try (OutputStream out = response.getOutputStream()) {
+			workbook.write(out);
+		}
 	}
 
-	private static void createCell(final Row row, final int column, final String value, final CellStyle style) {
+	private static void createCell(Row row, int column, String value, CellStyle style) {
 		Cell cell = row.createCell(column);
 		cell.setCellValue(value);
 		cell.setCellStyle(style);

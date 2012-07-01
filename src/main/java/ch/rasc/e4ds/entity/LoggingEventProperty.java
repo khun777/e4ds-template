@@ -26,7 +26,7 @@ public class LoggingEventProperty {
 		return this.id;
 	}
 
-	public void setId(final LoggingEventPropertyId id) {
+	public void setId(LoggingEventPropertyId id) {
 		this.id = id;
 	}
 
@@ -34,7 +34,7 @@ public class LoggingEventProperty {
 		return this.mappedValue;
 	}
 
-	public void setMappedValue(final String mappedValue) {
+	public void setMappedValue(String mappedValue) {
 		this.mappedValue = mappedValue;
 	}
 
@@ -42,7 +42,7 @@ public class LoggingEventProperty {
 		return this.eventId;
 	}
 
-	public void setEventId(final LoggingEvent eventId) {
+	public void setEventId(LoggingEvent eventId) {
 		this.eventId = eventId;
 	}
 

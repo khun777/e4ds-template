@@ -48,7 +48,7 @@ public class LoggingEventExport {
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/loggingEventExport.xls", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void loggingEventExport(final HttpServletResponse response, final Locale locale,
+	public void loggingEventExport(HttpServletResponse response, Locale locale,
 			@RequestParam(required = false) final String level) throws Exception {
 
 		response.setContentType("application/vnd.ms-excel");
@@ -182,12 +182,12 @@ public class LoggingEventExport {
 		sheet.autoSizeColumn(6);
 		sheet.autoSizeColumn(7);
 
-		OutputStream out = response.getOutputStream();
-		workbook.write(out);
-		out.close();
+		try (OutputStream out = response.getOutputStream()) {
+			workbook.write(out);
+		}
 	}
 
-	private static void createCell(final Row row, final int column, final String value, final CellStyle style) {
+	private static void createCell(Row row, int column, String value, CellStyle style) {
 		Cell cell = row.createCell(column);
 		cell.setCellValue(value);
 		cell.setCellStyle(style);
