@@ -15,7 +15,7 @@
         <%@ include file="loader.css"%>
 	</style>
 	
-    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/extjs-4.1.1-gpl/resources/css/ext-all.css">
     <!-- 
     <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css?v=<spring:eval expression='@environment["extjs.version"]'/>">    
      -->
@@ -40,7 +40,7 @@
 	
     <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />    
     <c:if test="${isDevelopment}">	    
-	    <script src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all-debug.js"></script>
+	    <script src="http://cdn.sencha.io/extjs-4.1.1-gpl/ext-all-debug.js"></script>
 	    <!-- 
 	    <script src="extjs/ext-all-debug.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
 	    -->
@@ -51,7 +51,7 @@
     </c:if>
     <c:if test="${not isDevelopment}">
         <script src="i18n.js"></script>        
-		<script src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
+		<script src="http://cdn.sencha.io/extjs-4.1.1-gpl/ext-all.js"></script>
 		<!-- 
         <script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script> 
 		-->
@@ -60,7 +60,7 @@
 	
 	<% Locale locale = RequestContextUtils.getLocale(request); %>    
     <% if (locale != null && locale.getLanguage().toLowerCase().equals("de")) { %>
-      <script src="http://cdn.sencha.io/ext-4.1.0-gpl/locale/ext-lang-de.js"></script>
+      <script src="http://cdn.sencha.io/extjs-4.1.1-gpl/locale/ext-lang-de.js"></script>
       <!-- 
       <script src="extjs/locale/ext-lang-de.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
        -->
