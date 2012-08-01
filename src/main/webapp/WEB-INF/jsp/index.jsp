@@ -29,7 +29,7 @@
     </c:if> 
     
     <c:if test="${not isDevelopment}">
-		<link rel="stylesheet" type="text/css" href="wro/app-1.0.0.css" />
+		<link rel="stylesheet" type="text/css" href="wro/app-<spring:eval expression='@environment["application.version"]'/>.css" />
     </c:if>
     
 </head>
@@ -55,12 +55,12 @@
     </c:if> 
     
     <c:if test="${not isDevelopment}">
-        <script src="i18n-1.0.0.js"></script>
+        <script src="i18n-<spring:eval expression='@environment["application.version"]'/>.js"></script>
 		<script src="http://cdn.sencha.com/ext-4.1.1-gpl/ext-all.js"></script>		
 		<!-- 
 		<script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
 		 -->		 
-	    <script src="wro/app-1.0.0.js"></script>   
+	    <script src="wro/app-<spring:eval expression='@environment["application.version"]'/>.js"></script>   
     </c:if>
 
 	<% Locale locale = RequestContextUtils.getLocale(request); %>
