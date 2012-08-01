@@ -1,10 +1,7 @@
 package ch.rasc.e4ds.web;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -18,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -38,16 +36,6 @@ public class I18nMessageController implements InitializingBean {
 	private final static String postfix = ";";
 
 	private final static long sixMonthFromNow = DateTime.now().plusMonths(6).getMillis();
-
-	private final static MessageDigest MD5;
-	
-	static {
-		try {
-			MD5 = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -71,21 +59,19 @@ public class I18nMessageController implements InitializingBean {
 	}
 
 	@RequestMapping(value = "/i18n-{version}.js", method = RequestMethod.GET)
-	public void i18n(HttpServletRequest request, HttpServletResponse response, Locale locale) throws JsonGenerationException, JsonMappingException, IOException {
+	public void i18n(HttpServletRequest request, HttpServletResponse response, Locale locale)
+			throws JsonGenerationException, JsonMappingException, IOException {
 
 		String ifNoneMatch = request.getHeader("If-None-Match");
 
 		byte[] output = buildResponse(locale);
-		byte[] digest = MD5.digest(output);
-		String hash = new BigInteger(1, digest).toString(16);
-				
-		String etag = "\"" + hash + "\"";
+		String etag = "\"" + DigestUtils.md5DigestAsHex(output) + "\"";
 
 		if (etag.equals(ifNoneMatch)) {
 			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			return;
 		}
-		
+
 		response.setContentType("application/javascript;charset=UTF-8");
 
 		response.setContentLength(output.length);
