@@ -2,7 +2,7 @@
 <!DOCTYPE groups>
 <groups xmlns="http://www.isdc.ro/wro">
 
-  <group name="app">
+  <group name="app-1.0.0">
     <js>/ux/RowExpander.js</js>
     <js>/ux/BoxReorderer.js</js>
     <js>/ux/TabCloseMenu.js</js>
@@ -51,7 +51,7 @@
     <css>/ux/css/BoxSelect.css</css>
   </group>
 
-  <group name="login">
+  <group name="login-1.0.0">
     <js>/ux/window/Notification.js</js>
     <js>/login.js</js>
     

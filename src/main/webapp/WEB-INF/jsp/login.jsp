@@ -26,7 +26,7 @@
 		<link rel="stylesheet" type="text/css" href="ux/css/Notification.css">
     </c:if>
     <c:if test="${not isDevelopment}">
-      <link rel="stylesheet" type="text/css" href="wro/login.css?v=<spring:eval expression='@environment["application.version"]'/>" />
+      <link rel="stylesheet" type="text/css" href="wro/login-1.0.0.css" />
     </c:if>
     
 </head>
@@ -50,12 +50,12 @@
 	    <script src="login.js"></script>
     </c:if>
     <c:if test="${not isDevelopment}">
-        <script src="i18n.js"></script>        
+        <script src="i18n-1.0.0.js"></script>
 		<script src="http://cdn.sencha.com/ext-4.1.1-gpl/ext-all.js"></script>
 		<!-- 
         <script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script> 
 		-->
-        <script src="wro/login.js?v=<spring:eval expression='@environment["application.version"]'/>"></script>        
+        <script src="wro/login-1.0.0.js"></script>        
     </c:if>
 	
 	<% Locale locale = RequestContextUtils.getLocale(request); %>    
