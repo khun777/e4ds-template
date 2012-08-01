@@ -1,17 +1,20 @@
 package ch.rasc.e4ds.web;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ch.ralscha.extdirectspring.util.JsonHandler;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -32,6 +37,18 @@ public class I18nMessageController implements InitializingBean {
 
 	private final static String postfix = ";";
 
+	private final static long sixMonthFromNow = DateTime.now().plusMonths(6).getMillis();
+
+	private final static MessageDigest MD5;
+	
+	static {
+		try {
+			MD5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (jsonHandler == null) {
@@ -43,8 +60,46 @@ public class I18nMessageController implements InitializingBean {
 	public void i18n(HttpServletResponse response, Locale locale) throws JsonGenerationException, JsonMappingException,
 			IOException {
 
-		response.setContentType("application/x-javascript;charset=UTF-8");
+		response.setContentType("application/javascript;charset=UTF-8");
 
+		byte[] output = buildResponse(locale);
+		response.setContentLength(output.length);
+
+		ServletOutputStream out = response.getOutputStream();
+		out.write(output);
+		out.flush();
+	}
+
+	@RequestMapping(value = "/i18n-{version}.js", method = RequestMethod.GET)
+	public void i18n(HttpServletRequest request, HttpServletResponse response, Locale locale) throws JsonGenerationException, JsonMappingException, IOException {
+
+		String ifNoneMatch = request.getHeader("If-None-Match");
+
+		byte[] output = buildResponse(locale);
+		byte[] digest = MD5.digest(output);
+		String hash = new BigInteger(1, digest).toString(16);
+				
+		String etag = "\"" + hash + "\"";
+
+		if (etag.equals(ifNoneMatch)) {
+			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+			return;
+		}
+		
+		response.setContentType("application/javascript;charset=UTF-8");
+
+		response.setContentLength(output.length);
+		response.setHeader("Vary", "Accept-Encoding");
+		response.setDateHeader("Expires", sixMonthFromNow);
+		response.setHeader("ETag", etag);
+		response.setHeader("Cache-control", "public, max-age=15552000");
+
+		ServletOutputStream out = response.getOutputStream();
+		out.write(output);
+		out.flush();
+	}
+
+	private byte[] buildResponse(Locale locale) {
 		ResourceBundle rb = ResourceBundle.getBundle("messages", locale);
 
 		Map<String, String> messages = Maps.newHashMap();
@@ -55,11 +110,7 @@ public class I18nMessageController implements InitializingBean {
 		}
 
 		String output = prefix + jsonHandler.writeValueAsString(messages) + postfix;
-		response.setContentLength(output.getBytes().length);
-
-		ServletOutputStream out = response.getOutputStream();
-		out.write(output.getBytes(StandardCharsets.UTF_8));
-		out.flush();
+		return output.getBytes(StandardCharsets.UTF_8);
 	}
 
 }

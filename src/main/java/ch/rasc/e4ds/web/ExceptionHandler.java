@@ -1,5 +1,7 @@
 package ch.rasc.e4ds.web;
 
+import java.lang.invoke.MethodHandles;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +17,7 @@ import ch.ralscha.extdirectspring.bean.ExtDirectResponseBuilder;
 @Component
 @Lazy
 public class ExceptionHandler implements HandlerExceptionResolver {
-	private final static Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
+	private final static Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
