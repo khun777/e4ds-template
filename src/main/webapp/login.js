@@ -112,7 +112,6 @@ Ext.onReady(function() {
 		}
 	}
 
-	// login.show();
 	login.getForm().findField('j_username').focus();
 
 });
