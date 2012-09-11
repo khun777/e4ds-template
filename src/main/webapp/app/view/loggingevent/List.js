@@ -6,7 +6,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 	title: i18n.logevents,
 	closable: true,
 
-	requires: [ 'Ext.ux.RowExpander', 'Ext.ux.form.field.ClearButton' ],
+	requires: [ 'Ext.ux.RowExpander', 'Ext.ux.form.field.ClearButton', 'Ext.ux.form.field.ClearButton' ],
 
 	plugins : [ {
 		ptype: 'rowexpander',
@@ -73,7 +73,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 				displayField: 'level',
 				queryMode: 'local',
 				forceSelection: true,
-				plugins: [ 'clearbutton' ]
+				plugins: new Ext.ux.form.field.ClearButton({hideClearButtonWhenEmpty: false, hideClearButtonWhenMouseOut: false})
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',

@@ -2,69 +2,57 @@
 	/**
 	 * @class Ext.ux.form.field.ClearButton
 	 * 
-	 * Plugin for text components that shows a "clear" button over the text
-	 * field. When the button is clicked the text field is set empty. Icon image
-	 * and positioning can be controlled using CSS. Works with
-	 * Ext.form.field.Text, Ext.form.field.TextArea, Ext.form.field.ComboBox and
-	 * Ext.form.field.Date.
+	 * Plugin for text components that shows a "clear" button over the text field. When the button is clicked the text field is set empty.
+	 * Icon image and positioning can be controlled using CSS. Works with Ext.form.field.Text, Ext.form.field.TextArea,
+	 * Ext.form.field.ComboBox and Ext.form.field.Date.
 	 * 
-	 * Plugin alias is 'clearbutton' (use "plugins: 'clearbutton'" in GridPanel
-	 * config).
+	 * Plugin alias is 'clearbutton' (use "plugins: 'clearbutton'" in GridPanel config).
 	 * 
 	 * @author <a href="mailto:stephen.friedrich@fortis-it.de">Stephen Friedrich</a>
 	 * @author <a href="mailto:fabian.urban@fortis-it.de">Fabian Urban</a>
 	 * 
 	 * @copyright (c) 2011 Fortis IT Services GmbH
-	 * @license Ext.ux.form.field.ClearButton is released under the <a
-	 *          target="_blank"
-	 *          href="http://www.apache.org/licenses/LICENSE-2.0">Apache
-	 *          License, Version 2.0</a>.
+	 * @license Ext.ux.form.field.ClearButton is released under the <a target="_blank"
+	 *          href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.
 	 * 
 	 */
 	Ext.define('Ext.ux.form.field.ClearButton', {
 		alias: 'plugin.clearbutton',
 
 		/**
-		 * @cfg {Boolean} Hide the clear button when the field is empty
-		 *      (default: true).
+		 * @cfg {Boolean} Hide the clear button when the field is empty (default: true).
 		 */
 		hideClearButtonWhenEmpty: true,
 
 		/**
-		 * @cfg {Boolean} Hide the clear button until the mouse is over the
-		 *      field (default: true).
+		 * @cfg {Boolean} Hide the clear button until the mouse is over the field (default: true).
 		 */
 		hideClearButtonWhenMouseOut: true,
 
 		/**
-		 * @cfg {Boolean} When the clear buttons is hidden/shown, this will
-		 *      animate the button to its new state (using opacity) (default:
+		 * @cfg {Boolean} When the clear buttons is hidden/shown, this will animate the button to its new state (using opacity) (default:
 		 *      true).
 		 */
 		animateClearButton: true,
 
 		/**
-		 * @cfg {Boolean} Empty the text field when ESC is pressed while the
-		 *      text field is focused.
+		 * @cfg {Boolean} Empty the text field when ESC is pressed while the text field is focused.
 		 */
 		clearOnEscape: true,
 
 		/**
-		 * @cfg {String} CSS class used for the button div. Also used as a
-		 *      prefix for other classes (suffixes: '-mouse-over-input',
+		 * @cfg {String} CSS class used for the button div. Also used as a prefix for other classes (suffixes: '-mouse-over-input',
 		 *      '-mouse-over-button', '-mouse-down', '-on', '-off')
 		 */
 		clearButtonCls: 'ext-ux-clearbutton',
 
 		/**
-		 * The text field (or text area, combo box, date field) that we are
-		 * attached to
+		 * The text field (or text area, combo box, date field) that we are attached to
 		 */
 		textField: null,
 
 		/**
-		 * Will be set to true if animateClearButton is true and the browser
-		 * supports CSS 3 transitions
+		 * Will be set to true if animateClearButton is true and the browser supports CSS 3 transitions
 		 * 
 		 * @private
 		 */
@@ -83,9 +71,8 @@
 		},
 
 		/**
-		 * Called by plug-in system to initialize the plugin for a specific text
-		 * field (or text area, combo box, date field). Most all the setup is
-		 * delayed until the component is rendered.
+		 * Called by plug-in system to initialize the plugin for a specific text field (or text area, combo box, date field). Most all the
+		 * setup is delayed until the component is rendered.
 		 */
 		init: function(textField) {
 			this.textField = textField;
@@ -98,8 +85,7 @@
 		},
 
 		/**
-		 * After the field has been rendered sets up the plugin (create the
-		 * Element for the clear button, attach listeners).
+		 * After the field has been rendered sets up the plugin (create the Element for the clear button, attach listeners).
 		 * 
 		 * @private
 		 */
@@ -119,7 +105,7 @@
 		 * Creates the Element and DOM for the clear button
 		 */
 		createClearButtonEl: function() {
-			//var animateWithClass = this.animateClearButton && this.animateWithCss3;
+			var animateWithClass = this.animateClearButton && this.animateWithCss3;
 			this.clearButtonEl = this.textField.bodyEl.createChild({
 				tag: 'div',
 				cls: this.clearButtonCls
@@ -138,12 +124,11 @@
 		 * Returns true iff the browser supports CSS 3 transitions
 		 * 
 		 * @param el
-		 *            an element that is checked for support of the "transition"
-		 *            CSS property (considering any vendor prefixes)
+		 *            an element that is checked for support of the "transition" CSS property (considering any vendor prefixes)
 		 */
 		supportsCssTransition: function(el) {
-			var styles = [ 'transitionProperty', 'WebkitTransitionProperty', 'MozTransitionProperty',
-					'OTransitionProperty', 'msTransitionProperty', 'KhtmlTransitionProperty' ];
+			var styles = [ 'transitionProperty', 'WebkitTransitionProperty', 'MozTransitionProperty', 'OTransitionProperty',
+					'msTransitionProperty', 'KhtmlTransitionProperty' ];
 
 			var style = el.dom.style;
 			for ( var i = 0, length = styles.length; i < length; ++i) {
@@ -156,24 +141,21 @@
 		},
 
 		/**
-		 * If config option "clearOnEscape" is true, then add a key listener
-		 * that will clear this field
+		 * If config option "clearOnEscape" is true, then add a key listener that will clear this field
 		 */
 		addEscListener: function() {
 			if (!this.clearOnEscape) {
 				return;
 			}
 
-			// Using a KeyMap did not work: ESC is swallowed by combo box and
-			// date field before it reaches our own KeyMap
+			// Using a KeyMap did not work: ESC is swallowed by combo box and date field before it reaches our own KeyMap
 			this.textField.inputEl.on('keydown', function(e) {
 				if (e.getKey() == Ext.EventObject.ESC) {
 					if (this.textField.isExpanded) {
 						// Let combo box or date field first remove the popup
 						return;
 					}
-					// No idea why the defer is necessary, but otherwise the
-					// call to setValue('') is ignored
+					// No idea why the defer is necessary, but otherwise the call to setValue('') is ignored
 					Ext.Function.defer(this.textField.setValue, 1, this.textField, [ '' ]);
 					e.stopEvent();
 				}
@@ -181,8 +163,7 @@
 		},
 
 		/**
-		 * Adds listeners to the field, its input element and the clear button
-		 * to handle resizing, mouse over/out events, click events etc.
+		 * Adds listeners to the field, its input element and the clear button to handle resizing, mouse over/out events, click events etc.
 		 */
 		addListeners: function() {
 			// listeners on input element (DOM/El level)
@@ -209,8 +190,7 @@
 		},
 
 		/**
-		 * When the field is destroyed, we also need to destroy the clear button
-		 * Element to prevent memory leaks.
+		 * When the field is destroyed, we also need to destroy the clear button Element to prevent memory leaks.
 		 */
 		handleDestroy: function() {
 			this.clearButtonEl.destroy();
@@ -223,8 +203,7 @@
 		// ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * Tada - the real action: If user left clicked on the clear button,
-		 * then empty the field
+		 * Tada - the real action: If user left clicked on the clear button, then empty the field
 		 */
 		handleMouseClickOnClearButton: function(event, htmlElement, object) {
 			if (!this.isLeftButton(event)) {
@@ -237,10 +216,8 @@
 		handleMouseOverInputField: function(event, htmlElement, object) {
 			this.clearButtonEl.addCls(this.clearButtonCls + '-mouse-over-input');
 			if (event.getRelatedTarget() == this.clearButtonEl.dom) {
-				// Moused moved to clear button and will generate another mouse
-				// event there.
-				// Handle it here to avoid duplicate updates (else animation
-				// will break)
+				// Moused moved to clear button and will generate another mouse event there.
+				// Handle it here to avoid duplicate updates (else animation will break)
 				this.clearButtonEl.removeCls(this.clearButtonCls + '-mouse-over-button');
 				this.clearButtonEl.removeCls(this.clearButtonCls + '-mouse-down');
 			}
@@ -250,10 +227,8 @@
 		handleMouseOutOfInputField: function(event, htmlElement, object) {
 			this.clearButtonEl.removeCls(this.clearButtonCls + '-mouse-over-input');
 			if (event.getRelatedTarget() == this.clearButtonEl.dom) {
-				// Moused moved from clear button and will generate another
-				// mouse event there.
-				// Handle it here to avoid duplicate updates (else animation
-				// will break)
+				// Moused moved from clear button and will generate another mouse event there.
+				// Handle it here to avoid duplicate updates (else animation will break)
 				this.clearButtonEl.addCls(this.clearButtonCls + '-mouse-over-button');
 			}
 			this.updateClearButtonVisibility();
@@ -262,8 +237,7 @@
 		handleMouseOverClearButton: function(event, htmlElement, object) {
 			event.stopEvent();
 			if (this.textField.bodyEl.contains(event.getRelatedTarget())) {
-				// has been handled in handleMouseOutOfInputField() to prevent
-				// double update
+				// has been handled in handleMouseOutOfInputField() to prevent double update
 				return;
 			}
 			this.clearButtonEl.addCls(this.clearButtonCls + '-mouse-over-button');
@@ -273,8 +247,7 @@
 		handleMouseOutOfClearButton: function(event, htmlElement, object) {
 			event.stopEvent();
 			if (this.textField.bodyEl.contains(event.getRelatedTarget())) {
-				// will be handled in handleMouseOverInputField() to prevent
-				// double update
+				// will be handled in handleMouseOverInputField() to prevent double update
 				return;
 			}
 			this.clearButtonEl.removeCls(this.clearButtonCls + '-mouse-over-button');
@@ -303,8 +276,7 @@
 		// ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/**
-		 * Repositions the clear button element based on the textfield.inputEl
-		 * element
+		 * Repositions the clear button element based on the textfield.inputEl element
 		 * 
 		 * @private
 		 */
@@ -319,8 +291,7 @@
 		},
 
 		/**
-		 * Calculates the position of the clear button based on the
-		 * textfield.inputEl element
+		 * Calculates the position of the clear button based on the textfield.inputEl element
 		 * 
 		 * @private
 		 */
@@ -364,16 +335,14 @@
 		},
 
 		/**
-		 * Small wrapper around clearButtonEl.isVisible() to handle setVisible
-		 * animation that may still be in progress.
+		 * Small wrapper around clearButtonEl.isVisible() to handle setVisible animation that may still be in progress.
 		 */
 		isButtonCurrentlyVisible: function() {
 			if (this.animateClearButton && this.animateWithCss3) {
 				return this.clearButtonEl.hasCls(this.clearButtonCls + '-on');
 			}
 
-			// This should not be necessary (see Element.setVisible/isVisible),
-			// but else there is confusion about visibility
+			// This should not be necessary (see Element.setVisible/isVisible), but else there is confusion about visibility
 			// when moving the mouse out and _quickly_ over then input again.
 			var cachedVisible = Ext.core.Element.data(this.clearButtonEl.dom, 'isVisible');
 			if (typeof (cachedVisible) == 'boolean') {
@@ -383,8 +352,7 @@
 		},
 
 		/**
-		 * Checks config options and current mouse status to determine if the
-		 * clear button should be visible.
+		 * Checks config options and current mouse status to determine if the clear button should be visible.
 		 */
 		shouldButtonBeVisible: function() {
 			if (this.hideClearButtonWhenEmpty && Ext.isEmpty(this.textField.getValue())) {
@@ -402,8 +370,7 @@
 		},
 
 		/**
-		 * Called after any event that may influence the clear button
-		 * visibility.
+		 * Called after any event that may influence the clear button visibility.
 		 */
 		updateClearButtonVisibility: function() {
 			var oldVisible = this.isButtonCurrentlyVisible();
@@ -419,22 +386,18 @@
 					clearButtonEl.setVisible(newVisible, this.animateClearButton);
 				}
 
-				// Set background-color of clearButton to same as field's
-				// background-color (for those browsers/cases
+				// Set background-color of clearButton to same as field's background-color (for those browsers/cases
 				// where the padding-right (see below) does not work)
 				clearButtonEl.setStyle('background-color', this.textField.inputEl.getStyle('background-color'));
 
-				// Adjust padding-right of the input tag to make room for the
-				// button
-				// IE (up to v9) just ignores this and Gecko handles padding
-				// incorrectly with textarea scrollbars
+				// Adjust padding-right of the input tag to make room for the button
+				// IE (up to v9) just ignores this and Gecko handles padding incorrectly with textarea scrollbars
 				if (!(this.isTextArea && Ext.isGecko) && !Ext.isIE) {
 					// See https://bugzilla.mozilla.org/show_bug.cgi?id=157846
 					var deltaPaddingRight = clearButtonEl.getWidth() - this.clearButtonEl.getMargin('l');
 					var currentPaddingRight = this.textField.inputEl.getPadding('r');
 					var factor = (newVisible ? +1 : -1);
-					this.textField.inputEl.dom.style.paddingRight = (currentPaddingRight + factor * deltaPaddingRight)
-							+ 'px';
+					this.textField.inputEl.dom.style.paddingRight = (currentPaddingRight + factor * deltaPaddingRight) + 'px';
 				}
 			}
 		},
