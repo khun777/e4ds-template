@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +18,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
-import ch.ralscha.extdirectspring.bean.ExtDirectResponseBuilder;
+import ch.ralscha.extdirectspring.bean.ExtDirectFormPostResult;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
-import ch.ralscha.extdirectspring.bean.ExtDirectStoreResponse;
+import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.config.JpaUserDetails;
 import ch.rasc.e4ds.entity.QUser;
@@ -46,7 +42,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
 import com.mysema.query.BooleanBuilder;
 
-@Controller
+@Service
 @Lazy
 public class UserService {
 
@@ -67,7 +63,7 @@ public class UserService {
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ExtDirectStoreResponse<User> load(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreReadResult<User> load(ExtDirectStoreReadRequest request) {
 
 		String filterValue = null;
 		if (!request.getFilters().isEmpty()) {
@@ -76,7 +72,7 @@ public class UserService {
 		}
 
 		Page<User> page = userCustomRepository.findWithFilter(filterValue, Util.createPageRequest(request));
-		return new ExtDirectStoreResponse<>((int) page.getTotalElements(), page.getContent());
+		return new ExtDirectStoreReadResult<>((int) page.getTotalElements(), page.getContent());
 	}
 
 	@ExtDirectMethod(STORE_READ)
@@ -94,24 +90,24 @@ public class UserService {
 	}
 
 	@ExtDirectMethod(FORM_POST)
-	@RequestMapping(value = "/userFormPost", method = RequestMethod.POST)
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
-	public void userFormPost(HttpServletRequest request, HttpServletResponse response, Locale locale,
+	public ExtDirectFormPostResult userFormPost(Locale locale,
 			@RequestParam(required = false, defaultValue = "false") final boolean options,
 			@RequestParam(required = false) final String roleIds,
 			@RequestParam(value = "id", required = false) final Long userId, @Valid final User modifiedUser,
-			final BindingResult result) {
+			final BindingResult bindingResult) {
 
 		// Check uniqueness of userName and email
-		if (!result.hasErrors()) {
+		if (!bindingResult.hasErrors()) {
 			if (!options) {
 				BooleanBuilder bb = new BooleanBuilder(QUser.user.userName.equalsIgnoreCase(modifiedUser.getUserName()));
 				if (userId != null) {
 					bb.and(QUser.user.id.ne(userId));
 				}
 				if (userRepository.count(bb) > 0) {
-					result.rejectValue("userName", null, messageSource.getMessage("user_usernametaken", null, locale));
+					bindingResult.rejectValue("userName", null,
+							messageSource.getMessage("user_usernametaken", null, locale));
 				}
 			}
 
@@ -126,11 +122,11 @@ public class UserService {
 			}
 
 			if (userRepository.count(bb) > 0) {
-				result.rejectValue("email", null, messageSource.getMessage("user_emailtaken", null, locale));
+				bindingResult.rejectValue("email", null, messageSource.getMessage("user_emailtaken", null, locale));
 			}
 		}
 
-		if (!result.hasErrors()) {
+		if (!bindingResult.hasErrors()) {
 
 			if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
 				modifiedUser.setPasswordHash(passwordEncoder.encodePassword(modifiedUser.getPasswordHash(), null));
@@ -168,8 +164,7 @@ public class UserService {
 			}
 		}
 
-		ExtDirectResponseBuilder.create(request, response).addErrors(result).buildAndWrite();
-
+		return new ExtDirectFormPostResult(bindingResult);
 	}
 
 	@ExtDirectMethod

@@ -18,7 +18,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
-import ch.ralscha.extdirectspring.bean.ExtDirectStoreResponse;
+import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.entity.LoggingEvent;
 import ch.rasc.e4ds.entity.QLoggingEvent;
@@ -40,7 +40,7 @@ public class LoggingEventService {
 	@ExtDirectMethod(STORE_READ)
 	@Transactional(readOnly = true)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ExtDirectStoreResponse<LoggingEventDto> load(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreReadResult<LoggingEventDto> load(ExtDirectStoreReadRequest request) {
 
 		Pageable pageRequest = Util.createPageRequest(request, mapGuiColumn2DbField);
 
@@ -58,7 +58,7 @@ public class LoggingEventService {
 			loggingEventList.add(new LoggingEventDto(event));
 		}
 
-		return new ExtDirectStoreResponse<>((int) page.getTotalElements(), loggingEventList);
+		return new ExtDirectStoreReadResult<>((int) page.getTotalElements(), loggingEventList);
 	}
 
 	@ExtDirectMethod
