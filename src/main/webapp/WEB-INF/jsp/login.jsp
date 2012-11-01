@@ -74,6 +74,5 @@
 		</c:if> 	     
 	});
 	</script>
-	 
 </body>
 </html>
