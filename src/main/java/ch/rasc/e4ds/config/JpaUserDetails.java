@@ -31,7 +31,7 @@ public class JpaUserDetails implements UserDetails {
 
 	private Locale locale;
 
-	private Long userId;
+	private final Long userId;
 
 	public JpaUserDetails(User user) {
 		this.userId = user.getId();

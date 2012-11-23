@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses=ch.rasc.e4ds.repository.UserRepository.class)
+@EnableJpaRepositories(basePackageClasses = ch.rasc.e4ds.repository.UserRepository.class)
 public class DataConfig {
 
 	@Autowired
