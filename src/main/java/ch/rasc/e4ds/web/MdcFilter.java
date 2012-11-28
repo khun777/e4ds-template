@@ -35,6 +35,11 @@ public class MdcFilter implements Filter {
 		}
 
 		MDC.put("ip", request.getRemoteAddr());
-		chain.doFilter(request, response);
+		try {
+			chain.doFilter(request, response);
+		} finally {
+			MDC.remove("userName");
+			MDC.remove("ip");
+		}
 	}
 }
