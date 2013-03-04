@@ -12,25 +12,25 @@
 			<column name="formatted_message" type="CLOB">
 				<constraints nullable="false" />
 			</column>
-			<column name="logger_name" type="VARCHAR(254)">
+			<column name="logger_name" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="level_string" type="VARCHAR(254)">
+			<column name="level_string" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="thread_name" type="VARCHAR(254)" />
+			<column name="thread_name" type="VARCHAR(255)" />
 			<column name="reference_flag" type="SMALLINT" />
-			<column name="arg0" type="VARCHAR(254)" />
-			<column name="arg1" type="VARCHAR(254)" />
-			<column name="arg2" type="VARCHAR(254)" />
-			<column name="arg3" type="VARCHAR(254)" />
-			<column name="caller_filename" type="VARCHAR(254)">
+			<column name="arg0" type="VARCHAR(255)" />
+			<column name="arg1" type="VARCHAR(255)" />
+			<column name="arg2" type="VARCHAR(255)" />
+			<column name="arg3" type="VARCHAR(255)" />
+			<column name="caller_filename" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="caller_class" type="VARCHAR(254)">
+			<column name="caller_class" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
-			<column name="caller_method" type="VARCHAR(254)">
+			<column name="caller_method" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
 			<column name="caller_line" type="CHAR(4)">
@@ -50,7 +50,7 @@
 			<column name="i" type="SMALLINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="trace_line" type="VARCHAR(254)">
+			<column name="trace_line" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
 		</createTable>
@@ -61,7 +61,7 @@
 			<column name="event_id" type="BIGINT">
 				<constraints nullable="false" />
 			</column>
-			<column name="mapped_key" type="VARCHAR(254)">
+			<column name="mapped_key" type="VARCHAR(255)">
 				<constraints nullable="false" />
 			</column>
 			<column name="mapped_value" type="VARCHAR(1024)" />
@@ -98,10 +98,10 @@
 				<constraints nullable="false" unique="true" />
 			</column>
 
-			<column name="name" type="varchar(254)" />
-			<column name="firstName" type="varchar(254)" />
+			<column name="name" type="varchar(255)" />
+			<column name="firstName" type="varchar(255)" />
 
-			<column name="email" type="varchar(254)">
+			<column name="email" type="varchar(255)">
 				<constraints nullable="false"  />
 			</column>
 			
