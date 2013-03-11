@@ -1,17 +1,20 @@
 Ext.define('E4ds.view.user.List', {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.userlist',
+
+	controller: 'E4ds.controller.UserController',
+
 	stateId: 'userList',
-	store: 'Users',
 
 	title: i18n.user_users,
 	closable: true,
 
-	requires: [ 'Ext.ux.form.field.FilterField' ],
+	requires: [ 'Ext.ux.form.field.FilterField', 'E4ds.model.Role' ],
 
 	initComponent: function() {
 
 		var me = this;
+
+		me.store = Ext.create('E4ds.store.Users');
 
 		me.columns = [ {
 			text: i18n.user_username,
@@ -30,6 +33,24 @@ Ext.define('E4ds.view.user.List', {
 			dataIndex: 'email',
 			flex: 1
 		}, {
+			text: 'Roles',
+			dataIndex: 'roles',
+			width: 160,
+			renderer: function(value, metadata, record) {
+				var roles = record.roles();
+				var result = '';
+				if (roles) {
+					roles.each(function(item, index, count) {
+						result += item.get('name');
+						if (index + 1 < count) {
+							result += ', ';
+						}
+					});
+				}
+				metadata.tdAttr = 'data-qtip="' + result + '"';
+				return result;
+			}
+		}, {
 			text: i18n.user_enabled,
 			dataIndex: 'enabled',
 			width: 70,
@@ -37,7 +58,7 @@ Ext.define('E4ds.view.user.List', {
 				if (value === true) {
 					return i18n.yes;
 				}
-				return '';
+				return i18n.no;
 			}
 		} ];
 
@@ -47,36 +68,38 @@ Ext.define('E4ds.view.user.List', {
 			items: [ {
 				text: i18n.user_new,
 				disabled: false,
-				action: 'add',
-				iconCls: 'icon-user-add'
+				itemId: 'addButton',
+				icon: app_context_path + 'resources/images/add.png'
 			}, {
 				text: i18n.user_edit,
 				disabled: true,
-				action: 'edit',
-				iconCls: 'icon-user-edit'
+				itemId: 'editButton',
+				icon: app_context_path + 'resources/images/edit.png'
 			}, {
 				text: i18n.user_delete,
 				disabled: true,
-				action: 'delete',
-				iconCls: 'icon-user-delete'
+				itemId: 'deleteButton',
+				icon: app_context_path + 'resources/images/eraser.png'
 			}, '-', {
 				text: i18n.excelexport,
-				action: 'export',
-				iconCls: 'icon-excel',
+				itemId: 'exportButton',
+				icon: app_context_path + 'resources/images/excel.gif',
 				href: 'usersExport.xls',
 				hrefTarget: '_self',
 			}, '->', {
+				itemId: 'filterField',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
 				xtype: 'filterfield'
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
+			itemId: 'pagingtoolbar',
 			dock: 'bottom',
-			store: 'Users',
+			store: me.store,
 			displayInfo: true,
 			displayMsg: i18n.user_display,
-			emptyMsg: i18n.user_no
+			emptyMsg: i18n.user_nodata
 		} ];
 
 		me.callParent(arguments);

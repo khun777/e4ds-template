@@ -1,24 +1,29 @@
 Ext.define('E4ds.view.user.Edit', {
 	extend: 'Ext.window.Window',
-	alias: 'widget.useredit',
-	stateId: 'userEdit',
-
+	stateId: 'E4ds.view.user.Edit',
 	title: i18n.user_edit,
 	layout: 'fit',
 	autoShow: true,
 	resizable: true,
-	width: 450,
+	constrainHeader: true,
+	width: 500,
+	height: 370,
 	modal: true,
 
-	iconCls: 'icon-user-edit',
+	icon: app_context_path + 'resources/images/edit.png',
 
-	requires: ['Ext.ux.form.field.BoxSelect'],
-	
+	requires: [ 'Ext.ux.form.field.BoxSelect' ],
+
+	getForm: function() {
+		return this.getComponent('userEditForm').getForm();
+	},
+
 	initComponent: function() {
 		var me = this;
-		
+
 		me.items = [ {
 			xtype: 'form',
+			itemId: 'userEditForm',
 			padding: 5,
 			bodyPadding: 10,
 			bodyBorder: true,
@@ -27,11 +32,11 @@ Ext.define('E4ds.view.user.Edit', {
 			defaults: {
 				anchor: '100%'
 			},
-					
+
 			api: {
-			    submit: userService.userFormPost
+				submit: userService.userFormPost
 			},
-			
+
 			fieldDefaults: {
 				msgTarget: 'side'
 			},
@@ -55,59 +60,63 @@ Ext.define('E4ds.view.user.Edit', {
 				allowBlank: false
 			}, {
 				name: 'passwordHash',
-				fieldLabel: i18n.user_password,				
+				fieldLabel: i18n.user_password,
 				inputType: 'password',
 				id: 'pass'
 			}, {
 				name: 'password-confirm',
-				fieldLabel: i18n.user_confirmpassword,				
+				fieldLabel: i18n.user_confirmpassword,
 				vtype: 'password',
 				inputType: 'password',
 				initialPassField: 'pass'
 			}, {
-                xtype: 'combobox',
-                fieldLabel: i18n.user_language,
-                name: 'locale',
-                store: Ext.create('Ext.data.ArrayStore', {
-                    fields: ['code', 'language'],
+				xtype: 'combobox',
+				fieldLabel: i18n.user_language,
+				name: 'locale',
+				store: Ext.create('Ext.data.ArrayStore', {
+					fields: [ 'code', 'language' ],
 					data: [ [ 'de', i18n.user_language_german ], [ 'en', i18n.user_language_english ] ]
-                }),
-                valueField: 'code',
-                displayField: 'language',
-                queryMode: 'local',
-                emptyText: i18n.user_selectlanguage,
-                allowBlank: false,
-                forceSelection: true
-            }, {
+				}),
+				valueField: 'code',
+				displayField: 'language',
+				queryMode: 'local',
+				emptyText: i18n.user_selectlanguage,
+				allowBlank: false,
+				forceSelection: true
+			}, {
 				fieldLabel: i18n.user_enabled,
 				name: 'enabled',
 				xtype: 'checkboxfield',
 				inputValue: 'true',
 				uncheckedValue: 'false'
-			},{
+			}, {
 				xtype: 'comboboxselect',
-	            name: 'roleIds',
-                    queryMode: 'local',
-	            pinList: false,
-	            fieldLabel: i18n.user_roles,
-	            store: 'Roles',
-	            displayField: 'name',
-	            valueField: 'id',
-	            allowBlank: true
-	        } ],
+				name: 'roleIds',
+				queryMode: 'local',
+				pinList: false,
+				fieldLabel: i18n.user_roles,
+				store: me.rolesStore,
+				displayField: 'name',
+				valueField: 'id',
+				allowBlank: true
+			} ],
 
 			buttons: [ {
 				xtype: 'button',
+				itemId: 'saveButton',
 				text: i18n.save,
-				action : 'save',
-                                iconCls: 'icon-save',
+				action: 'save',
+				icon: app_context_path + 'resources/images/save.png',
 				disabled: true,
-				formBind: true
+				formBind: true,
+				handler: function() {
+					me.controller.updateUser(me);
+				}
 			}, {
 				text: i18n.cancel,
 				scope: me,
 				handler: me.close,
-				iconCls: 'icon-cancel'
+				icon: app_context_path + 'resources/images/cancel.png'
 			} ]
 		} ];
 

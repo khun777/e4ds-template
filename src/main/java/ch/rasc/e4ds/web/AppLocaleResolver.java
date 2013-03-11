@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.i18n.AbstractLocaleResolver;
 
-import ch.rasc.e4ds.config.JpaUserDetails;
+import ch.rasc.e4ds.security.JpaUserDetails;
 
 public class AppLocaleResolver extends AbstractLocaleResolver {
 

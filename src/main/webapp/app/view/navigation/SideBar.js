@@ -1,5 +1,4 @@
 Ext.define('E4ds.view.navigation.SideBar', {
-	alias: 'widget.sidebar',
 	extend: 'Ext.panel.Panel',
 	stateId: 'sidebar',
 
@@ -7,19 +6,19 @@ Ext.define('E4ds.view.navigation.SideBar', {
 	collapsible: true,
 	layout: 'fit',
 	minWidth: 100,
-	maxWidth: 200,		
-		
+	maxWidth: 200,
+
 	initComponent: function() {
 		var me = this;
 		me.items = [ {
 			xtype: 'treepanel',
+			itemId: 'menuTree',
 			border: 0,
-	        store: 'Navigation',
-	        rootVisible: false,
-	        animate: false
+			store: Ext.create('E4ds.store.Navigation'),
+			rootVisible: false,
+			animate: false
 		} ];
 
 		me.callParent(arguments);
-
 	}
 });

@@ -1,23 +1,20 @@
 Ext.define('E4ds.view.poll.HeapMemoryChart', {
 	extend: 'Ext.chart.Chart',
-	alias: 'widget.heapmemorychart',
-
 	animate: true,
 	shadow: true,
-	store: 'PollChart',
-	
+
 	legend: {
-	    position: 'top'
+		position: 'top'
 	},
-	
+
 	labelRenderer: function(value) {
 		return Math.round(value / (1024 * 1024)) + ' MB';
 	},
-	
+
 	initComponent: function() {
-		
+
 		var me = this;
-		
+
 		me.axes = [ {
 			type: 'Numeric',
 			position: 'left',
@@ -53,7 +50,7 @@ Ext.define('E4ds.view.poll.HeapMemoryChart', {
 			yField: 'usedHeapMemory',
 			title: 'Used'
 		} ];
-		
+
 		me.callParent(arguments);
 	}
 

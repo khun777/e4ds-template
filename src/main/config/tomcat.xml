@@ -1,7 +1,7 @@
 <!DOCTYPE context>
 <Context>
 
-  <Resource name="jdbc/ds" auth="Container"
+  <Resource name="jdbc/e4ds" auth="Container"
             factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
             type="javax.sql.DataSource" username="sa" password=""
             driverClassName="org.h2.Driver"
@@ -14,5 +14,6 @@
     
     <!-- Uncomment the following line to activate production profile --> 
     <Environment name="spring.profiles.active" value="development" type="java.lang.String" override="false"/>
+
 
 </Context>

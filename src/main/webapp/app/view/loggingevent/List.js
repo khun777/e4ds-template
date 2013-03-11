@@ -1,29 +1,32 @@
 Ext.define('E4ds.view.loggingevent.List', {
 	extend: 'Ext.grid.Panel',
-	alias: 'widget.loggingeventlist',
-	store: 'LoggingEvents',
+	controller: 'E4ds.controller.LoggingEventController',
 
 	title: i18n.logevents,
 	closable: true,
 
-	requires: [ 'Ext.ux.RowExpander', 'Ext.ux.form.field.ClearButton', 'Ext.ux.form.field.ClearButton' ],
+	requires: [ 'Ext.ux.RowExpander' ],
 
-	plugins : [ {
+	plugins: [ {
 		ptype: 'rowexpander',
 		expandOnEnter: false,
 		expandOnDblClick: false,
-		selectRowOnExpand: true,			
+		selectRowOnExpand: true,
 		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">',
 				'<p>{message}</p>', '</tpl>' ]
 	} ],
-	
+
 	initComponent: function() {
 		var me = this;
+
+		me.store = Ext.create('E4ds.store.LoggingEvents');
 
 		me.columns = [ {
 			text: i18n.logevents_timestamp,
 			dataIndex: 'dateTime',
-			width: 200
+			width: 160,
+			xtype: 'datecolumn',
+			format: 'Y-m-d H:i:s'
 		}, {
 			text: i18n.logevents_level,
 			dataIndex: 'level',
@@ -45,43 +48,47 @@ Ext.define('E4ds.view.loggingevent.List', {
 			width: 70
 		} ];
 
-		
 		me.dockedItems = [ {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
 				text: i18n.excelexport,
-				action: 'export',
-				iconCls: 'icon-excel',
-				href: 'loggingEventExport.xls',				
+				itemId: 'exportButton',
+				icon: app_context_path + 'resources/images/excel.gif',
+				href: 'loggingEventExport.xls',
 				hrefTarget: '_self',
 			}, '-', {
-				text: i18n.logevents_delete,
-				action: 'deleteall',
-				iconCls: 'icon-delete'
-			}, '-', {
+				text: i18n.logevents_deleteall,
+				itemId: 'deleteAllButton',
+				icon: app_context_path + 'resources/images/eraser.png'
+			},/* <debug> */'-', {
 				text: i18n.logevents_addtest,
-				action: 'test',
-				iconCls: 'icon-add'
-			}, '->',{
+				itemId: 'testButton',
+				icon: app_context_path + 'resources/images/add.png'
+			},/* </debug> */'->', {
 				xtype: 'combobox',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
+				itemId: 'logLevelFilter',
 				name: 'logLevelFilter',
-				store: 'LogLevels',
+				store: Ext.create('E4ds.store.LogLevels'),
 				valueField: 'level',
 				displayField: 'level',
 				queryMode: 'local',
 				forceSelection: true,
-				plugins: new Ext.ux.form.field.ClearButton({hideClearButtonWhenEmpty: false, hideClearButtonWhenMouseOut: false})
+				plugins: Ext.create('Ext.ux.form.field.ClearButton', {
+					hideClearButtonWhenEmpty: false,
+					hideClearButtonWhenMouseOut: false
+				})
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
+			itemId: 'pagingtoolbar',
 			dock: 'bottom',
-			store: 'LoggingEvents',
+			store: me.store,
 			displayInfo: true,
 			displayMsg: i18n.logevents_display,
-			emptyMsg: i18n.logevents_no
+			emptyMsg: i18n.logevents_nodata
 		} ];
 
 		me.callParent(arguments);

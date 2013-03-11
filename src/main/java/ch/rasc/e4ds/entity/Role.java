@@ -4,12 +4,11 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import ch.ralscha.extdirectspring.generator.Model;
 
 @Entity
-public class Role extends AbstractPersistable<Long> {
-
-	private static final long serialVersionUID = 1L;
+@Model(value = "E4ds.model.Role", readMethod = "userService.readRoles")
+public class Role extends AbstractPersistable {
 
 	@NotNull
 	@Size(max = 50)

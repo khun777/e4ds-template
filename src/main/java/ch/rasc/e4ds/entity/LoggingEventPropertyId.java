@@ -13,7 +13,7 @@ public class LoggingEventPropertyId implements Serializable {
 	@Column(name = "event_id", nullable = false)
 	private long eventId;
 
-	@Column(name = "mapped_key", nullable = false, length = 254)
+	@Column(name = "mapped_key", nullable = false, length = 255)
 	private String mappedKey;
 
 	public LoggingEventPropertyId() {

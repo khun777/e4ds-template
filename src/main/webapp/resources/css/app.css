@@ -1,3 +1,9 @@
+.appLabel, .appButton .x-btn-inner  {
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+}
+
 .appHeader .x-panel-body {
 	background-color: transparent;
 	background-image: url(../images/windup_key.png);
@@ -19,77 +25,18 @@
 	padding-right: 5px;
 }
 
-/** sprite: sprites; sprite-image: url('../images/sprites.png'); sprite-layout: vertical */
-
-.icon-add {
-	background-image: url(../images/add.png) !important; /** sprite-ref: sprites; */
+.x-grid-row-over .x-grid-cell-inner {
+	font-weight: bold;
 }
 
-.icon-delete {
-	background-image: url(../images/eraser.png) !important; /** sprite-ref: sprites; */
+.x-grid-row-selected .x-grid-cell-inner {
+	font-weight: bold;
 }
 
-.icon-logging {
-	background-image: url(../images/data_scroll.png) !important; /** sprite-ref: sprites; */
+table.x-grid-table td.x-grid-cell-first.x-grid-cell-special {
+	padding-top: 8px;
 }
 
-.icon-system {
-	background-image: url(../images/application_server.png) !important; /** sprite-ref: sprites; */
+.x-grid-row-selected .x-grid-cell, .x-grid-row-selected .x-grid-rowwrap-div {
+	background-color: #C1D9F0 !important;
 }
-
-.icon-user-add {
-	background-image: url(../images/user_add.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-user-edit {
-	background-image: url(../images/user_edit.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-user-delete {
-	background-image: url(../images/user_delete.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-users {
-	background-image: url(../images/users.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-gear {
-	background-image: url(../images/gear.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-administration {
-	background-image: url(../images/administration.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-business {
-	background-image: url(../images/business.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-save {
-	background-image: url(../images/save.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-cancel {
-	background-image: url(../images/cancel.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-logout {
-	background-image: url(../images/logout.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-login {
-	background-image: url(../images/login.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-start {
-	background-image: url(../images/start.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-stop {
-	background-image: url(../images/stop.png) !important; /** sprite-ref: sprites; */
-}
-
-.icon-excel {
-	background-image: url(../images/excel.gif) !important; /** sprite-ref: sprites; */
-}
-

@@ -1,18 +1,23 @@
-Ext.require('Ext.ux.window.Notification');
+Ext.define('E4ds.App', {
+	extend: 'Deft.mvc.Application',
+	requires: [ 'Ext.ux.window.Notification', 'E4ds.view.Viewport' ],
 
-Ext.application({
-	name : 'E4ds',
-	appFolder : 'app',
-	controllers : [ 'Users', 'Navigation', 'PollChart', 'LoggingEvents', 'Config' ],
-	autoCreateViewport : true,
-	launch : function() {
-		Ext.fly('appLoadingIndicator').destroy();
+	init: function() {
+		Ext.fly('circularG').destroy();
 
-		// if (this.hasLocalstorage()) {
-		// Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
-		// } else {
-		// Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
-		// }
+		Ext.tip.QuickTipManager.init();
+
+		if (this.hasLocalstorage()) {
+			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
+		} else {
+			Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
+		}
+
+		if (Ext.view.AbstractView) {
+			Ext.view.AbstractView.prototype.loadingText = i18n.loading;
+		}
+
+		this.setupGlobalErrorHandler();
 
 		Ext.direct.Manager.on('event', function(e) {
 			if (e.code && e.code === 'parse') {
@@ -32,7 +37,7 @@ Ext.application({
 			password : function(val, field) {
 				if (field.initialPassField) {
 					var pwd = field.up('form').down('#' + field.initialPassField);
-					return (val == pwd.getValue());
+					return (val === pwd.getValue());
 				}
 				return true;
 			},
@@ -40,7 +45,27 @@ Ext.application({
 			passwordText : i18n.user_passworddonotmatch
 		});
 
+		Deft.Injector.configure({
+			messageBus: 'Ext.util.Observable'
+		});
+
+		Ext.create('E4ds.view.Viewport');
 	},
+
+	setupGlobalErrorHandler: function() {
+		var existingFn = window.onerror;
+		if (typeof existingFn === 'function') {
+			window.onerror = Ext.Function.createSequence(existingFn, this.globalErrorHandler);
+		} else {
+			window.onerror = this.globalErrorHandler;
+		}
+	},
+
+	globalErrorHandler: function(msg, url, line) {
+		var message = msg + "-->" + url + "::" + line;
+		logService.error(message);
+	},
+
 	hasLocalstorage : function() {
 		try {
 			return !!localStorage.getItem;
@@ -48,4 +73,8 @@ Ext.application({
 			return false;
 		}
 	}
+});
+
+Ext.onReady(function() {
+	Ext.create('E4ds.App');
 });

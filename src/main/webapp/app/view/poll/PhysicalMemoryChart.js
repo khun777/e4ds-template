@@ -1,22 +1,20 @@
 Ext.define('E4ds.view.poll.PhysicalMemoryChart', {
 	extend: 'Ext.chart.Chart',
-	alias: 'widget.physicalmemorychart',
-
 	animate: false,
 	shadow: true,
-	store: 'PollChart',
+
 	legend: {
-	    position: 'top'
+		position: 'top'
 	},
-	
+
 	labelRenderer: function(value) {
 		return Math.round(value / (1024 * 1024)) + ' MB';
 	},
-	
+
 	initComponent: function() {
-		
+
 		var me = this;
-		
+
 		me.axes = [ {
 			type: 'Numeric',
 			position: 'left',
@@ -48,7 +46,7 @@ Ext.define('E4ds.view.poll.PhysicalMemoryChart', {
 			yField: 'totalPhysicalMemorySize',
 			title: 'Total Physical Memory Size'
 		} ];
-		
+
 		me.callParent(arguments);
 	}
 

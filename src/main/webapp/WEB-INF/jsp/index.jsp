@@ -1,74 +1,69 @@
 <!doctype html> 
-<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="java.util.Locale"%>
 <%@page import="org.springframework.web.servlet.support.RequestContextUtils"%>
+<%@page import="java.util.Locale"%>
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=utf-8"%>
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta charset="utf-8">	
-	<link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" /> 	
-    <title>e4ds-template</title>
-    
-	<style type="text/css">
+  <link rel="icon" type="image/png" href="resources/images/favicon16.png" sizes="16x16"/>
+  <link rel="icon" type="image/png" href="resources/images/favicon32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="resources/images/favicon48.png" sizes="48x48" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+  <title>e4ds-template</title>
+  <style>
 	    <%@ include file="loader.css"%>
 	</style>
-    
-    <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext-4.1.1-gpl/resources/css/ext-all.css">    
-    <!-- 
-    <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css?v=<spring:eval expression='@environment["extjs.version"]'/>">
-     -->
-     
-    <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />
-    <c:if test="${isDevelopment}">  
-	    <link rel="stylesheet" type="text/css" href="resources/css/app-sprite.css">
-	    <link rel="stylesheet" type="text/css" href="ux/css/ClearButton.css">
-	    <link rel="stylesheet" type="text/css" href="ux/css/Notification.css">
-	    <link rel="stylesheet" type="text/css" href="ux/css/BoxSelect.css">
-    </c:if> 
-    
-    <c:if test="${not isDevelopment}">
-		<link rel="stylesheet" type="text/css" href="wro/app-<spring:eval expression='@environment["application.version"]'/>.css" />
-    </c:if>
-    
+${applicationScope.css_app}
 </head>
 <body>
-    <!--[if lt IE 8]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-	<div id="appLoadingIndicator">
-		<span></span>
-		<span></span>
-		<span></span>
+  <div id="circularG">
+  <div id="circularG_1" class="circularG">
+  </div>
+  <div id="circularG_2" class="circularG">
+  </div>
+  <div id="circularG_3" class="circularG">
+  </div>
+  <div id="circularG_4" class="circularG">
+  </div>
+  <div id="circularG_5" class="circularG">
+  </div>
+  <div id="circularG_6" class="circularG">
+  </div>
+  <div id="circularG_7" class="circularG">
+  </div>
+  <div id="circularG_8" class="circularG">
+  </div>
 	</div>
 	
-    <c:if test="${isDevelopment}">  
-	    <script src="http://cdn.sencha.com/ext-4.1.1-gpl/ext-all-debug.js"></script>
-	    <!-- 
-	    <script src="extjs/ext-all-debug.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
-	     -->
+  <script>
+    var app_context_path = '<%= request.getContextPath() %>';
+  </script>	
 	     
+  <% Locale locale = RequestContextUtils.getLocale(request); %>
+  <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />
+  <% if ((Boolean)pageContext.getAttribute("isDevelopment")) { %>
 	    <script src="i18n.js"></script>
-	    <script src="loader.js"></script>		
-	    <script src="api.js"></script>
-	    <script src="direct.js"></script>
-	    <script src="app.js"></script>
-    </c:if> 
-    
-    <c:if test="${not isDevelopment}">
-        <script src="i18n-<spring:eval expression='@environment["application.version"]'/>.js"></script>
-		<script src="http://cdn.sencha.com/ext-4.1.1-gpl/ext-all.js"></script>		
-		<!-- 
-		<script src="extjs/ext-all.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
-		 -->		 
-	    <script src="wro/app-<spring:eval expression='@environment["application.version"]'/>.js"></script>   
-    </c:if>
+  <% } else { %>
+  <script src="i18n-<%= locale %>_<spring:eval expression='@environment["application.version"]'/>.js"></script>
+  <% } %>
 
-	<% Locale locale = RequestContextUtils.getLocale(request); %>
+  ${applicationScope.js_app}
     <% if (locale != null && locale.getLanguage().toLowerCase().equals("de")) { %>
-      <script src="http://cdn.sencha.com/ext-4.1.1-gpl/locale/ext-lang-de.js"></script>
-      <!-- 
-      <script src="extjs/locale/ext-lang-de.js?v=<spring:eval expression='@environment["extjs.version"]'/>"></script>
-       -->
+    <script src="/resources/extjs/<spring:eval expression='@environment["extjs.version"]'/>/locale/ext-lang-de.js"></script>
     <% } %>	
+  
+  <script>
+	var $buoop = {vs:{i:8,f:12,o:11,s:5,n:9}} 
+	$buoop.ol = window.onload; 
+	window.onload=function(){ 
+	 try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+	 var e = document.createElement("script"); 
+	 e.setAttribute("type", "text/javascript"); 
+	 e.setAttribute("src", "http://browser-update.org/update.js"); 
+	 document.body.appendChild(e); 
+	} 
+  </script>
 </body>
 </html>

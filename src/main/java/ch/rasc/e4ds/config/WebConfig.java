@@ -14,12 +14,16 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import ch.ralscha.extdirectspring.util.JsonHandler;
 import ch.rasc.e4ds.web.AppLocaleResolver;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.google.common.collect.ImmutableMap;
 
 @Configuration
@@ -32,6 +36,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
 	}
 
 	@Override
@@ -50,19 +59,27 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public LocaleResolver localeResolver() {
-		AppLocaleResolver resolver = new AppLocaleResolver();
-		resolver.setDefaultLocale(Locale.ENGLISH);
-		return resolver;
-	}
-
-	@Bean
 	public ch.ralscha.extdirectspring.controller.Configuration configuration() {
 		ch.ralscha.extdirectspring.controller.Configuration config = new ch.ralscha.extdirectspring.controller.Configuration();
 		config.setSendStacktrace(environment.acceptsProfiles("development"));
 		config.setExceptionToMessage(new ImmutableMap.Builder<Class<?>, String>().put(AccessDeniedException.class,
 				"accessdenied").build());
 		return config;
+	}
+
+	@Bean
+	public JsonHandler jsonHandler() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new Hibernate4Module());
+
+		JsonHandler jsonHandler = new JsonHandler();
+		jsonHandler.setMapper(mapper);
+		return jsonHandler;
+	}
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new CommonsMultipartResolver();
 	}
 
 	@Bean
@@ -79,8 +96,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public MultipartResolver multipartResolver() {
-		return new CommonsMultipartResolver();
+	public LocaleResolver localeResolver() {
+		AppLocaleResolver resolver = new AppLocaleResolver();
+		resolver.setDefaultLocale(Locale.ENGLISH);
+		return resolver;
 	}
-
 }

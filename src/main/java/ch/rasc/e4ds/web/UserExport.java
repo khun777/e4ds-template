@@ -1,10 +1,14 @@
 package ch.rasc.e4ds.web;
 
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Locale;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -16,7 +20,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,15 +27,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.User;
-import ch.rasc.e4ds.repository.UserCustomRepository;
+
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Controller
 @Lazy
 public class UserExport {
 
-	@Autowired
-	private UserCustomRepository userCustomRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	private MessageSource messageSource;
@@ -70,46 +77,52 @@ public class UserExport {
 		Sheet sheet = workbook.createSheet(messageSource.getMessage("user_users", null, locale));
 
 		Row row = sheet.createRow(0);
-		createCell(row, 0, "ID", titleStyle);
-		createCell(row, 1, messageSource.getMessage("user_username", null, locale), titleStyle);
-		createCell(row, 2, messageSource.getMessage("user_firstname", null, locale), titleStyle);
-		createCell(row, 3, messageSource.getMessage("user_lastname", null, locale), titleStyle);
-		createCell(row, 4, messageSource.getMessage("user_email", null, locale), titleStyle);
-		createCell(row, 5, messageSource.getMessage("user_enabled", null, locale), titleStyle);
+		createCell(row, 0, messageSource.getMessage("user_username", null, locale), titleStyle);
+		createCell(row, 1, messageSource.getMessage("user_firstname", null, locale), titleStyle);
+		createCell(row, 2, messageSource.getMessage("user_lastname", null, locale), titleStyle);
+		createCell(row, 3, messageSource.getMessage("user_email", null, locale), titleStyle);
+		createCell(row, 4, messageSource.getMessage("user_enabled", null, locale), titleStyle);
 
-		Page<User> page = userCustomRepository.findWithFilter(filter, null);
+		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
+
+		if (StringUtils.isNotBlank(filter)) {
+			BooleanBuilder bb = new BooleanBuilder();
+			String likeValue = "%" + filter.toLowerCase() + "%";
+			bb.or(QUser.user.name.lower().like(likeValue));
+			bb.or(QUser.user.firstName.lower().like(likeValue));
+			bb.or(QUser.user.email.lower().like(likeValue));
+
+			query.where(bb);
+		}
+
+		List<User> users = query.list(QUser.user);
 
 		int rowNo = 1;
-		for (User user : page) {
+		for (User user : users) {
 			row = sheet.createRow(rowNo);
 			rowNo++;
 
 			Cell cell = row.createCell(0);
-			cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue(user.getId());
-			cell.setCellStyle(normalStyle);
-
-			cell = row.createCell(1);
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			cell.setCellValue(user.getUserName());
 			cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(2);
+			cell = row.createCell(1);
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			cell.setCellValue(user.getFirstName());
 			cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(3);
+			cell = row.createCell(2);
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			cell.setCellValue(user.getName());
 			cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(4);
+			cell = row.createCell(3);
 			cell.setCellType(Cell.CELL_TYPE_STRING);
 			cell.setCellValue(user.getEmail());
 			cell.setCellStyle(normalStyle);
 
-			cell = row.createCell(5);
+			cell = row.createCell(4);
 			cell.setCellType(Cell.CELL_TYPE_BOOLEAN);
 			cell.setCellValue(user.isEnabled());
 			cell.setCellStyle(normalStyle);
@@ -120,7 +133,6 @@ public class UserExport {
 		sheet.autoSizeColumn(2);
 		sheet.autoSizeColumn(3);
 		sheet.autoSizeColumn(4);
-		sheet.autoSizeColumn(5);
 
 		try (OutputStream out = response.getOutputStream()) {
 			workbook.write(out);

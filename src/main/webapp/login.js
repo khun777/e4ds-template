@@ -5,8 +5,8 @@ Ext.onReady(function() {
 		frame: true,
 		title: i18n.login_title,
 		url: 'j_spring_security_check',
-		width: 320,
-		iconCls: 'icon-login',
+		width: 380,
+		icon: app_context_path + 'resources/images/key.png',
 
 		standardSubmit: true,
 
@@ -49,7 +49,7 @@ Ext.onReady(function() {
 			xtype: 'checkbox'
 		} ],
 
-		buttons: [ {
+		buttons: [ /* <debug> */{
 			text: i18n.login_withuser,
 			handler: function() {
 				var form = this.up('form').getForm();
@@ -69,7 +69,7 @@ Ext.onReady(function() {
 				});
 				form.submit();
 			}
-		}, {
+		},/* </debug> */{
 			text: i18n.login,
 			handler: function() {
 				submitForm();
@@ -78,30 +78,36 @@ Ext.onReady(function() {
 	});
 
 	Ext.create('Ext.container.Viewport', {
-		layout: 'border',
+		layout: 'fit',
 		renderTo: Ext.getBody(),
 
 		items: [ {
-			region: 'north',
-			html: 'e4ds-template',
-			cls: 'appHeader',
-			height: 35,
-			margins: {
-				top: 6,
-				right: 0,
-				bottom: 0,
-				left: 6
-			}
-		}, {
-			xtype: 'container',
-			region: 'center',
+			xtype: 'panel',
+			border: false,
 			style: 'background-color: white',
 			layout: {
 				type: 'vbox',
 				align: 'center',
 				pack: 'center'
 			},
-			items: login
+			items: login,
+			dockedItems: [ {
+				dock: 'top',
+				xtype: 'toolbar',
+				items: [ {
+					xtype: 'image',
+					src: app_context_path + '/resources/images/favicon32.png',
+					margin: '2px 10px 2px 5px',
+					width: 32,
+					height: 32
+				}, {
+					xtype: 'label',
+					text: 'e4ds-template',
+					cls: 'appLabel',
+					padding: '5 0 0 0',
+					height: 30
+				} ]
+			} ]
 		} ]
 	});
 

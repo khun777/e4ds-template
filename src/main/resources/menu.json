@@ -2,35 +2,41 @@
 	"text":"root",
 	"children":[{
 	    "text":"navigation_business",
-	    "iconCls": "icon-business",
+	    "icon": "resources/images/business.png",
 	    "expanded": "true", 
 	    "children":[{
 	        "text": "chart_title",
-	        "iconCls": "icon-gear", 
-	        "view": "pollchart", 
+	        "icon": "resources/images/gear.png",
+	        "view": "E4ds.view.poll.PollChart", 	 
 	        "roles": ["ROLE_USER","ROLE_ADMIN"]
 	    }]},{
 	    "text":"navigation_administration",
-	    "iconCls": "icon-administration",
+	    "icon": "resources/images/administration.png",
 	    "expanded": "true", 
 	    "children":[{
 	    	"text": "user_users", 
-	    	"iconCls": "icon-users",
-	    	"view": "userlist", 	    	
+	    	"icon": "resources/images/users.png",
+	    	"view": "E4ds.view.user.List", 	 	    	
 	    	"roles": ["ROLE_ADMIN"]
 	    }]},{
 	    "text":"navigation_system",
-	    "iconCls": "icon-system",
+	    "icon": "resources/images/application_server.png",
 	    "expanded": "true", 
 	    "children":[{
+	    	"text": "accesslog", 
+	    	"icon": "resources/images/data_scroll.png",
+	    	"view": "E4ds.view.accesslog.List", 
+	    	"roles": ["ROLE_ADMIN"]	    
+	    }, {
 	    	"text": "logevents", 
-	    	"iconCls": "icon-logging",
-	    	"view": "loggingeventlist", 
+	    	"icon": "resources/images/data_scroll.png",
+	    	"view": "E4ds.view.loggingevent.List", 
 	    	"roles": ["ROLE_ADMIN"]
 	    }, {
 	        "text": "config", 
-	        "iconCls": "icon-logging",
-	        "view": "configedit", 
+	        "icon": "resources/images/data_scroll.png",
+	        "view": "E4ds.view.config.Edit", 
 	        "roles": ["ROLE_ADMIN"]
-	    }]}]
+	    }]
+	}]
 }

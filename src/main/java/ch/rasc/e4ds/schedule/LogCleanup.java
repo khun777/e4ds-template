@@ -1,32 +1,36 @@
 package ch.rasc.e4ds.schedule;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.rasc.e4ds.entity.LoggingEvent;
 import ch.rasc.e4ds.entity.QLoggingEvent;
-import ch.rasc.e4ds.repository.LoggingEventRepository;
+
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Component
 public class LogCleanup {
 
-	@Autowired
-	private LoggingEventRepository loggingEventRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Transactional
 	@Scheduled(cron = "0 0 4 * * *")
 	public void doCleanup() {
 
-		// Delete all log entries that are older than 1 day
-		DateTime yesterday = new DateTime().minusDays(1);
+		// Delete all log entries that are older than 2 months
+		DateTime yesterday = DateTime.now().minusMonths(2);
 
-		Iterable<LoggingEvent> eventsToDelete = loggingEventRepository.findAll(QLoggingEvent.loggingEvent.timestmp
-				.loe(yesterday.toDate().getTime()));
-		loggingEventRepository.delete(eventsToDelete);
+		for (LoggingEvent le : new JPAQuery(entityManager).from(QLoggingEvent.loggingEvent)
+				.where(QLoggingEvent.loggingEvent.timestmp.loe(yesterday.toDate().getTime()))
+				.list(QLoggingEvent.loggingEvent)) {
+			entityManager.remove(le);
+		}
 
 	}
-
 }

@@ -1,26 +1,15 @@
 package ch.rasc.e4ds.web;
 
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,163 +23,85 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ch.rasc.e4ds.entity.LoggingEvent;
 import ch.rasc.e4ds.entity.LoggingEventException;
 import ch.rasc.e4ds.entity.LoggingEventProperty;
-import ch.rasc.e4ds.repository.LoggingEventRepository;
+import ch.rasc.e4ds.entity.QLoggingEvent;
+import ch.rasc.e4ds.entity.QLoggingEventException;
+
+import com.mysema.query.jpa.JPQLQuery;
+import com.mysema.query.jpa.impl.JPAQuery;
 
 @Controller
 public class LoggingEventExport {
 
-	@Autowired
-	private LoggingEventRepository loggingEventRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	private MessageSource messageSource;
 
 	@Transactional(readOnly = true)
-	@RequestMapping(value = "/loggingEventExport.xls", method = RequestMethod.GET)
+	@RequestMapping(value = "/loggingEventExport.txt", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void loggingEventExport(HttpServletResponse response, Locale locale,
-			@RequestParam(required = false) final String level) throws Exception {
+	public void loggingEventExport(HttpServletResponse response, @RequestParam(required = false) final String level)
+			throws Exception {
 
-		response.setContentType("application/vnd.ms-excel");
-		response.addHeader("Content-disposition", "attachment;filename=logs.xls");
+		response.setContentType("text/plain");
+		response.addHeader("Content-disposition", "attachment;filename=logs.txt");
 
-		Workbook workbook = new HSSFWorkbook();
+		String separator = new String(new char[140]).replace("\0", "=");
 
-		CreationHelper createHelper = workbook.getCreationHelper();
+		try (OutputStream out = response.getOutputStream(); PrintWriter pw = new PrintWriter(out)) {
 
-		Font font = workbook.createFont();
-		Font titleFont = workbook.createFont();
-
-		font.setColor(IndexedColors.BLACK.getIndex());
-		font.setFontName("Arial");
-		font.setFontHeightInPoints((short) 10);
-		font.setBoldweight(Font.BOLDWEIGHT_NORMAL);
-
-		titleFont.setColor(IndexedColors.BLACK.getIndex());
-		titleFont.setFontName("Arial");
-		titleFont.setFontHeightInPoints((short) 10);
-		titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-
-		CellStyle normalStyle = workbook.createCellStyle();
-		normalStyle.setFont(font);
-
-		CellStyle titleStyle = workbook.createCellStyle();
-		titleStyle.setFont(titleFont);
-
-		Sheet sheet = workbook.createSheet("Logs");
-		HSSFPatriarch patr = ((HSSFSheet) sheet).createDrawingPatriarch();
-
-		Row row = sheet.createRow(0);
-		createCell(row, 0, "ID", titleStyle);
-		createCell(row, 1, messageSource.getMessage("logevents_timestamp", null, locale), titleStyle);
-		createCell(row, 2, messageSource.getMessage("user", null, locale), titleStyle);
-		createCell(row, 3, "IP", titleStyle);
-		createCell(row, 4, messageSource.getMessage("logevents_message", null, locale), titleStyle);
-		createCell(row, 5, messageSource.getMessage("logevents_level", null, locale), titleStyle);
-		createCell(row, 6, messageSource.getMessage("logevents_callerclass", null, locale), titleStyle);
-		createCell(row, 7, messageSource.getMessage("logevents_callerline", null, locale), titleStyle);
-
-		List<LoggingEvent> events;
-		if (StringUtils.hasText(level)) {
-			events = loggingEventRepository.findByLevelString(level);
-		} else {
-			events = loggingEventRepository.findAll();
-		}
-
-		int rowNo = 1;
-		for (LoggingEvent event : events) {
-			row = sheet.createRow(rowNo);
-			rowNo++;
-
-			Cell cell = row.createCell(0);
-			cell.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cell.setCellValue(event.getEventId());
-			cell.setCellStyle(normalStyle);
-
-			cell = row.createCell(1);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(ISODateTimeFormat.dateTime().print(event.getTimestmp().longValue()));
-			cell.setCellStyle(normalStyle);
-
-			String userName = null;
-			String ip = null;
-
-			Set<LoggingEventProperty> properties = event.getLoggingEventProperty();
-			for (LoggingEventProperty prop : properties) {
-				if ("userName".equals(prop.getId().getMappedKey())) {
-					userName = prop.getMappedValue();
-				} else if ("ip".equals(prop.getId().getMappedKey())) {
-					ip = prop.getMappedValue();
-				}
+			List<LoggingEvent> events;
+			if (StringUtils.hasText(level)) {
+				events = new JPAQuery(entityManager).from(QLoggingEvent.loggingEvent)
+						.where(QLoggingEvent.loggingEvent.levelString.eq(level)).list(QLoggingEvent.loggingEvent);
+			} else {
+				events = new JPAQuery(entityManager).from(QLoggingEvent.loggingEvent).list(QLoggingEvent.loggingEvent);
 			}
 
-			if (userName != null) {
-				cell = row.createCell(2);
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				cell.setCellValue(userName);
-				cell.setCellStyle(normalStyle);
-			}
+			for (LoggingEvent event : events) {
+				String userName = null;
+				String ip = null;
 
-			if (ip != null) {
-				cell = row.createCell(3);
-				cell.setCellType(Cell.CELL_TYPE_STRING);
-				cell.setCellValue(ip);
-				cell.setCellStyle(normalStyle);
-			}
-
-			cell = row.createCell(4);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(event.getFormattedMessage());
-			cell.setCellStyle(normalStyle);
-
-			if (!event.getLoggingEventException().isEmpty()) {
-
-				StringBuilder sb = new StringBuilder();
-				for (LoggingEventException loggingEventException : event.getLoggingEventException()) {
-					sb.append(loggingEventException.getTraceLine());
-					sb.append("\n");
+				Set<LoggingEventProperty> properties = event.getLoggingEventProperty();
+				for (LoggingEventProperty prop : properties) {
+					if ("userName".equals(prop.getId().getMappedKey())) {
+						userName = prop.getMappedValue();
+					} else if ("ip".equals(prop.getId().getMappedKey())) {
+						ip = prop.getMappedValue();
+					}
 				}
 
-				Comment comment = patr.createComment(new HSSFClientAnchor(0, 0, 0, 0, (short) 4, 2, (short) 13, 33));
-				comment.setString(createHelper.createRichTextString(sb.toString()));
-				comment.setAuthor(null);
-				cell.setCellComment(comment);
+				pw.println("Time   : " + new LocalDateTime(event.getTimestmp().longValue()));
+				pw.println("User   : " + userName);
+				pw.println("IP     : " + ip);
+				pw.println("Level  : " + event.getLevelString());
+				pw.println("Klasse : " + event.getCallerClass());
+				pw.println("Methode: " + event.getCallerMethod());
+				pw.println("Zeile  : " + event.getCallerLine());
+				pw.println("Meldung: " + event.getFormattedMessage());
+
+				JPQLQuery jpaQuery = new JPAQuery(entityManager);
+				List<LoggingEventException> stacktrace = jpaQuery.from(QLoggingEventException.loggingEventException)
+						.where(QLoggingEventException.loggingEventException.id.eventId.eq(event.getEventId()))
+						.orderBy(QLoggingEventException.loggingEventException.id.i.asc())
+						.list(QLoggingEventException.loggingEventException);
+
+				if (!stacktrace.isEmpty()) {
+					StringBuilder sb = new StringBuilder(300);
+					for (LoggingEventException loggingEventException : stacktrace) {
+						sb.append(loggingEventException.getTraceLine());
+						sb.append('\n');
+					}
+					pw.println(sb);
+
+				}
+				pw.println(separator);
+
 			}
 
-			cell = row.createCell(5);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(event.getLevelString());
-			cell.setCellStyle(normalStyle);
-
-			cell = row.createCell(6);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(event.getCallerClass());
-			cell.setCellStyle(normalStyle);
-
-			cell = row.createCell(7);
-			cell.setCellType(Cell.CELL_TYPE_STRING);
-			cell.setCellValue(event.getCallerLine());
-			cell.setCellStyle(normalStyle);
 		}
 
-		sheet.autoSizeColumn(0);
-		sheet.autoSizeColumn(1);
-		sheet.autoSizeColumn(2);
-		sheet.autoSizeColumn(3);
-		sheet.setColumnWidth(4, 10000);
-		sheet.autoSizeColumn(5);
-		sheet.autoSizeColumn(6);
-		sheet.autoSizeColumn(7);
-
-		try (OutputStream out = response.getOutputStream()) {
-			workbook.write(out);
-		}
-	}
-
-	private static void createCell(Row row, int column, String value, CellStyle style) {
-		Cell cell = row.createCell(column);
-		cell.setCellValue(value);
-		cell.setCellStyle(style);
 	}
 
 }

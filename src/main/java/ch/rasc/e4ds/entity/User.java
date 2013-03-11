@@ -1,6 +1,5 @@
 package ch.rasc.e4ds.entity;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,42 +9,42 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
-import org.springframework.data.jpa.domain.AbstractPersistable;
-import org.springframework.util.StringUtils;
+import org.joda.time.DateTime;
+
+import ch.ralscha.extdirectspring.generator.Model;
+import ch.ralscha.extdirectspring.generator.ModelAssociation;
+import ch.ralscha.extdirectspring.generator.ModelAssociationType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "AppUser")
-@JsonIgnoreProperties("new")
-public class User extends AbstractPersistable<Long> {
-
-	private static final long serialVersionUID = 1L;
+@Model(value = "E4ds.model.User", readMethod = "userService.read", destroyMethod = "userService.destroy", paging = true)
+public class User extends AbstractPersistable {
 
 	@NotNull
 	@Size(max = 100)
 	@Column(unique = true)
 	private String userName;
 
-	@Size(max = 254)
+	@Size(max = 255)
 	private String name;
 
-	@Size(max = 254)
+	@Size(max = 255)
 	private String firstName;
 
 	@Email
-	@Size(max = 254)
+	@Size(max = 255)
 	@NotNull
+	@Column(unique = true)
 	private String email;
 
-	@Size(max = 80)
+	@Size(max = 60)
 	private String passwordHash;
 
 	@Size(max = 8)
@@ -53,29 +52,17 @@ public class User extends AbstractPersistable<Long> {
 
 	private boolean enabled;
 
-	@Temporal(TemporalType.DATE)
-	@JsonIgnore
-	private Date createDate;
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AppUserRoles", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+	@ModelAssociation(value = ModelAssociationType.HAS_MANY, model = Role.class, foreignKey = "user_id", autoLoad = false)
 	private Set<Role> roles;
 
-	public void update(User modifiedUser, boolean personalOptionsUpdate) {
-		if (!personalOptionsUpdate) {
-			this.userName = modifiedUser.getUserName();
-			this.enabled = modifiedUser.isEnabled();
-		}
+	@JsonIgnore
+	private Integer failedLogins;
 
-		this.name = modifiedUser.getName();
-		this.firstName = modifiedUser.getFirstName();
-		this.email = modifiedUser.getEmail();
-		this.locale = modifiedUser.getLocale();
-
-		if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
-			this.passwordHash = modifiedUser.getPasswordHash();
-		}
-	}
+	@JsonIgnore
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime lockedOut;
 
 	public String getUserName() {
 		return userName;
@@ -142,12 +129,20 @@ public class User extends AbstractPersistable<Long> {
 		this.locale = locale;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public Integer getFailedLogins() {
+		return failedLogins;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setFailedLogins(Integer failedLogins) {
+		this.failedLogins = failedLogins;
+	}
+
+	public DateTime getLockedOut() {
+		return lockedOut;
+	}
+
+	public void setLockedOut(DateTime lockedOut) {
+		this.lockedOut = lockedOut;
 	}
 
 }

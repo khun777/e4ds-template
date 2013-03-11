@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -24,7 +23,6 @@ import com.google.common.collect.Maps;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackageClasses = ch.rasc.e4ds.repository.UserRepository.class)
 public class DataConfig {
 
 	@Autowired
@@ -33,7 +31,7 @@ public class DataConfig {
 	@Bean
 	public DataSource dataSource() throws NamingException {
 		Context ctx = new InitialContext();
-		return (DataSource) ctx.lookup("java:comp/env/jdbc/ds");
+		return (DataSource) ctx.lookup("java:comp/env/jdbc/e4ds");
 	}
 
 	@Bean
@@ -50,6 +48,9 @@ public class DataConfig {
 		if (StringUtils.isNotBlank(dialect)) {
 			properties.put("hibernate.dialect", dialect);
 		}
+
+		properties.put("jadira.usertype.databaseZone", "UTC");
+		properties.put("jadira.usertype.javaZone", "UTC");
 
 		emf.setJpaPropertyMap(properties);
 

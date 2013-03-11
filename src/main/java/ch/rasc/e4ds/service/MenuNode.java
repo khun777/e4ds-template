@@ -20,7 +20,7 @@ public class MenuNode {
 
 	private boolean expanded;
 
-	private String iconCls;
+	private String icon;
 
 	private Set<String> roles = Sets.newHashSet();
 
@@ -34,7 +34,7 @@ public class MenuNode {
 		this.text = source.getText();
 		this.view = source.getView();
 		this.expanded = source.isExpanded();
-		this.iconCls = source.getIconCls();
+		this.icon = source.getIcon();
 
 		for (MenuNode sourceChild : source.getChildren()) {
 			if (hasRole(sourceChild, authorities)) {
@@ -112,12 +112,12 @@ public class MenuNode {
 		this.expanded = expanded;
 	}
 
-	public String getIconCls() {
-		return iconCls;
+	public String getIcon() {
+		return icon;
 	}
 
-	public void setIconCls(String iconCls) {
-		this.iconCls = iconCls;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 }

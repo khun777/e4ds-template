@@ -1,7 +1,6 @@
 Ext.define('E4ds.view.poll.PollChart', {
 	extend: 'Ext.panel.Panel',
-	alias: 'widget.pollchart',
-	stateId: 'pollChart',
+	controller: 'E4ds.controller.PollChartController',
 	title: i18n.chart_title,
 
 	layout: {
@@ -15,12 +14,14 @@ Ext.define('E4ds.view.poll.PollChart', {
 	initComponent: function() {
 
 		var me = this;
+		me.store = Ext.create('E4ds.store.PollChart');
 
 		me.dockedItems = [ {
 			xtype: 'toolbar',
 			items: [ {
+				itemId: 'startStopButton',
 				text: i18n.chart_stop,
-				iconCls: 'icon-stop',
+				icon: app_context_path + 'resources/images/stop.png',
 				action: 'control'
 			} ]
 		} ];
@@ -32,13 +33,13 @@ Ext.define('E4ds.view.poll.PollChart', {
 				type: 'hbox',
 				align: 'stretch'
 			},
-			items: [ {
-				xtype: 'heapmemorychart',
+			items: [ Ext.create('E4ds.view.poll.HeapMemoryChart', {
+				store: me.store,
 				flex: 1
-			}, {
-				xtype: 'physicalmemorychart',
+			}), Ext.create('E4ds.view.poll.PhysicalMemoryChart', {
+				store: me.store,
 				flex: 1
-			} ]
+			}) ]
 		}, {
 			xtype: 'container',
 			flex: 1,
@@ -49,9 +50,9 @@ Ext.define('E4ds.view.poll.PollChart', {
 			items: [ {
 				xtype: 'chart',
 				animate: true,
-				store: 'PollChart',
+				store: me.store,
 				insetPadding: 40,
-				flex: 1,				
+				flex: 1,
 				axes: [ {
 					type: 'gauge',
 					position: 'gauge',
@@ -65,15 +66,14 @@ Ext.define('E4ds.view.poll.PollChart', {
 					type: 'gauge',
 					field: 'systemCpuLoad',
 					donut: 30,
-	                colorSet: ['#82B525', '#ddd']
+					colorSet: [ '#82B525', '#ddd' ]
 				} ]
 			}, {
-
 				xtype: 'chart',
 				animate: true,
-				store: 'PollChart',
+				store: me.store,
 				insetPadding: 40,
-				flex: 1,				
+				flex: 1,
 				axes: [ {
 					type: 'gauge',
 					position: 'gauge',
@@ -87,9 +87,9 @@ Ext.define('E4ds.view.poll.PollChart', {
 					type: 'gauge',
 					field: 'processCpuLoad',
 					donut: 30,
-	                colorSet: ['#3AA8CB', '#ddd']
+					colorSet: [ '#3AA8CB', '#ddd' ]
 				} ]
-			
+
 			} ]
 		} ];
 

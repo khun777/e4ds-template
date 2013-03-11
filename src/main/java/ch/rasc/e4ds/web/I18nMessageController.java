@@ -27,6 +27,8 @@ import com.google.common.collect.Maps;
 @Controller
 public class I18nMessageController implements InitializingBean {
 
+	private static final String JS_CONTENT_TYPE = "application/javascript;charset=UTF-8";
+
 	@Autowired(required = false)
 	private JsonHandler jsonHandler;
 
@@ -45,7 +47,7 @@ public class I18nMessageController implements InitializingBean {
 	public void i18n(HttpServletResponse response, Locale locale) throws JsonGenerationException, JsonMappingException,
 			IOException {
 
-		response.setContentType("application/javascript;charset=UTF-8");
+		response.setContentType(JS_CONTENT_TYPE);
 
 		byte[] output = buildResponse(locale);
 		response.setContentLength(output.length);
@@ -61,7 +63,7 @@ public class I18nMessageController implements InitializingBean {
 			throws JsonGenerationException, JsonMappingException, IOException {
 
 		byte[] output = buildResponse(locale);
-		ExtDirectSpringUtil.handleCacheableResponse(request, response, output, "application/javascript;charset=UTF-8");
+		ExtDirectSpringUtil.handleCacheableResponse(request, response, output, JS_CONTENT_TYPE);
 	}
 
 	private byte[] buildResponse(Locale locale) {

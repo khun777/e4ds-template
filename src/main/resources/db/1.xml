@@ -78,13 +78,13 @@
 
 	<changeSet author="dev" id="6">
 		<addForeignKeyConstraint baseColumnNames="event_id" baseTableName="logging_event_exception" constraintName="FK_log_event_ex_event"
-			deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="event_id"
+			referencedColumnNames="event_id"
 			referencedTableName="logging_event" />
 	</changeSet>
 
 	<changeSet author="dev" id="7">
 		<addForeignKeyConstraint baseColumnNames="event_id" baseTableName="logging_event_property" constraintName="FK_log_event_prop_event"
-			deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="event_id"
+			referencedColumnNames="event_id"
 			referencedTableName="logging_event" />
 	</changeSet>
 
@@ -102,14 +102,14 @@
 			<column name="firstName" type="varchar(255)" />
 
 			<column name="email" type="varchar(255)">
-				<constraints nullable="false"  />
+				<constraints nullable="false" unique="true" />
 			</column>
 			
 			<column name="passwordHash" type="varchar(80)" />
 			<column name="locale" type="varchar(8)" />
 			<column name="enabled" type="BOOLEAN" />
-			<column name="createDate" type="DATETIME" />
-
+                        <column name="failedLogins" type="INT" />            
+                        <column name="lockedOut" type="datetime" />
 		</createTable>
 	</changeSet>
 
@@ -155,4 +155,19 @@
 	  </insert>	  
 	</changeSet>
 
+	<changeSet author="dev" id="12">
+		<createTable tableName="AccessLog">
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AccessLog" />
+			</column>	
+			
+			<column name="sessionId" type="varchar(100)" />
+			<column name="userName" type="varchar(255)" />
+			<column name="logIn" type="DATETIME" />
+			<column name="logOut" type="DATETIME" />
+			<column name="userAgent" type="varchar(255)" />
+
+		</createTable>
+	</changeSet>	
+	
 </databaseChangeLog>
