@@ -9,9 +9,11 @@ Ext.define('E4ds.controller.AccessLogController', {
 		deleteAllButton: {
 			click: 'deleteAll'
 		},
+		/* <debug> */
 		testButton: {
 			click: 'addTestData'
 		},
+		/* </debug> */
 		filterField: {
 			filter: 'handleFilter'
 		}

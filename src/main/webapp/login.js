@@ -26,7 +26,7 @@ Ext.onReady(function() {
 			allowBlank: false,
 			listeners: {
 				specialkey: function(field, e) {
-					if (e.getKey() == e.ENTER) {
+					if (e.getKey() === e.ENTER) {
 						submitForm();
 					}
 				}
@@ -38,7 +38,7 @@ Ext.onReady(function() {
 			allowBlank: false,
 			listeners: {
 				specialkey: function(field, e) {
-					if (e.getKey() == e.ENTER) {
+					if (e.getKey() === e.ENTER) {
 						submitForm();
 					}
 				}
@@ -49,7 +49,7 @@ Ext.onReady(function() {
 			xtype: 'checkbox'
 		} ],
 
-		buttons: [ /* <debug> */{
+		buttons: [ /* <_debug> */{
 			text: i18n.login_withuser,
 			handler: function() {
 				var form = this.up('form').getForm();

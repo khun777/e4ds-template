@@ -8,9 +8,11 @@ Ext.define('E4ds.controller.LoggingEventController', {
 		deleteAllButton: {
 			click: 'deleteAll'
 		},
+		/* <debug> */
 		testButton: {
 			click: 'addTestData'
 		},
+		/* </debug> */
 		logLevelFilter: {
 			change: 'filterLogLevel'
 		},

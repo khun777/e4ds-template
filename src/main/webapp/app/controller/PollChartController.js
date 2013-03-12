@@ -4,7 +4,7 @@ Ext.define('E4ds.controller.PollChartController', {
 	control: {
 		view: {
 			activated: 'onActivated',
-			close: 'onClose',
+			close: 'onClose'
 		},
 		startStopButton: {
 			click: 'onStartStopClick'

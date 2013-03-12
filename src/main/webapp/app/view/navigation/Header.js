@@ -39,7 +39,7 @@ Ext.define('E4ds.view.navigation.Header', {
 			}
 		}, {
 			xtype: 'tbspacer',
-			width: 20,
+			width: 20
 		}, {
 			xtype: 'button',
 			text: i18n.logout,

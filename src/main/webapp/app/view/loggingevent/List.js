@@ -34,7 +34,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 		}, {
 			text: i18n.logevents_message,
 			dataIndex: 'message',
-			flex: 1
+			width: 200
 		}, {
 			text: i18n.logevents_callerclass,
 			dataIndex: 'callerClass',
@@ -52,11 +52,11 @@ Ext.define('E4ds.view.loggingevent.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				text: i18n.excelexport,
+				text: i18n.textexport,
 				itemId: 'exportButton',
-				icon: app_context_path + 'resources/images/excel.gif',
-				href: 'loggingEventExport.xls',
-				hrefTarget: '_self',
+				icon: app_context_path + '/resources/images/document_down.png',
+				href: 'loggingEventExport.txt',
+				hrefTarget: '_self'
 			}, '-', {
 				text: i18n.logevents_deleteall,
 				itemId: 'deleteAllButton',

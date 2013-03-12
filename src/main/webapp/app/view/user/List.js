@@ -85,7 +85,7 @@ Ext.define('E4ds.view.user.List', {
 				itemId: 'exportButton',
 				icon: app_context_path + 'resources/images/excel.gif',
 				href: 'usersExport.xls',
-				hrefTarget: '_self',
+				hrefTarget: '_self'
 			}, '->', {
 				itemId: 'filterField',
 				fieldLabel: i18n.filter,

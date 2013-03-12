@@ -91,7 +91,7 @@ public class UserService {
 
 	@ExtDirectMethod(FORM_POST)
 	@Transactional
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	public ExtDirectFormPostResult userFormPost(Locale locale,
 			@RequestParam(required = false, defaultValue = "false") final boolean options,
 			@RequestParam(value = "id", required = false) final Long userId,
@@ -199,58 +199,6 @@ public class UserService {
 		query.where(QUser.user.ne(user).and(QUser.user.roles.contains(role)));
 		return query.notExists();
 	}
-
-	// @ExtDirectMethod(ExtDirectMethodType.FORM_LOAD)
-	// @Transactional(readOnly = true)
-	// @PreAuthorize("isAuthenticated()")
-	// public User userFormSettingsLoad() {
-	// Object principal =
-	// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	// if (principal instanceof JpaUserDetails) {
-	// JpaUserDetails userDetail = (JpaUserDetails) principal;
-	// return entityManager.find(User.class, userDetail.getUserDbId());
-	// }
-	// return null;
-	// }
-
-	// @ExtDirectMethod(FORM_POST)
-	// @Transactional
-	// @PreAuthorize("isAuthenticated()")
-	// public ExtDirectFormPostResult userFormSettingsPost(@Valid final User
-	// modifiedUser,
-	// final BindingResult bindingResult, Locale locale) {
-	//
-	// Object principal =
-	// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	// if (!bindingResult.hasErrors()) {
-	// String oldEmail = ((JpaUserDetails) principal).getUsername();
-	// if (!oldEmail.equalsIgnoreCase(modifiedUser.getEmail())) {
-	// BooleanBuilder bb = new
-	// BooleanBuilder(QUser.user.email.equalsIgnoreCase(modifiedUser.getEmail()));
-	// bb.and(QUser.user.email.ne(oldEmail));
-	// if (new JPAQuery(entityManager).from(QUser.user).where(bb).exists()) {
-	// bindingResult.rejectValue("email", null,
-	// messageSource.getMessage("user_emailtaken", null, locale));
-	// return new ExtDirectFormPostResult(bindingResult);
-	// }
-	// }
-	// }
-	//
-	// if (principal instanceof JpaUserDetails) {
-	// JpaUserDetails userDetail = (JpaUserDetails) principal;
-	// User user = entityManager.find(User.class, userDetail.getUserDbId());
-	// user.setEmail(modifiedUser.getEmail());
-	// user.setFirstName(modifiedUser.getFirstName());
-	// user.setName(modifiedUser.getName());
-	// user.setLocale(modifiedUser.getLocale());
-	//
-	// if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
-	// user.setPasswordHash(passwordEncoder.encode(modifiedUser.getPasswordHash()));
-	// }
-	//
-	// }
-	// return new ExtDirectFormPostResult();
-	// }
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("isAuthenticated()")
