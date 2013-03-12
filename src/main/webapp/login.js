@@ -96,16 +96,16 @@ Ext.onReady(function() {
 				xtype: 'toolbar',
 				items: [ {
 					xtype: 'image',
-					src: app_context_path + '/resources/images/favicon32.png',
+					src: app_context_path + '/resources/images/windup_key.png',
 					margin: '2px 10px 2px 5px',
-					width: 32,
-					height: 32
+					width: 22,
+					height: 22
 				}, {
 					xtype: 'label',
 					text: 'e4ds-template',
 					cls: 'appLabel',
-					padding: '5 0 0 0',
-					height: 30
+					padding: '3 0 0 0',
+					height: 32
 				} ]
 			} ]
 		} ]
