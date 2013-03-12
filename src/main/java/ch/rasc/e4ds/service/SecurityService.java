@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.rasc.e4ds.entity.AccessLog;
+import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.security.JpaUserDetails;
+import ch.rasc.e4ds.util.Util;
 
 @Service
 public class SecurityService {
@@ -43,4 +45,17 @@ public class SecurityService {
 		return principal.toString();
 	}
 
+	@ExtDirectMethod
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Transactional
+	public boolean switchUser(Long userId) {
+		User switchToUser = entityManager.find(User.class, userId);
+		if (switchToUser != null) {
+			Util.signin(switchToUser);
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

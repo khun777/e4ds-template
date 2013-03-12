@@ -21,7 +21,7 @@ Ext.define('E4ds.view.poll.PollChart', {
 			items: [ {
 				itemId: 'startStopButton',
 				text: i18n.chart_stop,
-				icon: app_context_path + 'resources/images/stop.png',
+				icon: app_context_path + '/resources/images/stop.png',
 				action: 'control'
 			} ]
 		} ];

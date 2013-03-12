@@ -16,6 +16,9 @@ Ext.define('E4ds.controller.UserController', {
 		deleteButton: {
 			click: 'deleteUser'
 		},
+		switchButton: {
+			click: 'onSwitchButtonClick'
+		},
 		filterField: {
 			filter: 'handleFilter'
 		},
@@ -89,6 +92,17 @@ Ext.define('E4ds.controller.UserController', {
 		}
 	},
 
+	onSwitchButtonClick: function() {
+		var record = this.getView().getSelectionModel().getSelection()[0];
+		if (record) {
+			securityService.switchUser(record.data.id, function(ok) {
+				if (ok) {
+					window.location.reload();
+				}
+			}, this);
+		}
+	},
+
 	afterConfirmDeleteUser: function(btn) {
 		if (btn === 'yes') {
 			var record = this.getView().getSelectionModel().getSelection()[0];
@@ -116,6 +130,7 @@ Ext.define('E4ds.controller.UserController', {
 	toggleEditButtons: function(enable) {
 		this.toggleButton(enable, this.getDeleteButton());
 		this.toggleButton(enable, this.getEditButton());
+		this.toggleButton(enable, this.getSwitchButton());
 	},
 
 	onActivated: function() {

@@ -60,11 +60,11 @@ Ext.define('E4ds.view.loggingevent.List', {
 			}, '-', {
 				text: i18n.logevents_deleteall,
 				itemId: 'deleteAllButton',
-				icon: app_context_path + 'resources/images/eraser.png'
+				icon: app_context_path + '/resources/images/eraser.png'
 			},/* <debug> */'-', {
 				text: i18n.logevents_addtest,
 				itemId: 'testButton',
-				icon: app_context_path + 'resources/images/add.png'
+				icon: app_context_path + '/resources/images/add.png'
 			},/* </debug> */'->', {
 				xtype: 'combobox',
 				fieldLabel: i18n.filter,

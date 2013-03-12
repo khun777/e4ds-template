@@ -69,23 +69,30 @@ Ext.define('E4ds.view.user.List', {
 				text: i18n.user_new,
 				disabled: false,
 				itemId: 'addButton',
-				icon: app_context_path + 'resources/images/add.png'
+				icon: app_context_path + '/resources/images/add.png'
 			}, {
 				text: i18n.user_edit,
 				disabled: true,
 				itemId: 'editButton',
-				icon: app_context_path + 'resources/images/edit.png'
+				icon: app_context_path + '/resources/images/edit.png'
 			}, {
 				text: i18n.user_delete,
 				disabled: true,
 				itemId: 'deleteButton',
-				icon: app_context_path + 'resources/images/eraser.png'
+				icon: app_context_path + '/resources/images/eraser.png'
 			}, '-', {
 				text: i18n.excelexport,
 				itemId: 'exportButton',
-				icon: app_context_path + 'resources/images/excel.gif',
+				icon: app_context_path + '/resources/images/excel.gif',
 				href: 'usersExport.xls',
 				hrefTarget: '_self'
+			}, {
+				xtype: 'tbseparator'
+			}, {
+				text: i18n.user_switchto,
+				itemId: 'switchButton',
+				icon: app_context_path + '/resources/images/spy.png',
+				disabled: true
 			}, '->', {
 				itemId: 'filterField',
 				fieldLabel: i18n.filter,

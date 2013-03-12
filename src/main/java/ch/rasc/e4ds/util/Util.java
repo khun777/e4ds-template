@@ -4,9 +4,17 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.SortDirection;
 import ch.ralscha.extdirectspring.bean.SortInfo;
+import ch.rasc.e4ds.entity.User;
+import ch.rasc.e4ds.security.JpaUserDetails;
 
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.types.Order;
@@ -67,23 +75,32 @@ public class Util {
 			}
 		}
 	}
-	/*
-	 * public static JpaUserDetails getLoggedInUser() { Object principal =
-	 * SecurityContextHolder.getContext().getAuthentication().getPrincipal(); if
-	 * (principal instanceof JpaUserDetails) { return (JpaUserDetails)
-	 * principal; } return null; }
-	 * 
-	 * public static boolean hasRole(String role) { // get security context from
-	 * thread local SecurityContext context =
-	 * SecurityContextHolder.getContext(); if (context == null) { return false;
-	 * }
-	 * 
-	 * Authentication authentication = context.getAuthentication(); if
-	 * (authentication == null) { return false; }
-	 * 
-	 * for (GrantedAuthority auth : authentication.getAuthorities()) { if
-	 * (role.equals(auth.getAuthority())) { return true; } }
-	 * 
-	 * return false; }
-	 */
+
+	public static void signin(User user) {
+		JpaUserDetails principal = new JpaUserDetails(user);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
+				principal.getAuthorities());
+
+		SecurityContextHolder.getContext().setAuthentication(token);
+	}
+
+	public static boolean hasRole(String role) { 
+		SecurityContext context = SecurityContextHolder.getContext();
+		if (context == null) {
+			return false;
+		}
+
+		Authentication authentication = context.getAuthentication();
+		if (authentication == null) {
+			return false;
+		}
+
+		for (GrantedAuthority auth : authentication.getAuthorities()) {
+			if (role.equals(auth.getAuthority())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

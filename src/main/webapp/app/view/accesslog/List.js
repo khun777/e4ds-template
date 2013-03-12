@@ -45,11 +45,11 @@ Ext.define('E4ds.view.accesslog.List', {
 			items: [ {
 				text: i18n.accesslog_deleteall,
 				itemId: 'deleteAllButton',
-				icon: app_context_path + 'resources/images/eraser.png'
+				icon: app_context_path + '/resources/images/eraser.png'
 			}, /* <debug> */'-', {
 				text: i18n.accesslog_testinsert,
 				itemId: 'testButton',
-				icon: app_context_path + 'resources/images/add.png'
+				icon: app_context_path + '/resources/images/add.png'
 			}, /* </debug> */'->', {
 				fieldLabel: i18n.user_username,
 				itemId: 'filterField',

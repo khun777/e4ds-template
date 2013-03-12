@@ -29,7 +29,7 @@ Ext.define('E4ds.view.navigation.Header', {
 		}, {
 			xtype: 'button',
 			text: i18n.options,
-			icon: app_context_path + 'resources/images/gear.png',
+			icon: app_context_path + '/resources/images/gear.png',
 			itemId: 'optionButton',
 			margins: {
 				top: 2,
@@ -43,7 +43,7 @@ Ext.define('E4ds.view.navigation.Header', {
 		}, {
 			xtype: 'button',
 			text: i18n.logout,
-			icon: app_context_path + 'resources/images/logout.png',
+			icon: app_context_path + '/resources/images/logout.png',
 			href: 'j_spring_security_logout',
 			hrefTarget: '_self',
 			margins: {

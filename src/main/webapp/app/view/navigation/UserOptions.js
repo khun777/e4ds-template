@@ -7,7 +7,7 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 	resizable: false,
 	autoShow: true,
 	modal: true,
-	icon: app_context_path + 'resources/images/edit.png',
+	icon: app_context_path + '/resources/images/edit.png',
 
 	getForm: function() {
 		return this.getComponent('editForm').getForm();
@@ -85,7 +85,7 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 				xtype: 'button',
 				text: i18n.save,
 				action: 'save',
-				icon: app_context_path + 'resources/images/save.png',
+				icon: app_context_path + '/resources/images/save.png',
 				disabled: true,
 				formBind: true,
 				handler: function() {
@@ -95,7 +95,7 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 				text: i18n.cancel,
 				scope: me,
 				handler: me.close,
-				icon: app_context_path + 'resources/images/cancel.png'
+				icon: app_context_path + '/resources/images/cancel.png'
 			} ]
 		} ];
 

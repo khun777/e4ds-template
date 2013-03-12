@@ -58,7 +58,7 @@ Ext.define('E4ds.controller.NavigationController', {
 		if (view) {
 			if (!tab) {
 				var viewObject = Ext.create(view, {
-					icon: app_context_path + record.raw.icon,
+					icon: app_context_path + '/' + record.raw.icon,
 					treePath: this.getPath(record),
 					navigationId: record.raw.id
 				});

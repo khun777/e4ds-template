@@ -10,7 +10,7 @@ Ext.define('E4ds.view.user.Edit', {
 	height: 370,
 	modal: true,
 
-	icon: app_context_path + 'resources/images/edit.png',
+	icon: app_context_path + '/resources/images/edit.png',
 
 	requires: [ 'Ext.ux.form.field.BoxSelect' ],
 
@@ -106,7 +106,7 @@ Ext.define('E4ds.view.user.Edit', {
 				itemId: 'saveButton',
 				text: i18n.save,
 				action: 'save',
-				icon: app_context_path + 'resources/images/save.png',
+				icon: app_context_path + '/resources/images/save.png',
 				disabled: true,
 				formBind: true,
 				handler: function() {
@@ -116,7 +116,7 @@ Ext.define('E4ds.view.user.Edit', {
 				text: i18n.cancel,
 				scope: me,
 				handler: me.close,
-				icon: app_context_path + 'resources/images/cancel.png'
+				icon: app_context_path + '/resources/images/cancel.png'
 			} ]
 		} ];
 

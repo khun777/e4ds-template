@@ -6,7 +6,7 @@ Ext.onReady(function() {
 		title: i18n.login_title,
 		url: 'j_spring_security_check',
 		width: 380,
-		icon: app_context_path + 'resources/images/key.png',
+		icon: app_context_path + '/resources/images/key.png',
 
 		standardSubmit: true,
 
