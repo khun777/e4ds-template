@@ -27,6 +27,9 @@ Ext.define('E4ds.view.navigation.Header', {
 				left: 0
 			}
 		}, {
+			xtype: 'tbspacer',
+			width: 20
+		}, {
 			xtype: 'button',
 			text: i18n.options,
 			icon: app_context_path + '/resources/images/gear.png',
@@ -36,7 +39,8 @@ Ext.define('E4ds.view.navigation.Header', {
 				right: 0,
 				bottom: 10,
 				left: 0
-			}
+			},
+			ui: 'default-toolbar'
 		}, {
 			xtype: 'tbspacer',
 			width: 20
@@ -51,7 +55,8 @@ Ext.define('E4ds.view.navigation.Header', {
 				right: 0,
 				bottom: 10,
 				left: 0
-			}
+			},
+			ui: 'default-toolbar'
 		} ];
 
 		me.callParent(arguments);

@@ -1,11 +1,26 @@
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 
+	var header = Ext.create('Ext.container.Container', {
+		region: 'north',
+		height: 35,
+		layout: {
+			type: 'hbox',
+			align: 'stretch'
+		},
+
+		items: [ {
+			html: 'e4ds-template',
+			cls: 'appHeader'
+		} ]
+	});
+
 	var login = Ext.create('Ext.form.Panel', {
 		frame: true,
 		title: i18n.login_title,
 		url: 'j_spring_security_check',
-		width: 380,
+		width: 400,
+		padding: 5,
 		icon: app_context_path + '/resources/images/key.png',
 
 		standardSubmit: true,
@@ -78,37 +93,22 @@ Ext.onReady(function() {
 	});
 
 	Ext.create('Ext.container.Viewport', {
-		layout: 'fit',
 		renderTo: Ext.getBody(),
 
-		items: [ {
-			xtype: 'panel',
-			border: false,
-			style: 'background-color: white',
+		layout: {
+			type: 'border',
+			padding: 5
+		},
+
+		items: [ header, Ext.create('Ext.Container', {
 			layout: {
 				type: 'vbox',
 				align: 'center',
 				pack: 'center'
 			},
-			items: login,
-			dockedItems: [ {
-				dock: 'top',
-				xtype: 'toolbar',
-				items: [ {
-					xtype: 'image',
-					src: app_context_path + '/resources/images/windup_key.png',
-					margin: '2px 10px 2px 5px',
-					width: 22,
-					height: 22
-				}, {
-					xtype: 'label',
-					text: 'e4ds-template',
-					cls: 'appLabel',
-					padding: '3 0 0 0',
-					height: 32
-				} ]
-			} ]
-		} ]
+			region: 'center',
+			items: login
+		}) ]
 	});
 
 	function submitForm() {

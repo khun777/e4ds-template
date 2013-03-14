@@ -1,26 +1,29 @@
 login:
   js-dev: 
     - /resources/extjs/{extjs.version}/ext-all-dev.js
-    - /resources/ux/window/Notification.js    
+    - /resources/extjs/{extjs.version}/ext-theme-neptune.js
+    - /resources/extjs/{extjs.version}/ux/window/Notification.js    
     - /login.js    
   
   js-prod-script:
     - /resources/extjs/{extjs.version}/ext-all.js
+    - /resources/extjs/{extjs.version}/ext-theme-neptune.js
   
   js-prod-mini:    
     - /resources/ux/window/Notification.js
     - /login.js
     
   css:
-    - /resources/extjs/1.0.0/resources/css/ext-all-steelblue.css
+    - /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css
     - /resources/css/app.css
-    - /resources/ux/css/Notification.css
+    - /resources/extjs/{extjs.version}/ux/css/Notification.css
 
 
 
 app:
   js-dev:
     - /resources/extjs/{extjs.version}/ext-all-dev.js
+    - /resources/extjs/{extjs.version}/ext-theme-neptune.js
     - /deft-debug.js
     - /loader.js
     - /api.js
@@ -29,14 +32,15 @@ app:
     
   js-prod-script:  
     - /resources/extjs/{extjs.version}/ext-all.js
+    - /resources/extjs/{extjs.version}/ext-theme-neptune.js
     - /api-{application.version}.js
     
   js-prod-mini:
     - /deft.js
-    - /resources/ux/BoxReorderer.js
-    - /resources/ux/RowExpander.js
-    - /resources/ux/TabCloseMenu.js
-    - /resources/ux/TabReorderer.js
+    - /resources/extjs/{extjs.version}/ux/BoxReorderer.js
+    - /resources/extjs/{extjs.version}/ux/RowExpander.js
+    - /resources/extjs/{extjs.version}/ux/TabCloseMenu.js
+    - /resources/extjs/{extjs.version}/ux/TabReorderer.js
     - /resources/ux/form/field/BoxSelect.js
     - /resources/ux/form/field/ClearButton.js
     - /resources/ux/form/field/FilterField.js
@@ -75,9 +79,9 @@ app:
     - /app.js
     
   css:
-    - /resources/extjs/1.0.0/resources/css/ext-all-steelblue.css
+    - /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css
     - /resources/css/app.css
-    - /resources/ux/css/ClearButton.css
-    - /resources/ux/css/Notification.css
-    - /resources/ux/css/BoxSelect.css
+    - /resources/extjs/{extjs.version}/ux/css/ClearButton.css
+    - /resources/extjs/{extjs.version}/ux/css/Notification.css
+    - /resources/extjs/{extjs.version}/ux/css/BoxSelect.css
       

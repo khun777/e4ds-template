@@ -45,7 +45,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 			dataIndex: 'callerLine',
 			align: 'right',
 			sortable: false,
-			width: 70
+			width: 110
 		} ];
 
 		me.dockedItems = [ {
