@@ -193,6 +193,10 @@ public class WebAppInitializer implements WebApplicationInitializer {
 				byte[] jsContent;
 				try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
 					for (String line : (List<String>) children.get("js-prod-mini")) {
+						for (Entry<Object, Object> entry : versionProperties.entrySet()) {
+							String var = "{" + entry.getKey() + "}";
+							line = line.replace(var, (String) entry.getValue());
+						}						
 						byte[] b = ByteStreams.toByteArray(container.getResourceAsStream(line.trim()));
 						String code = new String(b, StandardCharsets.UTF_8);
 

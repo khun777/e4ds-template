@@ -15,6 +15,7 @@
   <style>
 	    <%@ include file="loader.css"%>
 	</style>
+	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/extjs/<spring:eval expression='@environment["extjs.version"]'/>/resources/ext-theme-neptune/ext-theme-neptune-all.css" />	
 ${applicationScope.css_app}
 </head>
 <body>

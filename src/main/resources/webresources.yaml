@@ -2,19 +2,18 @@ login:
   js-dev: 
     - /resources/extjs/{extjs.version}/ext-all-dev.js
     - /resources/extjs/{extjs.version}/ext-theme-neptune.js
-    - /resources/extjs/{extjs.version}/ux/window/Notification.js    
+    - /resources/extjs/{extjs.version}/ux/window/Notification.js
     - /login.js    
   
   js-prod-script:
     - /resources/extjs/{extjs.version}/ext-all.js
     - /resources/extjs/{extjs.version}/ext-theme-neptune.js
   
-  js-prod-mini:    
-    - /resources/ux/window/Notification.js
+  js-prod-mini:
+    - /resources/extjs/{extjs.version}/ux/window/Notification.js
     - /login.js
     
   css:
-    - /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css
     - /resources/css/app.css
     - /resources/extjs/{extjs.version}/ux/css/Notification.css
 
@@ -41,10 +40,10 @@ app:
     - /resources/extjs/{extjs.version}/ux/RowExpander.js
     - /resources/extjs/{extjs.version}/ux/TabCloseMenu.js
     - /resources/extjs/{extjs.version}/ux/TabReorderer.js
-    - /resources/ux/form/field/BoxSelect.js
-    - /resources/ux/form/field/ClearButton.js
-    - /resources/ux/form/field/FilterField.js
-    - /resources/ux/window/Notification.js    
+    - /resources/extjs/{extjs.version}/ux/form/field/BoxSelect.js
+    - /resources/extjs/{extjs.version}/ux/form/field/ClearButton.js
+    - /resources/extjs/{extjs.version}/ux/form/field/FilterField.js
+    - /resources/extjs/{extjs.version}/ux/window/Notification.js    
     - /direct.js
     - /app/model/AccessLog.js
     - /app/model/LoggingEvent.js
@@ -75,11 +74,10 @@ app:
     - /app/view/poll/PollChart.js
     - /app/view/user/Edit.js
     - /app/view/user/List.js
-    - /app/view/Viewport.js    
+    - /app/view/Viewport.js
     - /app.js
     
   css:
-    - /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css
     - /resources/css/app.css
     - /resources/extjs/{extjs.version}/ux/css/ClearButton.css
     - /resources/extjs/{extjs.version}/ux/css/Notification.css
