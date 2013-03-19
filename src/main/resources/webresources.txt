@@ -29,7 +29,6 @@ app_js:
   /resources/extjs/{extjs.version}/ux/RowExpander.js
   /resources/extjs/{extjs.version}/ux/TabCloseMenu.js
   /resources/extjs/{extjs.version}/ux/TabReorderer.js
-  /resources/extjs/{extjs.version}/ux/form/field/BoxSelect.js
   /resources/extjs/{extjs.version}/ux/form/field/ClearButton.js
   /resources/extjs/{extjs.version}/ux/form/field/FilterField.js
   /resources/extjs/{extjs.version}/ux/window/Notification.js    
@@ -71,4 +70,3 @@ app_css:
   /resources/css/app.css[dp]
   /resources/extjs/{extjs.version}/ux/css/ClearButton.css[dp]
   /resources/extjs/{extjs.version}/ux/css/Notification.css[dp]
-  /resources/extjs/{extjs.version}/ux/css/BoxSelect.css[dp]

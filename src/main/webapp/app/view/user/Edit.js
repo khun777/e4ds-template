@@ -7,12 +7,12 @@ Ext.define('E4ds.view.user.Edit', {
 	resizable: true,
 	constrainHeader: true,
 	width: 500,
-	height: 400,
+	height: 420,
 	modal: true,
 
 	icon: app_context_path + '/resources/images/edit.png',
 
-	requires: [ 'Ext.ux.form.field.BoxSelect' ],
+	requires: [ 'Ext.ux.form.MultiSelect' ],
 
 	getForm: function() {
 		return this.getComponent('userEditForm').getForm();
@@ -90,10 +90,8 @@ Ext.define('E4ds.view.user.Edit', {
 				inputValue: 'true',
 				uncheckedValue: 'false'
 			}, {
-				xtype: 'comboboxselect',
+				xtype: 'multiselect',
 				name: 'roleIds',
-				queryMode: 'local',
-				pinList: false,
 				fieldLabel: i18n.user_roles,
 				store: me.rolesStore,
 				displayField: 'name',
