@@ -54,8 +54,8 @@ public class SecurityService {
 			Util.signin(switchToUser);
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 }

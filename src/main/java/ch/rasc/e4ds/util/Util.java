@@ -84,7 +84,7 @@ public class Util {
 		SecurityContextHolder.getContext().setAuthentication(token);
 	}
 
-	public static boolean hasRole(String role) { 
+	public static boolean hasRole(String role) {
 		SecurityContext context = SecurityContextHolder.getContext();
 		if (context == null) {
 			return false;
