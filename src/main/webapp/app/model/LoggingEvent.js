@@ -29,7 +29,7 @@ Ext.define("E4ds.model.LoggingEvent",
   } ],
   proxy : {
     type : "direct",
-    directFn : loggingEventService.read,
+    directFn : "loggingEventService.read",
     reader : {
       root : "records"
     }

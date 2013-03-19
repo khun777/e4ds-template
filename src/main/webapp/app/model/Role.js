@@ -10,6 +10,6 @@ Ext.define("E4ds.model.Role",
   } ],
   proxy : {
     type : "direct",
-    directFn : userService.readRoles
+    directFn : "userService.readRoles"
   }
 });

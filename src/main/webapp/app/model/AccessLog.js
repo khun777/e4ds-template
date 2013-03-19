@@ -24,7 +24,7 @@ Ext.define("E4ds.model.AccessLog",
   } ],
   proxy : {
     type : "direct",
-    directFn : accessLogService.read,
+    directFn : "accessLogService.read",
     reader : {
       root : "records"
     }

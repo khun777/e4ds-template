@@ -33,8 +33,8 @@ Ext.define("E4ds.model.User",
   proxy : {
     type : "direct",
     api : {
-      read : userService.read,
-      destroy : userService.destroy
+      read : "userService.read",
+      destroy : "userService.destroy"
     },
     reader : {
       root : "records"
