@@ -1,0 +1,74 @@
+# [d]   = dev only. script or link tag
+# [ps]  = prod only. script or link tag
+# [dps] = dev and prod. script or link tag
+# [dp]  = dev and prod. script/link tag in dev. concat and minify in prod
+# [p]   = prod only. contact and minify. can be ommited
+
+login_js:
+  /resources/extjs/{extjs.version}/ext-all-dev.js[d]
+  /resources/extjs/{extjs.version}/ext-all.js[ps]
+  /resources/extjs/{extjs.version}/ext-theme-neptune.js[dps]
+  /resources/extjs/{extjs.version}/ux/window/Notification.js[dp]
+  /login.js[dp]
+
+login_css:
+  /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css[dps]
+  /resources/css/app.css[dp]
+  /resources/extjs/{extjs.version}/ux/css/Notification.css[dp]
+
+app_js:
+  /resources/extjs/{extjs.version}/ext-all-dev.js[d]
+  /resources/extjs/{extjs.version}/ext-all.js[ps]
+  /resources/extjs/{extjs.version}/ext-theme-neptune.js[dps]
+  /deft-debug.js[d]
+  /deft.js
+  /loader.js[d]
+  /api.js[d]
+  /api-{application.version}.js[ps]
+  /resources/extjs/{extjs.version}/ux/BoxReorderer.js
+  /resources/extjs/{extjs.version}/ux/RowExpander.js
+  /resources/extjs/{extjs.version}/ux/TabCloseMenu.js
+  /resources/extjs/{extjs.version}/ux/TabReorderer.js
+  /resources/extjs/{extjs.version}/ux/form/field/BoxSelect.js
+  /resources/extjs/{extjs.version}/ux/form/field/ClearButton.js
+  /resources/extjs/{extjs.version}/ux/form/field/FilterField.js
+  /resources/extjs/{extjs.version}/ux/window/Notification.js    
+  /direct.js[dp]
+  /app/model/AccessLog.js
+  /app/model/LoggingEvent.js
+  /app/model/PollChart.js
+  /app/model/Role.js
+  /app/model/User.js
+  /app/store/AccessLogs.js
+  /app/store/LoggingEvents.js
+  /app/store/LogLevels.js
+  /app/store/Navigation.js
+  /app/store/PollChart.js
+  /app/store/Roles.js
+  /app/store/Users.js
+  /app/controller/AccessLogController.js
+  /app/controller/ConfigController.js
+  /app/controller/LoggingEventController.js
+  /app/controller/NavigationController.js
+  /app/controller/PollChartController.js
+  /app/controller/UserController.js
+  /app/view/accesslog/List.js
+  /app/view/config/Edit.js
+  /app/view/loggingevent/List.js
+  /app/view/navigation/Header.js
+  /app/view/navigation/SideBar.js
+  /app/view/navigation/UserOptions.js
+  /app/view/poll/HeapMemoryChart.js
+  /app/view/poll/PhysicalMemoryChart.js
+  /app/view/poll/PollChart.js
+  /app/view/user/Edit.js
+  /app/view/user/List.js
+  /app/view/Viewport.js
+  /app.js[dp]
+
+app_css:
+  /resources/extjs/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css[dps]
+  /resources/css/app.css[dp]
+  /resources/extjs/{extjs.version}/ux/css/ClearButton.css[dp]
+  /resources/extjs/{extjs.version}/ux/css/Notification.css[dp]
+  /resources/extjs/{extjs.version}/ux/css/BoxSelect.css[dp]
