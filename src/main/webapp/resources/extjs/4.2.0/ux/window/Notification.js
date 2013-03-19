@@ -77,9 +77,9 @@ Ext.define('Ext.ux.window.Notification', {
 				
 				autoCloseDelay: 4000,
 				slideInDuration: 300,
-				
+				width: 200,
 				paddingX: 10,
-				paddingY: 10,
+				paddingY: 44,
 				
 				html: text,
 				bodyStyle: {
