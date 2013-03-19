@@ -7,7 +7,7 @@ Ext.define('E4ds.view.user.Edit', {
 	resizable: true,
 	constrainHeader: true,
 	width: 500,
-	height: 370,
+	height: 400,
 	modal: true,
 
 	icon: app_context_path + '/resources/images/edit.png',
