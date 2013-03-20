@@ -29,6 +29,7 @@ app_js:
   /resources/extjs/{extjs.version}/ux/RowExpander.js
   /resources/extjs/{extjs.version}/ux/TabCloseMenu.js
   /resources/extjs/{extjs.version}/ux/TabReorderer.js
+  /resources/extjs/{extjs.version}/ux/form/MultiSelect.js
   /resources/extjs/{extjs.version}/ux/form/field/ClearButton.js
   /resources/extjs/{extjs.version}/ux/form/field/FilterField.js
   /resources/extjs/{extjs.version}/ux/window/Notification.js    
