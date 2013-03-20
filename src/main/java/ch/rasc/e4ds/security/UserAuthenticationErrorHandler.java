@@ -26,7 +26,7 @@ public class UserAuthenticationErrorHandler implements ApplicationListener<Authe
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
 		Object principal = event.getAuthentication().getPrincipal();
 		if (principal instanceof String) {
-			User user = new JPAQuery(entityManager).from(QUser.user).where(QUser.user.email.eq((String) principal))
+			User user = new JPAQuery(entityManager).from(QUser.user).where(QUser.user.userName.eq((String) principal))
 					.singleResult(QUser.user);
 			if (user != null) {
 				if (user.getFailedLogins() == null) {
