@@ -51,7 +51,7 @@ public class UserService {
 
 	@Autowired
 	private MessageSource messageSource;
-
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -171,7 +171,11 @@ public class UserService {
 						dbUser.setEmail(modifiedUser.getEmail());
 						dbUser.setLocale(modifiedUser.getLocale());
 						if (StringUtils.hasText(modifiedUser.getPasswordHash())) {
-							dbUser.setPasswordHash(modifiedUser.getPasswordHash());
+							if (passwordEncoder.matches(modifiedUser.getOldPassword(), dbUser.getPasswordHash())) {
+								dbUser.setPasswordHash(modifiedUser.getPasswordHash());
+							} else {
+								bindingResult.rejectValue("oldPassword", null, messageSource.getMessage("user_wrongpassword", null, locale));
+							}
 						}
 					}
 				}

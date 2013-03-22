@@ -55,17 +55,6 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 				vtype: 'email',
 				allowBlank: false
 			}, {
-				name: 'passwordHash',
-				fieldLabel: i18n.user_password,
-				inputType: 'password',
-				id: 'pass'
-			}, {
-				name: 'password-confirm',
-				fieldLabel: i18n.user_confirmpassword,
-				vtype: 'password',
-				inputType: 'password',
-				initialPassField: 'pass'
-			}, {
 				xtype: 'combobox',
 				fieldLabel: i18n.user_language,
 				name: 'locale',
@@ -79,6 +68,24 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 				emptyText: i18n.user_selectlanguage,
 				allowBlank: false,
 				forceSelection: true
+			}, {
+				xtype: 'label',
+				html: '<hr />'
+			}, {
+				name: 'oldPassword',
+				fieldLabel: i18n.user_oldpassword,
+				inputType: 'password'
+			}, {
+				name: 'passwordHash',
+				fieldLabel: i18n.user_newpassword,
+				inputType: 'password',
+				id: 'pass'
+			}, {
+				name: 'password-confirm',
+				fieldLabel: i18n.user_confirmpassword,
+				vtype: 'password',
+				inputType: 'password',
+				initialPassField: 'pass'
 			} ],
 
 			buttons: [ {

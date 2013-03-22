@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -46,6 +47,10 @@ public class User extends AbstractPersistable {
 
 	@Size(max = 60)
 	private String passwordHash;
+
+	@Transient
+	@JsonIgnore
+	private String oldPassword;
 
 	@Size(max = 8)
 	private String locale;
@@ -143,6 +148,14 @@ public class User extends AbstractPersistable {
 
 	public void setLockedOut(DateTime lockedOut) {
 		this.lockedOut = lockedOut;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
 	}
 
 }
