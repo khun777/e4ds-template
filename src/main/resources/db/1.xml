@@ -162,12 +162,32 @@
 			</column>	
 			
 			<column name="sessionId" type="varchar(100)" />
-			<column name="userName" type="varchar(255)" />
+			<column name="userName" type="varchar(100)" />
 			<column name="logIn" type="DATETIME" />
 			<column name="logOut" type="DATETIME" />
 			<column name="userAgent" type="varchar(255)" />
 
 		</createTable>
 	</changeSet>	
+	
+	<changeSet author="dev" id="13">
+		<createTable tableName="persistent_logins">
+			<column name="series" type="varchar(64)">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_persistent_logins" />
+			</column>	
+						
+			<column name="username" type="varchar(100)">
+               <constraints nullable="false"/>
+			</column>
+
+			<column name="token" type="varchar(64)">
+               <constraints nullable="false"/>
+			</column>			
+
+			<column name="last_used" type="TIMESTAMP">
+               <constraints nullable="false"/>
+			</column>	
+		</createTable>
+	</changeSet>		
 	
 </databaseChangeLog>
