@@ -6,21 +6,6 @@
 	<version>1.0.0</version>
 	<packaging>war</packaging>
 
-	<developers>
-		<developer>
-			<name>Ralph Schaer</name>
-			<email>ralphschaer@gmail.com</email>
-		</developer>
-	</developers>
-
-	<licenses>
-		<license>
-			<name>Apache 2</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
 	<prerequisites>
 		<maven>3.0.3</maven>
 	</prerequisites>
