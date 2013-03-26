@@ -147,6 +147,7 @@ public class UserService {
 						dbUser.getRoles().clear();
 						dbUser.getRoles().addAll(roles);
 
+						dbUser.setUserName(modifiedUser.getUserName());
 						dbUser.setEnabled(modifiedUser.isEnabled());
 						dbUser.setName(modifiedUser.getName());
 						dbUser.setFirstName(modifiedUser.getFirstName());
