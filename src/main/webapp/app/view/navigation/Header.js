@@ -15,48 +15,28 @@ Ext.define('E4ds.view.navigation.Header', {
 			xtype: 'tbspacer',
 			flex: 1
 		}, {
-			xtype: 'label',
+			xtype: 'button',
 			itemId: 'loggedOnLabel',
 			text: '',
-			cls: 'userName',
-			width: 200,
-			margins: {
-				top: 6,
-				right: 0,
-				bottom: 0,
-				left: 0
-			}
-		}, {
-			xtype: 'tbspacer',
-			width: 20
-		}, {
-			xtype: 'button',
-			text: i18n.options,
-			icon: app_context_path + '/resources/images/gear.png',
-			itemId: 'optionButton',
+			ui: 'default-toolbar',
 			margins: {
 				top: 2,
 				right: 0,
 				bottom: 10,
 				left: 0
 			},
-			ui: 'default-toolbar'
+			menu: {
+				items: [ {
+					text: i18n.options,
+					icon: app_context_path + '/resources/images/gear.png',
+					itemId: 'optionButton'
 		}, {
-			xtype: 'tbspacer',
-			width: 20
-		}, {
-			xtype: 'button',
 			text: i18n.logout,
 			icon: app_context_path + '/resources/images/logout.png',
 			href: 'j_spring_security_logout',
-			hrefTarget: '_self',
-			margins: {
-				top: 2,
-				right: 0,
-				bottom: 10,
-				left: 0
-			},
-			ui: 'default-toolbar'
+					hrefTarget: '_self'
+				} ]
+			}
 		} ];
 
 		me.callParent(arguments);
