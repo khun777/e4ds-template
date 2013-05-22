@@ -22,9 +22,7 @@ Ext.define('E4ds.controller.AccessLogController', {
 	handleFilter: function(field, newValue) {
 		var myStore = this.getView().getStore();
 		if (newValue) {
-			myStore.remoteFilter = false;
 			myStore.clearFilter(true);
-			myStore.remoteFilter = true;
 			myStore.filter('filter', newValue);
 		} else {
 			myStore.clearFilter();
