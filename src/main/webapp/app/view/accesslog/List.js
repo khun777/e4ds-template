@@ -53,7 +53,6 @@ Ext.define('E4ds.view.accesslog.List', {
 			}, /* </debug> */'->', {
 				fieldLabel: i18n.user_username,
 				itemId: 'filterField',
-				labelWidth: 65,
 				xtype: 'filterfield'
 			} ]
 		}, {

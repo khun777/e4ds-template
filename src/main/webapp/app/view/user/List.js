@@ -35,6 +35,7 @@ Ext.define('E4ds.view.user.List', {
 		}, {
 			text: 'Roles',
 			dataIndex: 'roles',
+			sortable: false,
 			width: 160,
 			renderer: function(value, metadata, record) {
 				var roles = record.roles();

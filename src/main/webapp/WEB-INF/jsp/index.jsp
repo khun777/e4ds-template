@@ -51,7 +51,7 @@
   ${applicationScope.app_js}
   
   <% if (locale != null && locale.getLanguage().toLowerCase().equals("de")) { %>
-    <script src="<%= request.getContextPath() %>/resources/extjs/<spring:eval expression='@environment["extjs.version"]'/>/locale/ext-lang-de.js"></script>
+    <script src="<%= request.getContextPath() %>/resources/extjs-gpl/<spring:eval expression='@environment["extjs.version"]'/>/locale/ext-lang-de.js"></script>
   <% } %>	
   
   <script>

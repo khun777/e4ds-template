@@ -1,7 +1,9 @@
 Ext.onReady(function() {
 	Ext.QuickTips.init();
 
-	var header = Ext.create('Ext.container.Container', {
+	var header, login;
+	
+	header = Ext.create('Ext.container.Container', {
 		region: 'north',
 		height: 35,
 		layout: {
@@ -15,7 +17,14 @@ Ext.onReady(function() {
 		} ]
 	});
 
-	var login = Ext.create('Ext.form.Panel', {
+	function submitForm() {
+		var form = login.getForm();
+		if (form.isValid()) {
+			form.submit();
+		}
+	}
+	
+	login = Ext.create('Ext.form.Panel', {
 		frame: true,
 		title: i18n.login_title,
 		url: 'j_spring_security_check',
@@ -110,13 +119,6 @@ Ext.onReady(function() {
 			items: login
 		}) ]
 	});
-
-	function submitForm() {
-		var form = login.getForm();
-		if (form.isValid()) {
-			form.submit();
-		}
-	}
 
 	login.getForm().findField('j_username').focus();
 

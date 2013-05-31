@@ -1,3 +1,7 @@
+body {
+	background-color: #075085 !important;
+}
+
 .appHeader .x-panel-body {
 	background-color: transparent;
 	background-image: url(../images/windup_key.png);
@@ -5,7 +9,7 @@
 	background-position: 2px 2px;
 	padding: 1px 0px 0px 30px;
 	border: none;
-	color: white;
+	color: #BFBFBF;
 	font-size: 22px;
 	font-weight: 200;
 	white-space: nowrap;
@@ -14,7 +18,7 @@
 .userName {
 	font-size: 12px; 
 	font-weight: bold;
-	color: white;
+	color: #BFBFBF;
 	text-align: right;
 	padding-right: 5px;
 }

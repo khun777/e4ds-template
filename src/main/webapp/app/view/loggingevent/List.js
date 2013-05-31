@@ -5,7 +5,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 	title: i18n.logevents,
 	closable: true,
 
-	requires: [ 'Ext.ux.RowExpander' ],
+	requires: [ 'Ext.grid.plugin.RowExpander', 'Ext.ux.form.field.ClearCombo' ],
 
 	plugins: [ {
 		ptype: 'rowexpander',
@@ -66,7 +66,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 				itemId: 'testButton',
 				icon: app_context_path + '/resources/images/add.png'
 			},/* </debug> */'->', {
-				xtype: 'combobox',
+				xtype: 'clearcombo',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
 				itemId: 'logLevelFilter',
@@ -75,11 +75,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 				valueField: 'level',
 				displayField: 'level',
 				queryMode: 'local',
-				forceSelection: true,
-				plugins: Ext.create('Ext.ux.form.field.ClearButton', {
-					hideClearButtonWhenEmpty: false,
-					hideClearButtonWhenMouseOut: false
-				})
+				forceSelection: true
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
