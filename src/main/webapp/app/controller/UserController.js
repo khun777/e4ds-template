@@ -22,8 +22,7 @@ Ext.define('E4ds.controller.UserController', {
 		filterField: {
 			filter: 'handleFilter'
 		},
-		exportButton: true,
-		pagingtoolbar: true
+		exportButton: true
 	},
 
 	rolesStore: Ext.create('E4ds.store.Roles'),
@@ -136,7 +135,7 @@ Ext.define('E4ds.controller.UserController', {
 	},
 
 	doGridRefresh: function() {
-		this.getPagingtoolbar().doRefresh();
+		this.getView().getStore().load();
 		this.toggleEditButtons(false);
 	},
 

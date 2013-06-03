@@ -57,7 +57,6 @@ Ext.define('E4ds.view.accesslog.List', {
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
-			itemId: 'pagingtoolbar',
 			dock: 'bottom',
 			store: me.store,
 			displayInfo: true,

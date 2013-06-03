@@ -5,7 +5,6 @@ Ext.define('E4ds.controller.AccessLogController', {
 		view: {
 			activated: 'onActivated'
 		},
-		pagingtoolbar: true,
 		deleteAllButton: {
 			click: 'deleteAll'
 		},
@@ -48,7 +47,7 @@ Ext.define('E4ds.controller.AccessLogController', {
 	},
 
 	doGridRefresh: function() {
-		this.getPagingtoolbar().doRefresh();
+		this.getView().getStore().load();
 	}
 
 });

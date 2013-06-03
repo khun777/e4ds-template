@@ -79,7 +79,6 @@ Ext.define('E4ds.view.loggingevent.List', {
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
-			itemId: 'pagingtoolbar',
 			dock: 'bottom',
 			store: me.store,
 			displayInfo: true,
