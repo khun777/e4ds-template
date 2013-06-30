@@ -1,4 +1,4 @@
-var $buoop = {vs:{i:8,f:12,o:11,s:5,n:9}};
+var $buoop = {vs:{i:8,f:20,o:11,s:5,n:9}};
 $buoop.ol = window.onload; 
 window.onload=function() { 
   try {if ($buoop.ol) {$buoop.ol();}}catch (ignore) {} 
