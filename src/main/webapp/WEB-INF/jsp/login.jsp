@@ -5,12 +5,12 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=utf-8" %>
 <html>
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta charset="utf-8">
-  <link rel="icon" type="image/png" href="resources/images/favicon16.png" sizes="16x16"/>
-  <link rel="icon" type="image/png" href="resources/images/favicon32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="resources/images/favicon48.png" sizes="48x48" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title>e4ds-template</title>
+  <link rel="icon" type="image/png" href="resources/images/favicon16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="resources/images/favicon32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="resources/images/favicon48.png" sizes="48x48">  
   <style>
     <%@ include file="loader.css"%>
   </style>
