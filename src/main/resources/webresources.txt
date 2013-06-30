@@ -33,36 +33,10 @@ app_js:
   /resources/extjs-gpl/{extjs.version}/ux/form/field/FilterField.js
   /resources/extjs-gpl/{extjs.version}/ux/window/Notification.js    
   /direct.js[dp]
-  /app/model/AccessLog.js
-  /app/model/LoggingEvent.js
-  /app/model/PollChart.js
-  /app/model/Role.js
-  /app/model/User.js
-  /app/store/AccessLogs.js
-  /app/store/LoggingEvents.js
-  /app/store/LogLevels.js
-  /app/store/Navigation.js
-  /app/store/PollChart.js
-  /app/store/Roles.js
-  /app/store/Users.js
-  /app/controller/AccessLogController.js
-  /app/controller/ConfigController.js
-  /app/controller/LoggingEventController.js
-  /app/controller/NavigationController.js
-  /app/controller/PollChartController.js
-  /app/controller/UserController.js
-  /app/view/accesslog/List.js
-  /app/view/config/Edit.js
-  /app/view/loggingevent/List.js
-  /app/view/navigation/Header.js
-  /app/view/navigation/SideBar.js
-  /app/view/navigation/UserOptions.js
-  /app/view/poll/HeapMemoryChart.js
-  /app/view/poll/PhysicalMemoryChart.js
-  /app/view/poll/PollChart.js
-  /app/view/user/Edit.js
-  /app/view/user/List.js
-  /app/view/Viewport.js
+  /app/model/
+  /app/store/
+  /app/controller/
+  /app/view/
   /app.js[dp]
 
 app_css:
