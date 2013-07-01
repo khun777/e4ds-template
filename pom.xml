@@ -14,8 +14,8 @@
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<spring.security.version>3.2.0.M1</spring.security.version>
 
-		<hibernate.version>4.2.2.Final</hibernate.version>
-		<querydsl.version>3.2.0</querydsl.version>
+		<hibernate.version>4.3.0.Beta3</hibernate.version>
+		<querydsl.version>3.2.1</querydsl.version>
 
 		<slf4j.version>1.7.5</slf4j.version>
 		<logback.version>1.0.13</logback.version>
@@ -102,6 +102,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -114,11 +120,11 @@
 			<artifactId>usertype.core</artifactId>
 			<version>3.0.0.GA</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version>
+			<version>5.0.1.Final</version>
 		</dependency>
 
 		<dependency>
@@ -137,6 +143,14 @@
 				<exclusion>
 					<artifactId>jsr305</artifactId>
 					<groupId>net.sourceforge.findbugs</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hibernate-jpa-2.0-api</artifactId>
+					<groupId>org.hibernate.javax.persistence</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jsr305</artifactId>
+					<groupId>com.google.code.findbugs</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -289,6 +303,12 @@
 			<groupId>net.sf.uadetector</groupId>
 			<artifactId>uadetector-resources</artifactId>
 			<version>2013.05</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsr305</artifactId>
+					<groupId>com.google.code.findbugs</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>

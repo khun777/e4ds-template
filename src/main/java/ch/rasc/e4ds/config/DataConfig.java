@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import liquibase.integration.spring.SpringLiquibase;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class DataConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource());
-		emf.setPersistenceProvider(new org.hibernate.ejb.HibernatePersistence());
+		emf.setPersistenceProvider(new HibernatePersistenceProvider());
 		emf.setPackagesToScan("ch.rasc.e4ds.entity");
 
 		Map<String, String> properties = Maps.newHashMap();
