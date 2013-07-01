@@ -1,18 +1,23 @@
 package ch.rasc.e4ds.service;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 public class MenuNode {
+
 	private int id;
 
-	private String text;
+	private final String text;
 
 	private String view;
 
@@ -22,34 +27,70 @@ public class MenuNode {
 
 	private String icon;
 
-	private Set<String> roles = Sets.newHashSet();
+	@JsonIgnore
+	private EnumSet<Roles> roles;
 
-	private List<MenuNode> children = Lists.newArrayList();
+	private final List<MenuNode> children = Lists.newArrayList();
 
-	public MenuNode() {
-		// default constructor
+	public MenuNode(String text) {
+		this.text = text;
 	}
 
-	public MenuNode(MenuNode source, Collection<? extends GrantedAuthority> authorities) {
-		this.text = source.getText();
-		this.view = source.getView();
-		this.expanded = source.isExpanded();
-		this.icon = source.getIcon();
+	public MenuNode(String text, String icon, boolean expanded) {
+		this.text = text;
+		this.icon = icon;
+		this.expanded = expanded;
+	}
 
-		for (MenuNode sourceChild : source.getChildren()) {
-			if (hasRole(sourceChild, authorities)) {
-				children.add(new MenuNode(sourceChild, authorities));
-			}
+	public MenuNode(String text, String icon, String view, Roles... roles) {
+		this.text = text;
+		this.icon = icon;
+		this.view = view;
+		if (roles != null) {
+			this.roles = EnumSet.copyOf(Arrays.asList(roles));
+		} else {
+			this.roles = EnumSet.noneOf(Roles.class);
 		}
 	}
 
-	private static boolean hasRole(MenuNode child, Collection<? extends GrantedAuthority> authorities) {
-		if (child.getRoles().isEmpty()) {
+	public static MenuNode copyOf(MenuNode source, Collection<? extends GrantedAuthority> authorities,
+			MutableInt mutableInt, Locale locale, MessageSource messageSource) {
+		MenuNode menuNode = new MenuNode(messageSource.getMessage(source.getText(), null, source.getText(), locale));
+		menuNode.id = mutableInt.intValue();
+		mutableInt.add(1);
+		menuNode.view = source.getView();
+		menuNode.expanded = source.isExpanded();
+		menuNode.icon = source.getIcon();
+
+		List<MenuNode> children = Lists.newArrayList();
+		for (MenuNode sourceChild : source.getChildren()) {
+			if (hasRole(sourceChild, authorities)) {
+				MenuNode copy = MenuNode.copyOf(sourceChild, authorities, mutableInt, locale, messageSource);
+				if (copy != null) {
+					children.add(copy);
+				}
+			}
+		}
+
+		if (!children.isEmpty()) {
+			menuNode.children.addAll(children);
+			return menuNode;
+		}
+
+		if (menuNode.view != null) {
+			return menuNode;
+		}
+
+		return null;
+	}
+
+	private static boolean hasRole(MenuNode node, Collection<? extends GrantedAuthority> authorities) {
+		if (node.roles == null || node.roles.isEmpty()) {
 			return true;
 		}
 
 		for (GrantedAuthority grantedAuthority : authorities) {
-			if (child.getRoles().contains(grantedAuthority.getAuthority())) {
+			if (node.roles.contains(Roles.valueOf(grantedAuthority.getAuthority()))) {
 				return true;
 			}
 		}
@@ -60,64 +101,33 @@ public class MenuNode {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getText() {
 		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public String getView() {
 		return view;
 	}
 
-	public void setView(String view) {
-		this.view = view;
-	}
-
 	public boolean isLeaf() {
 		return leaf;
-	}
-
-	public void setLeaf(boolean leaf) {
-		this.leaf = leaf;
-	}
-
-	public List<MenuNode> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<MenuNode> children) {
-		this.children = children;
-	}
-
-	public Set<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<String> roles) {
-		this.roles = roles;
 	}
 
 	public boolean isExpanded() {
 		return expanded;
 	}
 
-	public void setExpanded(boolean expanded) {
-		this.expanded = expanded;
-	}
-
 	public String getIcon() {
 		return icon;
 	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public List<MenuNode> getChildren() {
+		return children;
+	}
+
+	public void addChild(MenuNode menuNode) {
+		children.add(menuNode);
+
 	}
 
 }
