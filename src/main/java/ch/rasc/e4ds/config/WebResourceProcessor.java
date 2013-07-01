@@ -150,15 +150,15 @@ public class WebResourceProcessor {
 					scriptAndLinkTags.get(varName).append(createHtmlCode(container, line, varName));
 				} else {
 					boolean jsProcessing = varName.endsWith("_js");
-					for (String resource : enumerateResources(container, line, jsProcessing ? ".js" : ".css")) {	
+					for (String resource : enumerateResources(container, line, jsProcessing ? ".js" : ".css")) {
 						System.out.println("Process: " + resource);
 						try (InputStream lis = container.getResourceAsStream(resource)) {
 							String sourcecode = CharStreams.toString(CharStreams.newReaderSupplier(
 									createInputSupplier(lis), Charsets.UTF_8));
-	
+
 							if (jsProcessing) {
 								sourceCodes.get(varName).append(minifyJs(cleanCode(sourcecode))).append('\n');
-							} else {				
+							} else {
 								sourceCodes.get(varName).append(compressCss(changeImageUrls(sourcecode, line)));
 							}
 						} catch (IOException ioe) {
@@ -182,7 +182,8 @@ public class WebResourceProcessor {
 					container.addServlet(root + crc + "js", new ResourceServlet(content, "application/javascript"))
 							.addMapping(servletPath);
 
-					scriptAndLinkTags.get(key).append(String.format(JAVASCRIPT_TAG, container.getContextPath() + servletPath));
+					scriptAndLinkTags.get(key).append(
+							String.format(JAVASCRIPT_TAG, container.getContextPath() + servletPath));
 
 				} else if (key.endsWith("_css")) {
 					String root = key.substring(0, key.length() - 4);
@@ -191,7 +192,8 @@ public class WebResourceProcessor {
 					container.addServlet(root + crc + "css", new ResourceServlet(content, "text/css")).addMapping(
 							servletPath);
 
-					scriptAndLinkTags.get(key).append(String.format(CSSLINK_TAG, container.getContextPath() + servletPath));
+					scriptAndLinkTags.get(key).append(
+							String.format(CSSLINK_TAG, container.getContextPath() + servletPath));
 				}
 			}
 		}
@@ -205,21 +207,21 @@ public class WebResourceProcessor {
 	private List<String> enumerateResources(ServletContext container, String line, String suffix) {
 		if (line.endsWith("/")) {
 			List<String> resources = Lists.newArrayList();
-			
+
 			Set<String> resourcePaths = container.getResourcePaths(line);
 			if (resourcePaths != null) {
-				for (String resource : resourcePaths) {				
+				for (String resource : resourcePaths) {
 					resources.addAll(enumerateResources(container, resource, suffix));
 				}
 			}
-			
-			return resources;			
-		} 
-		
+
+			return resources;
+		}
+
 		if (line.endsWith(suffix)) {
 			return Collections.singletonList(line);
 		}
-		
+
 		return Collections.emptyList();
 	}
 
