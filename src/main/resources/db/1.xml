@@ -108,8 +108,8 @@
 			<column name="passwordHash" type="varchar(80)" />
 			<column name="locale" type="varchar(8)" />
 			<column name="enabled" type="BOOLEAN" />
-                        <column name="failedLogins" type="INT" />            
-                        <column name="lockedOut" type="datetime" />
+            <column name="failedLogins" type="INT" />            
+            <column name="lockedOut" type="datetime" />
 		</createTable>
 	</changeSet>
 
