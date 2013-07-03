@@ -4,6 +4,8 @@ import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.TREE_LOA
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -48,9 +50,9 @@ public class NavigationService {
 
 	@ExtDirectMethod(TREE_LOAD)
 	@PreAuthorize("isAuthenticated()")
-	public MenuNode getNavigation(Locale locale) {
+	public MenuNode getNavigation(Locale locale, HttpServletRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return MenuNode.copyOf(root, authentication.getAuthorities(), new MutableInt(0), locale, messageSource);
+		return MenuNode.copyOf(root, authentication.getAuthorities(), new MutableInt(0), locale, messageSource, request);
 	}
 
 }

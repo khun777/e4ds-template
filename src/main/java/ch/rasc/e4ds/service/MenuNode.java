@@ -6,6 +6,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,18 +56,25 @@ public class MenuNode {
 	}
 
 	public static MenuNode copyOf(MenuNode source, Collection<? extends GrantedAuthority> authorities,
-			MutableInt mutableInt, Locale locale, MessageSource messageSource) {
+			MutableInt mutableInt, Locale locale, MessageSource messageSource, HttpServletRequest request) {
 		MenuNode menuNode = new MenuNode(messageSource.getMessage(source.getText(), null, source.getText(), locale));
 		menuNode.id = mutableInt.intValue();
 		mutableInt.add(1);
 		menuNode.view = source.getView();
 		menuNode.expanded = source.isExpanded();
-		menuNode.icon = source.getIcon();
+
+		if (source.getIcon() != null) {
+			if (source.getIcon().startsWith("/")) {
+				menuNode.icon = request.getContextPath() + source.getIcon();
+			} else {
+				menuNode.icon = request.getContextPath() + "/" + source.getIcon();
+			}
+		}
 
 		List<MenuNode> children = Lists.newArrayList();
 		for (MenuNode sourceChild : source.getChildren()) {
 			if (hasRole(sourceChild, authorities)) {
-				MenuNode copy = MenuNode.copyOf(sourceChild, authorities, mutableInt, locale, messageSource);
+				MenuNode copy = MenuNode.copyOf(sourceChild, authorities, mutableInt, locale, messageSource, request);
 				if (copy != null) {
 					children.add(copy);
 				}
