@@ -150,8 +150,7 @@ public class WebResourceProcessor {
 					scriptAndLinkTags.get(varName).append(createHtmlCode(container, line, varName));
 				} else {
 					boolean jsProcessing = varName.endsWith("_js");
-					for (String resource : enumerateResources(container, line, jsProcessing ? ".js" : ".css")) {
-						System.out.println("Process: " + resource);
+					for (String resource : enumerateResources(container, line, jsProcessing ? ".js" : ".css")) {						
 						try (InputStream lis = container.getResourceAsStream(resource)) {
 							String sourcecode = CharStreams.toString(CharStreams.newReaderSupplier(
 									createInputSupplier(lis), Charsets.UTF_8));
