@@ -3,7 +3,6 @@ package ch.rasc.e4ds.entity;
 import java.sql.Timestamp;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
