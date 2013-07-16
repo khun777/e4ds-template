@@ -54,8 +54,5 @@
     <script src="<%= request.getContextPath() %>/resources/extjs-gpl/<spring:eval expression='@environment["extjs.version"]'/>/locale/ext-lang-de.js"></script>
   <% } %>	
   
-  <script>
-    <%@ include file="browserupdate.js"%>
-  </script>
 </body>
 </html>

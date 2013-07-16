@@ -64,8 +64,5 @@
   });
   </script>
   
-  <script>
-    <%@ include file="browserupdate.js"%>
-  </script>
 </body>
 </html>

@@ -10,6 +10,7 @@ login_js:
   /resources/extjs-gpl/{extjs.version}/ext-theme-neptune.js[dps]
   /resources/extjs-gpl/{extjs.version}/ux/window/Notification.js[dp]
   /login.js[dp]
+  /resources/detect.js[dp]
 
 login_css:
   /resources/extjs-gpl/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css[dps]
@@ -38,6 +39,7 @@ app_js:
   /app/controller/
   /app/view/
   /app.js[dp]
+  /resources/detect.js[dp]
 
 app_css:
   /resources/extjs-gpl/{extjs.version}/resources/ext-theme-neptune/ext-theme-neptune-all.css[dps]
