@@ -12,7 +12,7 @@
 
 	<properties>
 		<spring.version>3.2.2.RELEASE</spring.version>
-		<spring.security.version>3.2.0.M2</spring.security.version>
+		<spring.security.version>3.2.0.M1</spring.security.version>
 
 		<hibernate.version>4.3.0.Beta3</hibernate.version>
 		<querydsl.version>3.2.1</querydsl.version>
@@ -158,7 +158,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.0.1</version>
+			<version>3.0.2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>snakeyaml</artifactId>
@@ -408,7 +408,7 @@
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.0</version>
+				<version>1.1.1</version>
 				<executions>
 					<execution>
 						<id>jpa</id>
@@ -520,7 +520,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.4</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<packagingExcludes>WEB-INF/classes/StartTomcat*,WEB-INF/classes/logback-test.xml</packagingExcludes>
