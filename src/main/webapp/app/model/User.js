@@ -1,6 +1,7 @@
 Ext.define("E4ds.model.User",
 {
   extend : "Ext.data.Model",
+  uses : [ "E4ds.model.Role" ],
   fields : [ {
     name : "userName",
     type : "string"
