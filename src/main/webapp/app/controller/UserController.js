@@ -25,7 +25,9 @@ Ext.define('E4ds.controller.UserController', {
 		exportButton: true
 	},
 
-	rolesStore: Ext.create('E4ds.store.Roles'),
+	init: function() {
+		this.rolesStore = Ext.create('E4ds.store.Roles');
+	},
 
 	handleFilter: function(field, newValue) {
 		var myStore = this.getView().getStore();
