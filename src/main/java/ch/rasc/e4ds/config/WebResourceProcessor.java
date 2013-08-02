@@ -58,6 +58,10 @@ public class WebResourceProcessor {
 	private final static Pattern CSS_URL_PATTERN = Pattern.compile("(.*?url.*?\\('*)([^\\)']*)('*\\))",
 			Pattern.CASE_INSENSITIVE);
 
+	private final static String REQUIRES_PATTERN = "(?i)requires.*?:.*?\\[.*?\\].*?,";
+
+	private final static String USES_PATTERN = "(?i)uses.*?:.*?\\[.*?\\].*?,";
+	
 	private final static String JAVASCRIPT_TAG = "<script src=\"%s\"></script>";
 
 	private final static String CSSLINK_TAG = "<link rel=\"stylesheet\" href=\"%s\">";
@@ -245,7 +249,8 @@ public class WebResourceProcessor {
 			matcher.appendReplacement(cleanCode, "");
 		}
 		matcher.appendTail(cleanCode);
-		return cleanCode.toString();
+		
+		return cleanCode.toString().replaceAll(REQUIRES_PATTERN, "").replaceAll(USES_PATTERN, "");
 	}
 
 	private List<String> readAllLinesFromWebResourceConfigFile() {
