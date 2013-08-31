@@ -52,7 +52,8 @@ public class NavigationService {
 	@PreAuthorize("isAuthenticated()")
 	public MenuNode getNavigation(Locale locale, HttpServletRequest request) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return MenuNode.copyOf(root, authentication.getAuthorities(), new MutableInt(0), locale, messageSource, request);
+		return MenuNode
+				.copyOf(root, authentication.getAuthorities(), new MutableInt(0), locale, messageSource, request);
 	}
 
 }

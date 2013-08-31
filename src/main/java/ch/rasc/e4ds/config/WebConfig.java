@@ -38,7 +38,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		ResourceHandlerRegistration registration = registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		ResourceHandlerRegistration registration = registry.addResourceHandler("/resources/**").addResourceLocations(
+				"/resources/");
 		if (environment.acceptsProfiles("production")) {
 			registration.setCachePeriod(31556926);
 		}
