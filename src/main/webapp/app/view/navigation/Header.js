@@ -30,11 +30,18 @@ Ext.define('E4ds.view.navigation.Header', {
 					text: i18n.options,
 					icon: app_context_path + '/resources/images/gear.png',
 					itemId: 'optionButton'
-		}, {
-			text: i18n.logout,
-			icon: app_context_path + '/resources/images/logout.png',
-			href: 'j_spring_security_logout',
-					hrefTarget: '_self'
+				}, {
+					text: i18n.logout,
+					icon: app_context_path + '/resources/images/logout.png',
+					handler: function() {
+						Ext.Ajax.request({
+							url: 'logout',
+							method: 'POST',
+							success: function(response) {
+								window.location = 'login.html?logout';
+							}
+						});
+					}
 				} ]
 			}
 		} ];
