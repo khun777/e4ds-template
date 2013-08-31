@@ -22,7 +22,8 @@ Ext.define("E4ds.model.User",
     type : "boolean"
   }, {
     name : "id",
-    type : "int"
+    type : "int",
+    useNull : true
   } ],
   associations : [ {
     type : "hasMany",

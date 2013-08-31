@@ -6,7 +6,8 @@ Ext.define("E4ds.model.Role",
     type : "string"
   }, {
     name : "id",
-    type : "int"
+    type : "int",
+    useNull : true
   } ],
   proxy : {
     type : "direct",
