@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.ralscha.extdirectspring.bean.ExtDirectFormPostResult;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
-import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadResult;
+import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.entity.QRole;
 import ch.rasc.e4ds.entity.QUser;
@@ -58,7 +58,7 @@ public class UserService {
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional(readOnly = true)
-	public ExtDirectStoreReadResult<User> read(ExtDirectStoreReadRequest request) {
+	public ExtDirectStoreResult<User> read(ExtDirectStoreReadRequest request) {
 
 		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
 		if (!request.getFilters().isEmpty()) {
@@ -77,7 +77,7 @@ public class UserService {
 		List<User> users = query.list(QUser.user);
 		long total = query.count();
 
-		return new ExtDirectStoreReadResult<>(total, users);
+		return new ExtDirectStoreResult<>(total, users);
 	}
 
 	@ExtDirectMethod(STORE_MODIFY)
