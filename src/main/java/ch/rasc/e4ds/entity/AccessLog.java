@@ -1,5 +1,6 @@
 package ch.rasc.e4ds.entity;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -8,7 +9,6 @@ import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 
-import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import ch.ralscha.extdirectspring.generator.Model;
@@ -29,11 +29,13 @@ public class AccessLog extends AbstractPersistable {
 	@Size(max = 255)
 	private String userName;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Convert(converter=DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logIn;
 
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Convert(converter=DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logOut;
 

@@ -3,13 +3,14 @@ package ch.rasc.e4ds.entity;
 import java.sql.Timestamp;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-//@Converter(autoApply=true)
+@Converter(autoApply=true)
 public class DateTimeConverter implements AttributeConverter<DateTime, Timestamp> {
 
 	private static final DateTimeFormatter DATETIME_FORMATTER = new DateTimeFormatterBuilder()
@@ -30,7 +31,10 @@ public class DateTimeConverter implements AttributeConverter<DateTime, Timestamp
 
 	@Override
 	public DateTime convertToEntityAttribute(Timestamp value) {
-		return DATETIME_FORMATTER.withZone(DateTimeZone.UTC).parseDateTime(value.toString());
+		if (value != null) {
+			return DATETIME_FORMATTER.withZone(DateTimeZone.UTC).parseDateTime(value.toString());
+		}
+		return null;
 	}
 
 }

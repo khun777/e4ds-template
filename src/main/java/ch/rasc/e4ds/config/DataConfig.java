@@ -1,7 +1,5 @@
 package ch.rasc.e4ds.config;
 
-import java.util.Map;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -18,8 +16,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import com.google.common.collect.Maps;
 
 @Configuration
 @EnableTransactionManagement
@@ -42,12 +38,6 @@ public class DataConfig {
 		// hibernateJpaVendorAdapter.setShowSql(true);
 		emf.setJpaVendorAdapter(hibernateJpaVendorAdapter);
 		emf.setPackagesToScan("ch.rasc.e4ds.entity");
-
-		Map<String, String> properties = Maps.newHashMap();
-		properties.put("jadira.usertype.databaseZone", "UTC");
-		properties.put("jadira.usertype.javaZone", "UTC");
-		emf.setJpaPropertyMap(properties);
-
 		return emf;
 	}
 
