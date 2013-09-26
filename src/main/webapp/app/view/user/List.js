@@ -85,7 +85,7 @@ Ext.define('E4ds.view.user.List', {
 				text: i18n.excelexport,
 				itemId: 'exportButton',
 				icon: app_context_path + '/resources/images/excel.gif',
-				href: 'usersExport.xls',
+				href: 'usersExport.xlsx',
 				hrefTarget: '_self'
 			}, {
 				xtype: 'tbseparator'
