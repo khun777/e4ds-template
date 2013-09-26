@@ -39,6 +39,7 @@ import ch.rasc.e4ds.util.Util;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
 import com.mysema.query.BooleanBuilder;
+import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 
@@ -74,10 +75,9 @@ public class UserService {
 		}
 
 		Util.addPagingAndSorting(query, request, User.class, QUser.user);
-		List<User> users = query.list(QUser.user);
-		long total = query.count();
+		SearchResults<User> searchResult = query.listResults(QUser.user);
 
-		return new ExtDirectStoreResult<>(total, users);
+		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());
 	}
 
 	@ExtDirectMethod(STORE_MODIFY)

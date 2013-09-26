@@ -27,6 +27,7 @@ import ch.rasc.e4ds.util.Util;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 
@@ -55,15 +56,14 @@ public class LoggingEventService {
 		Util.addPagingAndSorting(query, request, LoggingEvent.class, QLoggingEvent.loggingEvent, mapGuiColumn2DbField,
 				Collections.<String> emptySet());
 
-		List<LoggingEvent> loggingEvents = query.list(QLoggingEvent.loggingEvent);
-		long total = query.count();
+		SearchResults<LoggingEvent> searchResult = query.listResults(QLoggingEvent.loggingEvent);
 
 		List<ch.rasc.e4ds.dto.LoggingEvent> loggingEventList = Lists.newArrayList();
-		for (LoggingEvent event : loggingEvents) {
+		for (LoggingEvent event : searchResult.getResults()) {
 			loggingEventList.add(new ch.rasc.e4ds.dto.LoggingEvent(event));
 		}
 
-		return new ExtDirectStoreResult<>(total, loggingEventList);
+		return new ExtDirectStoreResult<>(searchResult.getTotal(), loggingEventList);
 	}
 
 	@ExtDirectMethod

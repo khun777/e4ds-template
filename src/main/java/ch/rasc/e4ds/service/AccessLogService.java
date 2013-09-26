@@ -3,7 +3,6 @@ package ch.rasc.e4ds.service;
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_READ;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -33,6 +32,7 @@ import ch.rasc.e4ds.entity.AccessLog;
 import ch.rasc.e4ds.entity.QAccessLog;
 import ch.rasc.e4ds.util.Util;
 
+import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
 import com.mysema.query.jpa.impl.JPADeleteClause;
 import com.mysema.query.jpa.impl.JPAQuery;
@@ -62,8 +62,7 @@ public class AccessLogService {
 		Util.addPagingAndSorting(query, request, AccessLog.class, QAccessLog.accessLog,
 				Collections.<String, String> emptyMap(), Collections.singleton("browser"));
 
-		List<AccessLog> accessLogs = query.list(QAccessLog.accessLog);
-		long total = query.count();
+		SearchResults<AccessLog> searchResult = query.listResults(QAccessLog.accessLog);
 
 		PeriodFormatter minutesAndSeconds = new PeriodFormatterBuilder()
 				.appendMinutes()
@@ -75,7 +74,7 @@ public class AccessLogService {
 				.appendSuffix(" " + messageSource.getMessage("accesslog_second", null, locale),
 						" " + messageSource.getMessage("accesslog_seconds", null, locale)).toFormatter();
 
-		for (AccessLog accessLog : accessLogs) {
+		for (AccessLog accessLog : searchResult.getResults()) {
 			if (accessLog.getLogIn() != null && accessLog.getLogOut() != null) {
 				Duration duration = new Duration(accessLog.getLogIn(), accessLog.getLogOut());
 				Period period = new Period(duration, PeriodType.forFields(new DurationFieldType[] {
@@ -85,7 +84,7 @@ public class AccessLogService {
 
 		}
 
-		return new ExtDirectStoreResult<>(total, accessLogs);
+		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());
 
 	}
 
