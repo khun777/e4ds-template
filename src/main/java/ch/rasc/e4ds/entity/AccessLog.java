@@ -29,13 +29,13 @@ public class AccessLog extends AbstractPersistable {
 	@Size(max = 255)
 	private String userName;
 
-	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Convert(converter=DateTimeConverter.class)
+	// @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logIn;
 
-	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Convert(converter=DateTimeConverter.class)
+	// @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logOut;
 

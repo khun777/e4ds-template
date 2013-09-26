@@ -10,7 +10,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 
-@Converter(autoApply=true)
+@Converter(autoApply = true)
 public class DateTimeConverter implements AttributeConverter<DateTime, Timestamp> {
 
 	private static final DateTimeFormatter DATETIME_FORMATTER = new DateTimeFormatterBuilder()

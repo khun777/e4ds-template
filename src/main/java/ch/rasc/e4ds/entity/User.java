@@ -66,8 +66,8 @@ public class User extends AbstractPersistable {
 	private Integer failedLogins;
 
 	@JsonIgnore
-	//@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@Convert(converter=DateTimeConverter.class)
+	// @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@Convert(converter = DateTimeConverter.class)
 	private DateTime lockedOut;
 
 	public String getUserName() {
