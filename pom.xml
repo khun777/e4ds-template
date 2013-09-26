@@ -342,9 +342,12 @@
         </repository>
 
 		<repository>
-			<id>repository.springsource.milestone</id>
-			<name>SpringSource Milestone Repository</name>
-			<url>http://repo.springsource.org/milestone</url>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 
 		<repository>
@@ -565,30 +568,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>ch.rasc</groupId>
-				<artifactId>embeddedtc-maven-plugin</artifactId>
-				<version>2.0-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>package-tcwar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<finalName>e4ds.jar</finalName>
-					<extraDependencies>
-						<dependency>
-						<groupId>com.h2database</groupId>
-						<artifactId>h2</artifactId>
-						<version>1.3.173</version>
-						</dependency>
-					</extraDependencies>
-				</configuration>
-			</plugin>
-			
+		
 		</plugins>
 
 
