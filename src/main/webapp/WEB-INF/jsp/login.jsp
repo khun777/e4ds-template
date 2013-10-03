@@ -57,7 +57,7 @@
   Ext.onReady(function() {
     Ext.fly('circularG').destroy();
 	<% if (session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION") != null) { /**/ %> 
-	  Ext.ux.window.Notification.error('Fehler', 'Anmeldung fehlgeschlagen');
+	  E4ds.ux.window.Notification.error('Fehler', 'Anmeldung fehlgeschlagen');
 	  <% session.removeAttribute("SPRING_SECURITY_LAST_EXCEPTION"); %>
 	<% } %>
   });

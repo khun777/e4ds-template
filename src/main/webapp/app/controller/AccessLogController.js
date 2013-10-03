@@ -30,14 +30,14 @@ Ext.define('E4ds.controller.AccessLogController', {
 
 	deleteAll: function() {
 		accessLogService.deleteAll(function() {
-			Ext.ux.window.Notification.info(i18n.successful, i18n.accesslog_deleted);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_deleted);
 			this.doGridRefresh();
 		}, this);
 	},
 
 	addTestData: function() {
 		accessLogService.addTestData(function() {
-			Ext.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
 			this.doGridRefresh();
 		}, this);
 	},

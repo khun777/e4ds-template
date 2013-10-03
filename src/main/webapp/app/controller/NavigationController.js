@@ -48,7 +48,7 @@ Ext.define('E4ds.controller.NavigationController', {
 			scope: this,
 			success: function() {
 				editWindow.close();
-				Ext.ux.window.Notification.info(i18n.successful, i18n.options_saved);
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.options_saved);
 			}
 		});
 	},

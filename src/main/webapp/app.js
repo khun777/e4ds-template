@@ -1,6 +1,6 @@
 Ext.define('E4ds.App', {
 	extend: 'Deft.mvc.Application',
-	requires: [ 'Ext.ux.window.Notification', 'E4ds.view.Viewport' ],
+	requires: [ 'E4ds.ux.window.Notification', 'E4ds.view.Viewport' ],
 
 	init: function() {
 		Ext.fly('circularG').destroy();
@@ -27,9 +27,9 @@ Ext.define('E4ds.App', {
 
 		Ext.direct.Manager.on('exception', function(e) {
 			if (e.message === 'accessdenied') {
-				Ext.ux.window.Notification.error(i18n.error, i18n.error_accessdenied);
+				E4ds.ux.window.Notification.error(i18n.error, i18n.error_accessdenied);
 			} else {
-				Ext.ux.window.Notification.error(i18n.error, e.message);
+				E4ds.ux.window.Notification.error(i18n.error, e.message);
 			}
 		});
 

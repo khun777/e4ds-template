@@ -22,7 +22,7 @@ Ext.define('E4ds.controller.ConfigController', {
 
 	onChange: function(field, newValue, oldValue) {
 		loggingEventService.changeLogLevel(newValue, function() {
-			Ext.ux.window.Notification.info(i18n.successful, i18n.config_loglevelchanged);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.config_loglevelchanged);
 		});
 	}
 

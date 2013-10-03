@@ -4,7 +4,7 @@ Ext.define('E4ds.view.accesslog.List', {
 	title: i18n.accesslog,
 	closable: true,
 
-	requires: [ 'Ext.ux.form.field.FilterField' ],
+	requires: [ 'E4ds.ux.form.field.FilterField' ],
 
 	initComponent: function() {
 		var me = this;

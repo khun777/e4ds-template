@@ -109,7 +109,7 @@ Ext.define('E4ds.controller.UserController', {
 				this.getView().getStore().remove(record);
 				this.getView().getStore().sync();
 				this.doGridRefresh();
-				Ext.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
 			}
 		}
 	},
@@ -153,7 +153,7 @@ Ext.define('E4ds.controller.UserController', {
 				this.doGridRefresh();
 
 				editWindow.close();
-				Ext.ux.window.Notification.info(i18n.successful, i18n.user_saved);
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_saved);
 			}
 		});
 

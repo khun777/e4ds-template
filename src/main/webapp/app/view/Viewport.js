@@ -10,7 +10,7 @@ Ext.define('E4ds.view.Viewport', {
 		split: true
 	},
 
-	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu' ],
+	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu', 'E4ds.view.navigation.Header', 'E4ds.view.navigation.SideBar', 'E4ds.store.Navigation' ],
 
 	initComponent: function() {
 		var me = this;

@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//@formatter:off
 		http
 		  .authorizeRequests()
-		    .antMatchers("/i18n*", "/login*").permitAll()
+		    .antMatchers("/i18n*", "/login*", "/app/ux/window/Notification.js").permitAll()
 			.anyRequest().authenticated()
 		    .and()
 	      .formLogin()

@@ -8,7 +8,7 @@ Ext.define('E4ds.view.user.List', {
 	title: i18n.user_users,
 	closable: true,
 
-	requires: [ 'Ext.ux.form.field.FilterField', 'E4ds.model.Role' ],
+	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.model.Role' ],
 
 	initComponent: function() {
 
