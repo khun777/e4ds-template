@@ -27,7 +27,7 @@
 
 		<maven.build.timestamp.format>yyyy-MM-dd'T'hh:mm:ss.SSSZ</maven.build.timestamp.format>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
-		<extjs.version>4.2.1</extjs.version>
+		<extjs.version>4.2.2</extjs.version>
 	</properties>
 
 	<dependencies>
