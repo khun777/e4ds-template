@@ -302,7 +302,7 @@
 		<dependency>
 			<groupId>net.sf.uadetector</groupId>
 			<artifactId>uadetector-resources</artifactId>
-			<version>2013.08</version>
+			<version>2013.09</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jsr305</artifactId>
