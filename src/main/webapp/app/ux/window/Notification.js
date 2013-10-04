@@ -4,7 +4,7 @@
  *
  *	Copyright (c) 2011 Eirik Lorentsen (http://www.eirik.net/)
  *
- *	Follow project on GitHub: https://github.com/EirikLorentsen/E4ds.ux.window.Notification
+ *	Follow project on GitHub: https://github.com/EirikLorentsen/Ext.ux.window.Notification
  *
  *	Dual licensed under the MIT (http://www.opensource.org/licenses/mit-license.php) 
  *	and GPL (http://opensource.org/licenses/GPL-3.0) licenses.
