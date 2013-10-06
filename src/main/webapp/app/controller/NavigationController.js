@@ -6,7 +6,7 @@ Ext.define('E4ds.controller.NavigationController', {
 			itemclick: 'onTreeItemClick'
 		},
 		tabPanel: {
-			tabchange: 'syncNavigation'
+			tabchange: 'onTabChange'
 		},
 		loggedOnLabel: true,
 		optionButton: {
@@ -15,7 +15,13 @@ Ext.define('E4ds.controller.NavigationController', {
 	},
 
 	init: function() {
+		var me = this;
 		securityService.getLoggedOnUsername(this.showLoggedOnUser, this);
+
+		History.Adapter.bind(window, 'statechange', function() {
+			var state = History.getState();
+			me.showTab(state.data);
+		});
 	},
 
 	showLoggedOnUser: function(fullname) {
@@ -54,22 +60,43 @@ Ext.define('E4ds.controller.NavigationController', {
 	},
 
 	onTreeItemClick: function(treeview, record, item, index, event, options) {
-		var view = record.raw.view, tab = this.getTabPanel().child('panel[navigationId=' + record.raw.id + ']');
-		if (view) {
-			if (!tab) {
-				var viewObject = Ext.create(view, {
-					icon: record.raw.icon,
-					treePath: this.getPath(record),
-					navigationId: record.raw.id
-				});
+		this.pushHistoryState(record);
+	},
 
+	onTabChange: function(tabPanel, newCard) {
+		var record = this.syncNavigation();
+		if (record) {
+			this.pushHistoryState(record);
+		}
+	},
+
+	pushHistoryState: function(record) {
+		var state = {
+			view: record.raw.view,
+			viewConfig: {
+				icon: record.get('icon'),
+				treePath: this.getPath(record),
+				navigationId: record.getId()
+			}
+		};
+
+		History.pushState(state, "e4ds-template: " + record.get('text'), "?vid=" + record.getId());
+	},
+
+	showTab: function(state) {
+		var view = state.view;
+		if (view) {
+			var tab = this.getTabPanel().child('panel[navigationId=' + state.viewConfig.navigationId + ']');
+			if (!tab) {
+				var viewObject = Ext.create(view, state.viewConfig);
 				tab = this.getTabPanel().add(viewObject);
 			}
 			this.getTabPanel().setActiveTab(tab);
 		}
 	},
 
-	syncNavigation: function() {
+	syncNavigation: function(e) {
+		var record = null;
 		var activeTab = this.getTabPanel().getActiveTab();
 		var selectionModel = this.getMenuTree().getSelectionModel();
 		this.getMenuTree().expandPath(activeTab.treePath);
@@ -79,10 +106,12 @@ Ext.define('E4ds.controller.NavigationController', {
 		var currentId = selection && selection.raw.id;
 
 		if (activeTabId !== currentId) {
-			selectionModel.select(this.getMenuTree().getStore().getNodeById(activeTabId));
+			record = this.getMenuTree().getStore().getNodeById(activeTabId);
+			selectionModel.select(record);
 		}
 
 		activeTab.fireEvent('activated');
+		return record;
 	}
 
 });

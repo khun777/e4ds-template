@@ -37,6 +37,7 @@ app_js:
   /app/controller/
   /app/view/
   /app.js[dp]
+  /resources/extjs.history.js[dp]
   /resources/detect.js[dp]
 
 app_css:

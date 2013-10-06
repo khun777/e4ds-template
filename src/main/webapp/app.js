@@ -34,7 +34,7 @@ Ext.define('E4ds.App', {
 		});
 
 		Ext.apply(Ext.form.field.VTypes, {
-			password : function(val, field) {
+			password: function(val, field) {
 				if (field.initialPassField) {
 					var pwd = field.up('form').down('#' + field.initialPassField);
 					return (val === pwd.getValue());
@@ -42,7 +42,7 @@ Ext.define('E4ds.App', {
 				return true;
 			},
 
-			passwordText : i18n.user_passworddonotmatch
+			passwordText: i18n.user_passworddonotmatch
 		});
 
 		Deft.Injector.configure({
@@ -66,7 +66,7 @@ Ext.define('E4ds.App', {
 		logService.error(message);
 	},
 
-	hasLocalstorage : function() {
+	hasLocalstorage: function() {
 		try {
 			return !!localStorage.getItem;
 		} catch (e) {
