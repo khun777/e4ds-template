@@ -58,10 +58,7 @@ Ext.define('E4ds.view.accesslog.List', {
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',
-			store: me.store,
-			displayInfo: true,
-			displayMsg: i18n.accesslog_display,
-			emptyMsg: i18n.accesslog_nodata
+			store: me.store
 		} ];
 
 		me.callParent(arguments);

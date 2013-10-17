@@ -24,14 +24,13 @@ app_js:
   /deft-debug.js[d]
   /deft.js
   /loader.js[d]
-  /api.js[d]
-  /api-{application.version}.js[ps]
+  /api.js?apiNs=[d]
+  /api-{application.version}.js?apiNs=[ps]
   /resources/extjs-gpl/{extjs.version}/ux/BoxReorderer.js
   /resources/extjs-gpl/{extjs.version}/ux/TabCloseMenu.js
   /resources/extjs-gpl/{extjs.version}/ux/TabReorderer.js
   /resources/extjs-gpl/{extjs.version}/ux/form/MultiSelect.js
   /app/ux/
-  /direct.js[dp]
   /app/model/
   /app/store/
   /app/controller/

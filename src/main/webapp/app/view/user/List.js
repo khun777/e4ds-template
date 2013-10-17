@@ -1,12 +1,11 @@
 Ext.define('E4ds.view.user.List', {
 	extend: 'Ext.grid.Panel',
-
+        requires: [ 'E4ds.controller.UserController' ],
 	controller: 'E4ds.controller.UserController',
-
-	stateId: 'userList',
 
 	title: i18n.user_users,
 	closable: true,
+	border: true,
 
 	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.model.Role' ],
 
@@ -68,18 +67,17 @@ Ext.define('E4ds.view.user.List', {
 			dock: 'top',
 			items: [ {
 				text: i18n.user_new,
-				disabled: false,
-				itemId: 'addButton',
+				itemId: 'createButton',
 				icon: app_context_path + '/resources/images/add.png'
 			}, {
-				text: i18n.user_edit,
-				disabled: true,
+				text: i18n.user_edit,				
 				itemId: 'editButton',
+                                disabled: true,
 				icon: app_context_path + '/resources/images/edit.png'
 			}, {
 				text: i18n.user_delete,
-				disabled: true,
-				itemId: 'deleteButton',
+				itemId: 'destroyButton',
+                                disabled: true,				
 				icon: app_context_path + '/resources/images/eraser.png'
 			}, '-', {
 				text: i18n.excelexport,
@@ -103,11 +101,16 @@ Ext.define('E4ds.view.user.List', {
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',
-			store: me.store,
-			displayInfo: true,
-			displayMsg: i18n.user_display,
-			emptyMsg: i18n.user_nodata
+			store: me.store
 		} ];
+
+		me.listeners = {
+			'selectionchange': function(view, records) {
+				me.down('#destroyButton').setDisabled(!records.length);
+				me.down('#editButton').setDisabled(!records.length);
+				me.down('#switchButton').setDisabled(!records.length);
+			}
+		};
 
 		me.callParent(arguments);
 

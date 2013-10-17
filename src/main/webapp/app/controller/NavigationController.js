@@ -9,7 +9,7 @@ Ext.define('E4ds.controller.NavigationController', {
 			tabchange: 'onTabChange'
 		},
 		loggedOnLabel: true,
-		optionButton: {
+		settingsButton: {
 			click: 'getUser'
 		}
 	},
@@ -22,6 +22,15 @@ Ext.define('E4ds.controller.NavigationController', {
 			var state = History.getState();
 			me.showTab(state.data);
 		});
+		
+		Ext.direct.Manager.on('event', function(e) {
+			me.handleDirectResponse(e);
+		});
+		
+		var state = History.getState();
+		if (state && state.data) {
+			this.showTab(state.data);
+		}
 	},
 
 	showLoggedOnUser: function(fullname) {
@@ -33,31 +42,44 @@ Ext.define('E4ds.controller.NavigationController', {
 	},
 
 	getUser: function() {
-		userService.getLoggedOnUser(this.openOptionsWindow, this);
+		userService.getLoggedOnUser(this.openSettingsWindow, this);
 	},
 
-	openOptionsWindow: function(result) {
+	openSettingsWindow: function(result) {
 		if (result) {
-			var userOptionWindow = Ext.create('E4ds.view.navigation.UserOptions');
-			userOptionWindow.controller = this;
-			userOptionWindow.getForm().loadRecord(Ext.create('E4ds.model.User', result));
+			var userSettingsWindow = Ext.create('E4ds.view.navigation.UserSettings');
+			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', result));
+			userSettingsWindow.down('#editFormSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
 		}
 	},
 
-	updateUser: function(editWindow) {
-		var form = editWindow.getForm(), record = form.getRecord();
-
-		form.submit({
-			params: {
-				id: record ? record.data.id : ''
-			},
-			scope: this,
-			success: function() {
-				editWindow.close();
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.options_saved);
+	onUserSettingsSaveButtonClick: function(button) {
+		var win = button.up('window');
+		var form = win.down('form');
+	
+		userService.updateSettings(form.getForm().getFieldValues(), function(result) {
+			if (result.success) {
+				win.close();
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
 			}
 		});
+
 	},
+	
+//	updateUser: function(editWindow) {
+//		var form = editWindow.getForm(), record = form.getRecord();
+//
+//		form.submit({
+//			params: {
+//				id: record ? record.data.id : ''
+//			},
+//			scope: this,
+//			success: function() {
+//				editWindow.close();
+//				E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
+//			}
+//		});
+//	},
 
 	onTreeItemClick: function(treeview, record, item, index, event, options) {
 		this.pushHistoryState(record);
@@ -80,7 +102,7 @@ Ext.define('E4ds.controller.NavigationController', {
 			}
 		};
 
-		History.pushState(state, "e4ds-template: " + record.get('text'), "?vid=" + record.getId());
+		History.pushState(state, i18n.app_title + ': ' + record.get('text'), "?vid=" + record.getId());
 	},
 
 	showTab: function(state) {
@@ -110,8 +132,34 @@ Ext.define('E4ds.controller.NavigationController', {
 			selectionModel.select(record);
 		}
 
-		activeTab.fireEvent('activated');
 		return record;
-	}
+	},
+	
+	handleDirectResponse: function(event) {
+		var me = this;
+		Ext.getBody().unmask();
+		if (event.type === 'rpc') {
+			if (event.result && !event.result.success) {
+				if (event.result.validations) {
+					me.showValidationMessage(event.result.validations, 'Please correct the following errors');
+				}
+			}
+		}
+	},
+
+	showValidationMessage: function(data, message) {
+		var errorString = '<ul>';
+
+		for (var i in data) {
+			var error = data[i];
+			errorString += '<li>' + error.message + '</li>';
+			var fieldMatch = Ext.ComponentQuery.query('field[name=' + error.field + ']');
+			if (fieldMatch.length) {
+				fieldMatch[0].markInvalid(error.message);
+			}
+		}
+		errorString += '</ul>';
+		Ext.Msg.alert(message, errorString);
+	}	
 
 });

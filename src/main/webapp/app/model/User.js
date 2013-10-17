@@ -15,11 +15,23 @@ Ext.define("E4ds.model.User",
     name : "email",
     type : "string"
   }, {
+    name : "passwordNew",
+    type : "string"
+  }, {
+    name : "passwordNewConfirm",
+    type : "string"
+  }, {
+    name : "oldPassword",
+    type : "string"
+  }, {
     name : "locale",
     type : "string"
   }, {
     name : "enabled",
     type : "boolean"
+  }, {
+    name : "roleIds",
+    type : "auto"
   }, {
     name : "id",
     type : "int",
@@ -36,6 +48,8 @@ Ext.define("E4ds.model.User",
     type : "direct",
     api : {
       read : "userService.read",
+      create : "userService.create",
+      update : "userService.update",
       destroy : "userService.destroy"
     },
     reader : {

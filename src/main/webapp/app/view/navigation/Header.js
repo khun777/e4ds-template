@@ -27,9 +27,9 @@ Ext.define('E4ds.view.navigation.Header', {
 			},
 			menu: {
 				items: [ {
-					text: i18n.options,
+					text: i18n.settings,
 					icon: app_context_path + '/resources/images/gear.png',
-					itemId: 'optionButton'
+					itemId: 'settingsButton'
 				}, {
 					text: i18n.logout,
 					icon: app_context_path + '/resources/images/logout.png',

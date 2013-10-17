@@ -3,8 +3,7 @@ Ext.define('E4ds.controller.PollChartController', {
 
 	control: {
 		view: {
-			activated: 'onActivated',
-			close: 'onClose'
+			removed: 'onRemoved'
 		},
 		startStopButton: {
 			click: 'onStartStopClick'
@@ -21,13 +20,14 @@ Ext.define('E4ds.controller.PollChartController', {
 		store.add(Ext.create('E4ds.model.PollChart', event.data));
 	},
 
-	onActivated: function(cmp) {
+	init: function(cmp) {
 		this.provider = Ext.direct.Manager.getProvider('chartdatapoller');
 		this.startPolling();
 	},
 
-	onClose: function() {
+	onRemoved: function() {
 		this.stopPolling();
+		History.pushState({}, i18n.app_title, "?");
 	},
 
 	onStartStopClick: function() {

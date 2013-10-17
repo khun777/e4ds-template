@@ -1,40 +1,26 @@
-Ext.define('E4ds.view.navigation.UserOptions', {
+Ext.define('E4ds.view.navigation.UserSettings', {
 	extend: 'Ext.window.Window',
 	stateId: 'useroption',
-	title: i18n.options,
-	width: 450,
+	title: i18n.settings,
+	width: 500,
 	layout: 'fit',
-	resizable: false,
+	resizable: true,
+        constrain: true,
 	autoShow: true,
 	modal: true,
 	icon: app_context_path + '/resources/images/edit.png',
-
-	getForm: function() {
-		return this.getComponent('editForm').getForm();
-	},
 
 	initComponent: function() {
 		var me = this;
 
 		me.items = [ {
 			xtype: 'form',
-			itemId: 'editForm',
 			padding: 5,
 			bodyPadding: 10,
-			bodyBorder: true,
 
 			defaultType: 'textfield',
 			defaults: {
 				anchor: '100%'
-			},
-
-			api: {
-				submit: userService.userFormPost
-			},
-
-			baseParams: {
-				'options': true,
-				'userName': '1'
 			},
 
 			fieldDefaults: {
@@ -76,28 +62,22 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 				fieldLabel: i18n.user_oldpassword,
 				inputType: 'password'
 			}, {
-				name: 'passwordHash',
+				name: 'passwordNew',
 				fieldLabel: i18n.user_newpassword,
-				inputType: 'password',
-				id: 'pass'
+				inputType: 'password'
 			}, {
-				name: 'password-confirm',
+				name: 'passwordNewConfirm',
 				fieldLabel: i18n.user_confirmpassword,
-				vtype: 'password',
-				inputType: 'password',
-				initialPassField: 'pass'
+				inputType: 'password'
 			} ],
 
 			buttons: [ {
 				xtype: 'button',
+				itemId: 'editFormSaveButton',
 				text: i18n.save,
 				action: 'save',
 				icon: app_context_path + '/resources/images/save.png',
-				disabled: true,
-				formBind: true,
-				handler: function() {
-					me.controller.updateUser(me);
-				}
+				formBind: true
 			}, {
 				text: i18n.cancel,
 				scope: me,
@@ -108,5 +88,4 @@ Ext.define('E4ds.view.navigation.UserOptions', {
 
 		me.callParent(arguments);
 	}
-
 });

@@ -80,10 +80,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',
-			store: me.store,
-			displayInfo: true,
-			displayMsg: i18n.logevents_display,
-			emptyMsg: i18n.logevents_nodata
+			store: me.store
 		} ];
 
 		me.callParent(arguments);

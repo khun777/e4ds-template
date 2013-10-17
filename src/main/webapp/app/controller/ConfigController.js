@@ -3,17 +3,21 @@ Ext.define('E4ds.controller.ConfigController', {
 
 	control: {
 		view: {
-			activated: 'onActivated'
-		},
+			removed: 'onRemoved'
+		},		
 		logLevelCombobox: {
 			change: 'onChange'
 		}
 	},
 
-	onActivated: function() {
+	init: function() {
 		loggingEventService.getCurrentLevel(this.showCurrentLevel, this);
 	},
 
+	onRemoved: function() {
+		History.pushState({}, i18n.app_title, "?");
+	},	
+	
 	showCurrentLevel: function(logLevel) {
 		this.getLogLevelCombobox().suspendEvents(false);
 		this.getLogLevelCombobox().setValue(logLevel);

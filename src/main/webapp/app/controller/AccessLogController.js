@@ -3,7 +3,7 @@ Ext.define('E4ds.controller.AccessLogController', {
 
 	control: {
 		view: {
-			activated: 'onActivated'
+			removed: 'onRemoved'
 		},
 		deleteAllButton: {
 			click: 'deleteAll'
@@ -16,6 +16,14 @@ Ext.define('E4ds.controller.AccessLogController', {
 		filterField: {
 			filter: 'handleFilter'
 		}
+	},
+
+	init: function() {
+		this.doGridRefresh();
+	},
+
+	onRemoved: function() {
+		History.pushState({}, i18n.app_title, "?");
 	},
 
 	handleFilter: function(field, newValue) {
@@ -40,10 +48,6 @@ Ext.define('E4ds.controller.AccessLogController', {
 			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
 			this.doGridRefresh();
 		}, this);
-	},
-
-	onActivated: function() {
-		this.doGridRefresh();
 	},
 
 	doGridRefresh: function() {

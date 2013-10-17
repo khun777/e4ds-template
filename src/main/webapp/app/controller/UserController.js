@@ -1,162 +1,141 @@
 Ext.define('E4ds.controller.UserController', {
 	extend: 'Deft.mvc.ViewController',
-
+	requires: [ 'E4ds.view.user.Edit' ],
 	control: {
 		view: {
-			activated: 'onActivated',
-			itemdblclick: 'editUserFromDblClick',
-			itemclick: 'enableActions'
+			removed: 'onRemoved',
+			itemdblclick: 'onItemDblClick'
 		},
-		addButton: {
-			click: 'createUser'
+		createButton: {
+			click: 'onCreateButtonClick'
 		},
 		editButton: {
-			click: 'editUserFromButton'
+			click: 'onEditButtonClick'
 		},
-		deleteButton: {
-			click: 'deleteUser'
+		destroyButton: {
+			click: 'onDestroyButtonClick'
+		},
+		filterField: {
+			filter: 'onFilterField'
 		},
 		switchButton: {
 			click: 'onSwitchButtonClick'
 		},
-		filterField: {
-			filter: 'handleFilter'
-		},
-		exportButton: true
 	},
 
 	init: function() {
-		this.rolesStore = Ext.create('E4ds.store.Roles');
+		var store = this.getView().getStore();
+		store.clearFilter(true);
+		store.load();
 	},
 
-	handleFilter: function(field, newValue) {
-		var myStore = this.getView().getStore();
-		if (newValue) {
-			myStore.clearFilter(true);
-			myStore.filter('filter', newValue);
-
-			this.getExportButton().setParams({
-				filter: newValue
-			});
-		} else {
-			myStore.clearFilter();
-			this.getExportButton().setParams();
-		}
+	onRemoved: function() {
+		History.pushState({}, i18n.app_title, "?");
 	},
 
-	editUserFromDblClick: function(grid, record) {
+	onItemDblClick: function(grid, record) {
 		this.editUser(record);
 	},
 
-	editUserFromButton: function() {
+	onCreateButtonClick: function() {
+		this.editUser();
+	},
+
+	onEditButtonClick: function() {
 		this.editUser(this.getView().getSelectionModel().getSelection()[0]);
 	},
 
 	editUser: function(record) {
+		this.getView().getStore().rejectChanges();
+
 		var editWindow = Ext.create('E4ds.view.user.Edit', {
-			rolesStore: this.rolesStore,
-			controller: this
+			rolesStore: Ext.create('E4ds.store.Roles')
 		});
 
-		var form = editWindow.getForm();
-		form.loadRecord(record);
-
-		var roles = [];
-
-		if (record.roles()) {
-			roles = Ext.Array.map(record.roles().getRange(), function(item) {
-				return item.get('id');
-			});
-		}
-
-		form.setValues({
-			'roleIds': roles
-		});
-	},
-
-	createUser: function() {
-		var editWindow = Ext.create('E4ds.view.user.Edit', {
-			rolesStore: this.rolesStore,
-			controller: this
-		});
-
-		editWindow.getForm().isValid();
-	},
-
-	deleteUser: function(button) {
-		var record = this.getView().getSelectionModel().getSelection()[0];
+		var form = editWindow.down('form');
 		if (record) {
-			Ext.Msg.confirm(i18n.user_delete + '?', i18n.delete_confirm + ' ' + record.data.name,
-					this.afterConfirmDeleteUser, this);
+			form.loadRecord(record);
+		} else {
+			form.loadRecord(Ext.create('E4ds.model.User'));
+		}
+
+		form.isValid();
+
+		editWindow.down('#userNameTextField').focus();
+		editWindow.down('#editFormSaveButton').addListener('click', this.onEditFormSaveButtonClick, this);
+	},
+
+	onDestroyButtonClick: function(button) {
+		var me = this;
+		var store = me.getView().getStore();
+
+		Ext.Msg.confirm('Attention', 'Are you sure you want to delete this user? This action cannot be undone.', function(buttonId, text, opt) {
+			if (buttonId == 'yes') {
+				var record = me.getView().getSelectionModel().getSelection()[0];
+				store.remove(record);
+				store.sync({
+					success: function() {
+						E4ds.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
+					},
+					failure: function(records, operation) {
+						store.rejectChanges();
+						E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
+					}
+				});
+			}
+		});
+	},
+
+	onFilterField: function(field, newValue) {
+		var store = this.getView().getStore();
+		if (newValue) {
+			store.clearFilter(true);
+			store.filter('filter', newValue);
+		} else {
+			store.clearFilter();
 		}
 	},
 
+	onEditFormSaveButtonClick: function(button) {
+		var win = button.up('window');
+		var form = win.down('form');
+		var store = this.getView().getStore();
+
+		form.updateRecord();
+		var record = form.getRecord();
+
+		if (!record.dirty) {
+			win.close();
+			return;
+		}
+
+		if (record.phantom) {
+			store.rejectChanges();
+			store.add(record);
+		}
+
+		store.sync({
+			success: function(records, operation) {
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_saved);
+				win.close();
+			},
+			failure: function(records, operation) {
+				store.rejectChanges();
+			}
+		});
+
+	},
+	
 	onSwitchButtonClick: function() {
 		var record = this.getView().getSelectionModel().getSelection()[0];
 		if (record) {
 			securityService.switchUser(record.data.id, function(ok) {
 				if (ok) {
+					History.pushState({}, i18n.app_title, "?");
 					window.location.reload();
 				}
 			}, this);
 		}
 	},
-
-	afterConfirmDeleteUser: function(btn) {
-		if (btn === 'yes') {
-			var record = this.getView().getSelectionModel().getSelection()[0];
-			if (record) {
-				this.getView().getStore().remove(record);
-				this.getView().getStore().sync();
-				this.doGridRefresh();
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
-			}
-		}
-	},
-
-	enableActions: function(button, record) {
-		this.toggleEditButtons(true);
-	},
-
-	toggleButton: function(enable, button) {
-		if (enable) {
-			button.enable();
-		} else {
-			button.disable();
-		}
-	},
-
-	toggleEditButtons: function(enable) {
-		this.toggleButton(enable, this.getDeleteButton());
-		this.toggleButton(enable, this.getEditButton());
-		this.toggleButton(enable, this.getSwitchButton());
-	},
-
-	onActivated: function() {
-		this.doGridRefresh();
-	},
-
-	doGridRefresh: function() {
-		this.getView().getStore().load();
-		this.toggleEditButtons(false);
-	},
-
-	updateUser: function(editWindow) {
-		var form = editWindow.getForm(), record = form.getRecord();
-
-		form.submit({
-			params: {
-				id: record ? record.data.id : ''
-			},
-			scope: this,
-			success: function() {
-				this.doGridRefresh();
-
-				editWindow.close();
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_saved);
-			}
-		});
-
-	}
 
 });

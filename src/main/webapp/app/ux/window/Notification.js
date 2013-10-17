@@ -1,6 +1,6 @@
 /* 
  *	Notification extension for Ext JS 4.0.2+
- *	Version: 2.1.2
+ *	Version: 2.1.3
  *
  *	Copyright (c) 2011 Eirik Lorentsen (http://www.eirik.net/)
  *
@@ -499,7 +499,7 @@ Ext.define('E4ds.ux.window.Notification', {
 							me.isFading = false;
 							me.removeCls('notification-fixed');
 							me.removeFromManager();
-							me.hide();
+							me.hide(me.animateTarget, me.doClose, me);
 						}
 					}
 				});
@@ -513,7 +513,7 @@ Ext.define('E4ds.ux.window.Notification', {
 		var me = this;
 		if (!me.hidden) {
 			me.destroyAfterHide = true;
-			me.hide();
+			me.hide(me.animateTarget, me.doClose, me);
 		} else {
 			me.callParent(arguments);
 		}

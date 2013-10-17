@@ -1,12 +1,27 @@
 Ext.define('E4ds.App', {
 	extend: 'Deft.mvc.Application',
-	requires: [ 'E4ds.ux.window.Notification', 'E4ds.view.Viewport' ],
+	requires: [ 'overrides.AbstractMixedCollection', 'E4ds.ux.window.Notification', 'E4ds.view.Viewport' ],
 
 	init: function() {
 		Ext.fly('circularG').destroy();
 
 		Ext.tip.QuickTipManager.init();
+		
+		var chartdatapoller = new Ext.direct.PollingProvider({
+			id: 'chartdatapoller',
+			type: 'polling',
+			interval: 2000,
+			url: POLLING_URLS.chartdata
+		});
+		var heartbeat = new Ext.direct.PollingProvider({
+			type: 'polling',
+			interval: 5*60*1000, //5 minutes
+			url: POLLING_URLS.heartbeat
+		});
+		Ext.direct.Manager.addProvider(REMOTING_API, chartdatapoller, heartbeat);
+		Ext.direct.Manager.getProvider('chartdatapoller').disconnect();
 
+		
 		if (this.hasLocalstorage()) {
 			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
 		} else {
@@ -31,18 +46,6 @@ Ext.define('E4ds.App', {
 			} else {
 				E4ds.ux.window.Notification.error(i18n.error, e.message);
 			}
-		});
-
-		Ext.apply(Ext.form.field.VTypes, {
-			password: function(val, field) {
-				if (field.initialPassField) {
-					var pwd = field.up('form').down('#' + field.initialPassField);
-					return (val === pwd.getValue());
-				}
-				return true;
-			},
-
-			passwordText: i18n.user_passworddonotmatch
 		});
 
 		Deft.Injector.configure({

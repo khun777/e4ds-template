@@ -5,36 +5,25 @@ Ext.define('E4ds.view.user.Edit', {
 	layout: 'fit',
 	autoShow: true,
 	resizable: true,
-	constrainHeader: true,
+	constrain: true,
 	width: 500,
-	height: 420,
 	modal: true,
 
 	icon: app_context_path + '/resources/images/edit.png',
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
 
-	getForm: function() {
-		return this.getComponent('userEditForm').getForm();
-	},
-
 	initComponent: function() {
 		var me = this;
 
 		me.items = [ {
 			xtype: 'form',
-			itemId: 'userEditForm',
 			padding: 5,
 			bodyPadding: 10,
-			bodyBorder: true,
 
 			defaultType: 'textfield',
 			defaults: {
 				anchor: '100%'
-			},
-
-			api: {
-				submit: userService.userFormPost
 			},
 
 			fieldDefaults: {
@@ -43,6 +32,7 @@ Ext.define('E4ds.view.user.Edit', {
 
 			items: [ {
 				name: 'userName',
+				itemId: 'userNameTextField',
 				fieldLabel: i18n.user_username,
 				allowBlank: false
 			}, {
@@ -59,16 +49,13 @@ Ext.define('E4ds.view.user.Edit', {
 				vtype: 'email',
 				allowBlank: false
 			}, {
-				name: 'passwordHash',
+				name: 'passwordNew',
 				fieldLabel: i18n.user_password,
-				inputType: 'password',
-				id: 'pass'
+				inputType: 'password'
 			}, {
-				name: 'password-confirm',
+				name: 'passwordNewConfirm',
 				fieldLabel: i18n.user_confirmpassword,
-				vtype: 'password',
-				inputType: 'password',
-				initialPassField: 'pass'
+				inputType: 'password'
 			}, {
 				xtype: 'combobox',
 				fieldLabel: i18n.user_language,
@@ -101,15 +88,11 @@ Ext.define('E4ds.view.user.Edit', {
 
 			buttons: [ {
 				xtype: 'button',
-				itemId: 'saveButton',
+				itemId: 'editFormSaveButton',
 				text: i18n.save,
 				action: 'save',
 				icon: app_context_path + '/resources/images/save.png',
-				disabled: true,
-				formBind: true,
-				handler: function() {
-					me.controller.updateUser(me);
-				}
+				formBind: true
 			}, {
 				text: i18n.cancel,
 				scope: me,

@@ -3,10 +3,8 @@ package ch.rasc.e4ds.config;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.multipart.MultipartResolver;
@@ -20,8 +18,12 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import ch.ralscha.extdirectspring.util.JsonHandler;
 import ch.rasc.e4ds.web.AppLocaleResolver;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.ImmutableMap;
 
 @Configuration
@@ -66,25 +68,25 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		config.setSendStacktrace(environment.acceptsProfiles("development"));
 		config.setExceptionToMessage(new ImmutableMap.Builder<Class<?>, String>().put(AccessDeniedException.class,
 				"accessdenied").build());
+
+		JsonHandler handler = new JsonHandler();
+		handler.setMapper(objectMapper());
+		config.setJsonHandler(handler);
+
 		return config;
+	}
+
+	@Bean
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+		return objectMapper;
 	}
 
 	@Bean
 	public MultipartResolver multipartResolver() {
 		return new CommonsMultipartResolver();
-	}
-
-	@Bean
-	public MessageSource messageSource() {
-
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:messages");
-		messageSource.setFallbackToSystemLocale(false);
-
-		// development
-		// messageSource.setCacheSeconds(60);
-
-		return messageSource;
 	}
 
 	@Bean
