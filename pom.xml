@@ -551,6 +551,8 @@
 								<exclude>resources/extjs-gpl/**/*.js</exclude>
 								<exclude>deft.js</exclude>
 								<exclude>deft-debug.js</exclude>
+								<exclude>resources/extjs.history.js</exclude>
+								<exclude>resources/detect.js</exclude>
 							</excludes>
 
 							<options>
@@ -560,7 +562,7 @@
 								<vars>true</vars>
 								<plusplus>true</plusplus>
 								<unparam>true</unparam>
-								<predef>Ext,Deft,app_context_path,i18n,accessLogService,userService,logService,
+								<predef>Ext,E4ds,REMOTING_API,POLLING_URLS,History,Deft,app_context_path,i18n,accessLogService,userService,logService,
 								loggingEventService,navigationService,securityService</predef>
 							</options>
 						</configuration>
