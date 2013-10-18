@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity builder) throws Exception {
-		builder.ignoring().antMatchers("/resources/**", "/favicon.ico");
+		builder.ignoring().antMatchers("/resources/**", "/favicon.ico", "/**/*.js", "/**/*.css");
 	}
 
 	@Bean
@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
 		    .and()		
 		  .authorizeRequests()
-		    .antMatchers("/i18n*", "/login*", "/app/ux/window/Notification.js").permitAll()
 			.anyRequest().authenticated()
 		    .and()
 	      .formLogin()
