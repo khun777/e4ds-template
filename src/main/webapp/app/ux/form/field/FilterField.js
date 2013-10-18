@@ -7,7 +7,7 @@ Ext.define('E4ds.ux.form.field.FilterField', {
 
 	initComponent: function() {
 		this.on('specialkey', function(f, e) {
-			if (e.getKey() == e.ENTER) {
+			if (e.getKey() === e.ENTER) {
 				this.fireEvent('filter', this, this.getValue());
 			}
 		}, this);

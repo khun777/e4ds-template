@@ -4,7 +4,7 @@ Ext.define('E4ds.controller.LoggingEventController', {
 	control: {
 		view: {
 			removed: 'onRemoved'
-		},			
+		},
 		deleteAllButton: {
 			click: 'deleteAll'
 		},
@@ -22,11 +22,11 @@ Ext.define('E4ds.controller.LoggingEventController', {
 	init: function() {
 		this.doGridRefresh();
 	},
-	
+
 	onRemoved: function() {
 		History.pushState({}, i18n.app_title, "?");
-	},		
-	
+	},
+
 	filterLogLevel: function(field, newValue, oldValue) {
 		var myStore = this.getView().getStore();
 		if (newValue) {

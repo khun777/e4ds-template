@@ -5,7 +5,7 @@ Ext.define('E4ds.view.navigation.UserSettings', {
 	width: 500,
 	layout: 'fit',
 	resizable: true,
-        constrain: true,
+	constrain: true,
 	autoShow: true,
 	modal: true,
 	icon: app_context_path + '/resources/images/edit.png',

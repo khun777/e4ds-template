@@ -21,6 +21,7 @@ Ext.define('E4ds.controller.UserController', {
 		switchButton: {
 			click: 'onSwitchButtonClick'
 		},
+		exportButton: true
 	},
 
 	init: function() {
@@ -70,7 +71,7 @@ Ext.define('E4ds.controller.UserController', {
 		var store = me.getView().getStore();
 
 		Ext.Msg.confirm('Attention', 'Are you sure you want to delete this user? This action cannot be undone.', function(buttonId, text, opt) {
-			if (buttonId == 'yes') {
+			if (buttonId === 'yes') {
 				var record = me.getView().getSelectionModel().getSelection()[0];
 				store.remove(record);
 				store.sync({
@@ -91,8 +92,12 @@ Ext.define('E4ds.controller.UserController', {
 		if (newValue) {
 			store.clearFilter(true);
 			store.filter('filter', newValue);
+			this.getExportButton().setParams({
+				filter: newValue
+			});
 		} else {
 			store.clearFilter();
+			this.getExportButton().setParams();
 		}
 	},
 
@@ -125,7 +130,7 @@ Ext.define('E4ds.controller.UserController', {
 		});
 
 	},
-	
+
 	onSwitchButtonClick: function() {
 		var record = this.getView().getSelectionModel().getSelection()[0];
 		if (record) {
@@ -136,6 +141,6 @@ Ext.define('E4ds.controller.UserController', {
 				}
 			}, this);
 		}
-	},
+	}
 
 });

@@ -12,8 +12,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 		expandOnEnter: false,
 		expandOnDblClick: false,
 		selectRowOnExpand: true,
-		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">',
-				'<p>{message}</p>', '</tpl>' ]
+		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">', '<p>{message}</p>', '</tpl>' ]
 	} ],
 
 	initComponent: function() {

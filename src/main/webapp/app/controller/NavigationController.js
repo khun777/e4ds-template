@@ -22,11 +22,11 @@ Ext.define('E4ds.controller.NavigationController', {
 			var state = History.getState();
 			me.showTab(state.data);
 		});
-		
+
 		Ext.direct.Manager.on('event', function(e) {
 			me.handleDirectResponse(e);
 		});
-		
+
 		var state = History.getState();
 		if (state && state.data) {
 			this.showTab(state.data);
@@ -56,7 +56,7 @@ Ext.define('E4ds.controller.NavigationController', {
 	onUserSettingsSaveButtonClick: function(button) {
 		var win = button.up('window');
 		var form = win.down('form');
-	
+
 		userService.updateSettings(form.getForm().getFieldValues(), function(result) {
 			if (result.success) {
 				win.close();
@@ -65,21 +65,21 @@ Ext.define('E4ds.controller.NavigationController', {
 		});
 
 	},
-	
-//	updateUser: function(editWindow) {
-//		var form = editWindow.getForm(), record = form.getRecord();
-//
-//		form.submit({
-//			params: {
-//				id: record ? record.data.id : ''
-//			},
-//			scope: this,
-//			success: function() {
-//				editWindow.close();
-//				E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
-//			}
-//		});
-//	},
+
+	// updateUser: function(editWindow) {
+	// var form = editWindow.getForm(), record = form.getRecord();
+	//
+	// form.submit({
+	// params: {
+	// id: record ? record.data.id : ''
+	// },
+	// scope: this,
+	// success: function() {
+	// editWindow.close();
+	// E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
+	// }
+	// });
+	// },
 
 	onTreeItemClick: function(treeview, record, item, index, event, options) {
 		this.pushHistoryState(record);
@@ -134,7 +134,7 @@ Ext.define('E4ds.controller.NavigationController', {
 
 		return record;
 	},
-	
+
 	handleDirectResponse: function(event) {
 		var me = this;
 		Ext.getBody().unmask();
@@ -149,17 +149,19 @@ Ext.define('E4ds.controller.NavigationController', {
 
 	showValidationMessage: function(data, message) {
 		var errorString = '<ul>';
-
-		for (var i in data) {
-			var error = data[i];
-			errorString += '<li>' + error.message + '</li>';
-			var fieldMatch = Ext.ComponentQuery.query('field[name=' + error.field + ']');
-			if (fieldMatch.length) {
-				fieldMatch[0].markInvalid(error.message);
+		var error, fieldMatch, i = null;
+		for (i in data) {
+			if (data.hasOwnProperty(i)) {
+				error = data[i];
+				errorString += '<li>' + error.message + '</li>';
+				fieldMatch = Ext.ComponentQuery.query('field[name=' + error.field + ']');
+				if (fieldMatch.length) {
+					fieldMatch[0].markInvalid(error.message);
+				}
 			}
 		}
 		errorString += '</ul>';
 		Ext.Msg.alert(message, errorString);
-	}	
+	}
 
 });

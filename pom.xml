@@ -58,6 +58,12 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
@@ -120,6 +126,18 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.3.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>activation</artifactId>
+					<groupId>javax.activation</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -553,6 +571,7 @@
 								<exclude>deft-debug.js</exclude>
 								<exclude>resources/extjs.history.js</exclude>
 								<exclude>resources/detect.js</exclude>
+								<exclude>app/ux/window/Notification.js</exclude>
 							</excludes>
 
 							<options>
@@ -563,7 +582,7 @@
 								<plusplus>true</plusplus>
 								<unparam>true</unparam>
 								<predef>Ext,E4ds,REMOTING_API,POLLING_URLS,History,Deft,app_context_path,i18n,accessLogService,userService,logService,
-								loggingEventService,navigationService,securityService</predef>
+								loggingEventService,navigationService,securityService,appConfigurationService</predef>
 							</options>
 						</configuration>
 					</execution>

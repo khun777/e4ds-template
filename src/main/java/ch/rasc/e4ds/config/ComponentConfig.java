@@ -23,7 +23,7 @@ public class ComponentConfig {
 		messageSource.setFallbackToSystemLocale(false);
 		return messageSource;
 	}
-	
+
 	@Bean
 	public Validator validator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();

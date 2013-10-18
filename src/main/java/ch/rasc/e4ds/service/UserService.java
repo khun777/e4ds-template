@@ -76,7 +76,7 @@ public class UserService extends BaseCRUDService<User> {
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
 	public ExtDirectStoreValidationResult<User> updateSettings(User modifiedUser, Locale locale) {
-		
+
 		List<ValidationError> validations = Lists.newArrayList();
 		User dbUser = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -91,7 +91,7 @@ public class UserService extends BaseCRUDService<User> {
 					if (passwordEncoder.matches(modifiedUser.getOldPassword(), dbUser.getPasswordHash())) {
 						if (modifiedUser.getPasswordNew().equals(modifiedUser.getPasswordNewConfirm())) {
 							dbUser.setPasswordHash(passwordEncoder.encode(modifiedUser.getPasswordNew()));
-						} else {							
+						} else {
 							ValidationError error = new ValidationError();
 							error.setField("passwordNew");
 							error.setMessage(messageSource.getMessage("user_passworddonotmatch", null, locale));
@@ -105,13 +105,13 @@ public class UserService extends BaseCRUDService<User> {
 					}
 				}
 			}
-		}		
-		
+		}
+
 		ExtDirectStoreValidationResult<User> result = new ExtDirectStoreValidationResult<>(dbUser);
 		result.setValidations(validations);
 		return result;
 	}
-	
+
 	@Override
 	protected List<ValidationError> validateEntity(User entity) {
 		List<ValidationError> validations = super.validateEntity(entity);
@@ -166,7 +166,9 @@ public class UserService extends BaseCRUDService<User> {
 		if (entity.getRoleIds() != null) {
 			Set<Role> roles = Sets.newHashSet();
 			for (Long roleId : entity.getRoleIds()) {
-				roles.add(entityManager.getReference(Role.class, roleId));
+				if (roleId != null) {
+					roles.add(entityManager.getReference(Role.class, roleId));
+				}
 			}
 			entity.setRoles(roles);
 		}
