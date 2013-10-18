@@ -1,5 +1,6 @@
 Ext.define('E4ds.controller.UserController', {
 	extend: 'Deft.mvc.ViewController',
+	inject: 'rolesStore',
 	requires: [ 'E4ds.view.user.Edit' ],
 	control: {
 		view: {
@@ -50,7 +51,7 @@ Ext.define('E4ds.controller.UserController', {
 		this.getView().getStore().rejectChanges();
 
 		var editWindow = Ext.create('E4ds.view.user.Edit', {
-			rolesStore: Ext.create('E4ds.store.Roles')
+			rolesStore: this.rolesStore
 		});
 
 		var form = editWindow.down('form');

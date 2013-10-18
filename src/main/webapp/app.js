@@ -6,7 +6,7 @@ Ext.define('E4ds.App', {
 		Ext.fly('circularG').destroy();
 
 		Ext.tip.QuickTipManager.init();
-		
+
 		var chartdatapoller = new Ext.direct.PollingProvider({
 			id: 'chartdatapoller',
 			type: 'polling',
@@ -15,13 +15,12 @@ Ext.define('E4ds.App', {
 		});
 		var heartbeat = new Ext.direct.PollingProvider({
 			type: 'polling',
-			interval: 5*60*1000, //5 minutes
+			interval: 5 * 60 * 1000, // 5 minutes
 			url: POLLING_URLS.heartbeat
 		});
 		Ext.direct.Manager.addProvider(REMOTING_API, chartdatapoller, heartbeat);
 		Ext.direct.Manager.getProvider('chartdatapoller').disconnect();
 
-		
 		if (this.hasLocalstorage()) {
 			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
 		} else {
@@ -49,7 +48,11 @@ Ext.define('E4ds.App', {
 		});
 
 		Deft.Injector.configure({
-			messageBus: 'Ext.util.Observable'
+			messageBus: 'Ext.util.Observable',
+			rolesStore: {
+				className: 'E4ds.store.Roles',
+				eager: true
+			}
 		});
 
 		Ext.create('E4ds.view.Viewport');

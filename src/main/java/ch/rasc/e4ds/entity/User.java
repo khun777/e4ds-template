@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -200,8 +198,6 @@ public class User extends AbstractPersistable {
 	}
 
 	@PostLoad
-	@PostPersist
-	@PostUpdate
 	private void populate() {
 
 		roleIds = Collections2.transform(roles, new Function<Role, Long>() {

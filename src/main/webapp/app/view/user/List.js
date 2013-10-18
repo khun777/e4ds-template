@@ -2,7 +2,7 @@ Ext.define('E4ds.view.user.List', {
 	extend: 'Ext.grid.Panel',
 	requires: [ 'E4ds.controller.UserController', 'E4ds.ux.form.field.FilterField', 'E4ds.model.Role' ],
 	controller: 'E4ds.controller.UserController',
-
+	inject: 'rolesStore',
 	title: i18n.user_users,
 	closable: true,
 	border: true,
@@ -31,19 +31,21 @@ Ext.define('E4ds.view.user.List', {
 			flex: 1
 		}, {
 			text: 'Roles',
-			dataIndex: 'roles',
+			dataIndex: 'roleIds',
 			sortable: false,
 			width: 160,
 			renderer: function(value, metadata, record) {
-				var roles = record.roles();
 				var result = '';
-				if (roles) {
-					roles.each(function(item, index, count) {
-						result += item.get('name');
-						if (index + 1 < count) {
+				if (value) {
+					for (var i = 0; i < value.length; i++) {
+						if (result.length > 0) {
 							result += ', ';
 						}
-					});
+						var role = this.rolesStore.getById(value[i]);
+						if (role) {
+							result += role.get('name');
+						}
+					}
 				}
 				metadata.tdAttr = 'data-qtip="' + result + '"';
 				return result;
