@@ -70,7 +70,7 @@ Ext.define('E4ds.controller.UserController', {
 		var me = this;
 		var store = me.getView().getStore();
 
-		Ext.Msg.confirm('Attention', 'Are you sure you want to delete this user? This action cannot be undone.', function(buttonId, text, opt) {
+		Ext.Msg.confirm(i18n.attention, i18n.user_deleteconfirm, function(buttonId, text, opt) {
 			if (buttonId === 'yes') {
 				var record = me.getView().getSelectionModel().getSelection()[0];
 				store.remove(record);
