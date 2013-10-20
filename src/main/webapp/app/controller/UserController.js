@@ -5,22 +5,14 @@ Ext.define('E4ds.controller.UserController', {
 	control: {
 		view: {
 			removed: 'onRemoved',
-			itemdblclick: 'onItemDblClick'
+			itemdblclick: 'onItemDblClick',
+			itemcontextmenu: 'onItemContextMenu'
 		},
 		createButton: {
 			click: 'onCreateButtonClick'
 		},
-		editButton: {
-			click: 'onEditButtonClick'
-		},
-		destroyButton: {
-			click: 'onDestroyButtonClick'
-		},
 		filterField: {
 			filter: 'onFilterField'
-		},
-		switchButton: {
-			click: 'onSwitchButtonClick'
 		},
 		exportButton: true
 	},
@@ -29,6 +21,52 @@ Ext.define('E4ds.controller.UserController', {
 		var store = this.getView().getStore();
 		store.clearFilter(true);
 		store.load();
+	},
+
+	destroy: function() {
+		if (this.actionMenu) {
+			this.actionMenu.destroy();
+		}
+	},
+
+	onItemContextMenu: function(view, record, item, index, e, eOpts) {
+		e.stopEvent();
+		this.showContextMenu(record, e.getXY());
+	},
+
+	showContextMenu: function(record, xy, item) {
+		var me = this;
+		var user = ' ' + record.get('userName');
+		var items = [ {
+			text: i18n.user_edit + user,
+			icon: app_context_path + '/resources/images/Data-Edit-16.png',
+			handler: Ext.bind(me.editUser, me, [record])
+		}, {
+			text: i18n.user_delete + user,
+			icon: app_context_path + '/resources/images/Garbage-16.png',
+			handler: Ext.bind(me.destroyUser, me, [record])
+		}, {
+			xtype: 'menuseparator'
+		}, {
+			text: i18n.user_switchto + user,
+			icon: app_context_path + '/resources/images/Policeman-16.png',
+			handler: Ext.bind(me.switchTo, me, [record])
+		} ];
+
+		if (this.actionMenu) {
+			this.actionMenu.destroy();
+		}
+
+		this.actionMenu = Ext.create('Ext.menu.Menu', {
+			items: items,
+			border: true
+		});
+
+		if (xy) {
+			this.actionMenu.showAt(xy);
+		} else {
+			this.actionMenu.showBy(item);
+		}
 	},
 
 	onRemoved: function() {
@@ -41,10 +79,6 @@ Ext.define('E4ds.controller.UserController', {
 
 	onCreateButtonClick: function() {
 		this.editUser();
-	},
-
-	onEditButtonClick: function() {
-		this.editUser(this.getView().getSelectionModel().getSelection()[0]);
 	},
 
 	editUser: function(record) {
@@ -67,13 +101,12 @@ Ext.define('E4ds.controller.UserController', {
 		editWindow.down('#editFormSaveButton').addListener('click', this.onEditFormSaveButtonClick, this);
 	},
 
-	onDestroyButtonClick: function(button) {
+	destroyUser: function(record) {
 		var me = this;
 		var store = me.getView().getStore();
 
 		Ext.Msg.confirm(i18n.attention, i18n.user_deleteconfirm, function(buttonId, text, opt) {
 			if (buttonId === 'yes') {
-				var record = me.getView().getSelectionModel().getSelection()[0];
 				store.remove(record);
 				store.sync({
 					success: function() {
@@ -132,8 +165,7 @@ Ext.define('E4ds.controller.UserController', {
 
 	},
 
-	onSwitchButtonClick: function() {
-		var record = this.getView().getSelectionModel().getSelection()[0];
+	switchTo: function(record) {
 		if (record) {
 			securityService.switchUser(record.data.id, function(ok) {
 				if (ok) {

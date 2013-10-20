@@ -14,6 +14,17 @@ Ext.define('E4ds.view.user.List', {
 		me.store = Ext.create('E4ds.store.Users');
 
 		me.columns = [ {
+			xtype: 'actioncolumn',
+			width: 30,
+			items: [ {
+				icon: app_context_path + '/resources/images/Arrowhead-Down-01-16.png',
+				tooltip: 'Actions',
+				handler: function(grid, rowIndex, colIndex, item, e, record, row) {
+					this.getController().showContextMenu(record, null, row);
+				},
+				scope: this
+			} ]
+		}, {
 			text: i18n.user_username,
 			dataIndex: 'userName',
 			flex: 1
@@ -66,37 +77,20 @@ Ext.define('E4ds.view.user.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				text: i18n.user_new,
-				itemId: 'createButton',
-				icon: app_context_path + '/resources/images/add.png'
-			}, {
-				text: i18n.user_edit,
-				itemId: 'editButton',
-				disabled: true,
-				icon: app_context_path + '/resources/images/edit.png'
-			}, {
-				text: i18n.user_delete,
-				itemId: 'destroyButton',
-				disabled: true,
-				icon: app_context_path + '/resources/images/eraser.png'
-			}, '-', {
-				text: i18n.excelexport,
-				itemId: 'exportButton',
-				icon: app_context_path + '/resources/images/excel.gif',
-				href: 'usersExport.xlsx',
-				hrefTarget: '_self'
-			}, {
-				xtype: 'tbseparator'
-			}, {
-				text: i18n.user_switchto,
-				itemId: 'switchButton',
-				icon: app_context_path + '/resources/images/spy.png',
-				disabled: true
-			}, '->', {
 				itemId: 'filterField',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
 				xtype: 'filterfield'
+			}, '->', {
+				text: i18n.user_new,
+				itemId: 'createButton',
+				icon: app_context_path + '/resources/images/Add-New-16.png'
+			}, '-', {
+				text: i18n.excelexport,
+				itemId: 'exportButton',
+				icon: app_context_path + '/resources/images/Microsoft-Excel-2013-02-16.png',
+				href: 'usersExport.xlsx',
+				hrefTarget: '_self'
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
@@ -105,11 +99,6 @@ Ext.define('E4ds.view.user.List', {
 		} ];
 
 		me.listeners = {
-			selectionchange: function(view, records) {
-				me.down('#destroyButton').setDisabled(!records.length);
-				me.down('#editButton').setDisabled(!records.length);
-				me.down('#switchButton').setDisabled(!records.length);
-			},
 			filterchange: function(store) {
 				me.down('#exportButton').setDisabled(store.getCount() > 0);
 			}

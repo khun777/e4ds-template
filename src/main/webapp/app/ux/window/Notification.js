@@ -77,8 +77,8 @@ Ext.define('E4ds.ux.window.Notification', {
 				autoCloseDelay: 4000,
 				slideInDuration: 300,
 				width: 200,
-				paddingX: 10,
-				paddingY: 44,
+				paddingX: 7,
+				paddingY: 46,
 				
 				html: text,
 				bodyStyle: {

@@ -1,16 +1,20 @@
 Ext.define('E4ds.view.Viewport', {
 	extend: 'Ext.Viewport',
 	controller: 'E4ds.controller.NavigationController',
+	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu', 'E4ds.view.navigation.Header', 'E4ds.view.navigation.SideBar', 'E4ds.store.Navigation' ],
+
+	style: {
+		backgroundColor: 'white'
+	},
 
 	layout: {
 		type: 'border',
 		padding: 5
 	},
+
 	defaults: {
 		split: true
 	},
-
-	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu', 'E4ds.view.navigation.Header', 'E4ds.view.navigation.SideBar', 'E4ds.store.Navigation' ],
 
 	initComponent: function() {
 		var me = this;

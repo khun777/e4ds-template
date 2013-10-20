@@ -9,7 +9,7 @@ Ext.define('E4ds.view.user.Edit', {
 	width: 500,
 	modal: true,
 
-	icon: app_context_path + '/resources/images/edit.png',
+	icon: app_context_path + '/resources/images/Data-Edit-16.png',
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
 
@@ -91,13 +91,13 @@ Ext.define('E4ds.view.user.Edit', {
 				itemId: 'editFormSaveButton',
 				text: i18n.save,
 				action: 'save',
-				icon: app_context_path + '/resources/images/save.png',
+				icon: app_context_path + '/resources/images/Submit-01-16.png',
 				formBind: true
 			}, {
 				text: i18n.cancel,
 				scope: me,
 				handler: me.close,
-				icon: app_context_path + '/resources/images/cancel.png'
+				icon: app_context_path + '/resources/images/Close-16.png'
 			} ]
 		} ];
 

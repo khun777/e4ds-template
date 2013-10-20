@@ -1,7 +1,7 @@
 Ext.define('E4ds.view.config.Edit', {
 	extend: 'Ext.form.Panel',
 	controller: 'E4ds.controller.ConfigController',
-
+	border: true,
 	title: i18n.config,
 	closable: true,
 
@@ -23,7 +23,6 @@ Ext.define('E4ds.view.config.Edit', {
 				itemId: 'logLevelCombobox',
 				fieldLabel: i18n.config_loglevel,
 				name: 'logLevel',
-				//labelWidth: 110,
 				store: Ext.create('E4ds.store.LogLevels'),
 				valueField: 'level',
 				displayField: 'level',
@@ -92,12 +91,12 @@ Ext.define('E4ds.view.config.Edit', {
 				}]
 			} ]
 		} ];		
-		
+				
 		me.buttons = [ {
 			xtype: 'button',
 			itemId: 'saveButton',
 			text: i18n.save,
-			icon: app_context_path + '/resources/images/save.png',
+			icon: app_context_path + '/resources/images/Submit-01-16.png',
 			formBind: true
 		} ];		
 

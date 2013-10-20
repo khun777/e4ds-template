@@ -3,7 +3,8 @@ Ext.define('E4ds.view.accesslog.List', {
 	controller: 'E4ds.controller.AccessLogController',
 	title: i18n.accesslog,
 	closable: true,
-
+	border: true,
+	
 	requires: [ 'E4ds.ux.form.field.FilterField' ],
 
 	initComponent: function() {
@@ -43,18 +44,18 @@ Ext.define('E4ds.view.accesslog.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				text: i18n.accesslog_deleteall,
-				itemId: 'deleteAllButton',
-				icon: app_context_path + '/resources/images/eraser.png'
-			}, /* <debug> */'-', {
-				text: i18n.accesslog_testinsert,
-				itemId: 'testButton',
-				icon: app_context_path + '/resources/images/add.png'
-			}, /* </debug> */'->', {
 				fieldLabel: i18n.user_username,
 				itemId: 'filterField',
 				xtype: 'filterfield'
-			} ]
+			}, '->', {
+				text: i18n.accesslog_deleteall,
+				itemId: 'deleteAllButton',
+				icon: app_context_path + '/resources/images/Garbage-16.png'
+			}, /* <debug> */'-', {
+				text: i18n.accesslog_testinsert,
+				itemId: 'testButton',
+				icon: app_context_path + '/resources/images/Add-New-16.png'
+			}, /* </debug> */  ]
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',

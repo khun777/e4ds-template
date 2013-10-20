@@ -4,7 +4,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 
 	title: i18n.logevents,
 	closable: true,
-
+	border: true,
 	requires: [ 'Ext.grid.plugin.RowExpander', 'E4ds.ux.form.field.ClearCombo' ],
 
 	plugins: [ {
@@ -51,20 +51,6 @@ Ext.define('E4ds.view.loggingevent.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				text: i18n.textexport,
-				itemId: 'exportButton',
-				icon: app_context_path + '/resources/images/document_down.png',
-				href: 'loggingEventExport.txt',
-				hrefTarget: '_self'
-			}, '-', {
-				text: i18n.logevents_deleteall,
-				itemId: 'deleteAllButton',
-				icon: app_context_path + '/resources/images/eraser.png'
-			},/* <debug> */'-', {
-				text: i18n.logevents_addtest,
-				itemId: 'testButton',
-				icon: app_context_path + '/resources/images/add.png'
-			},/* </debug> */'->', {
 				xtype: 'clearcombo',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
@@ -75,7 +61,21 @@ Ext.define('E4ds.view.loggingevent.List', {
 				displayField: 'level',
 				queryMode: 'local',
 				forceSelection: true
-			} ]
+			}, '->', {
+				text: i18n.textexport,
+				itemId: 'exportButton',
+				icon: app_context_path + '/resources/images/Export-16.png',
+				href: 'loggingEventExport.txt',
+				hrefTarget: '_self'
+			}, '-', {
+				text: i18n.logevents_deleteall,
+				itemId: 'deleteAllButton',
+				icon: app_context_path + '/resources/images/Garbage-16.png'
+			},/* <debug> */'-', {
+				text: i18n.logevents_addtest,
+				itemId: 'testButton',
+				icon: app_context_path + '/resources/images/Add-New-16.png'
+			},/* </debug> */]
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',

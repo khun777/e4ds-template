@@ -30,7 +30,7 @@ Ext.onReady(function() {
 		url: 'login.html',
 		width: 400,
 		padding: 5,
-		icon: app_context_path + '/resources/images/key.png',
+		icon: app_context_path + '/resources/images/Key-Access-01-16.png',
 
 		standardSubmit: true,
 
@@ -104,6 +104,10 @@ Ext.onReady(function() {
 	Ext.create('Ext.container.Viewport', {
 		renderTo: Ext.getBody(),
 
+		style: {
+			backgroundColor: 'white'
+		},		
+		
 		layout: {
 			type: 'border',
 			padding: 5
