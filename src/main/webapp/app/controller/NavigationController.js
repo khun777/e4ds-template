@@ -66,21 +66,6 @@ Ext.define('E4ds.controller.NavigationController', {
 
 	},
 
-	// updateUser: function(editWindow) {
-	// var form = editWindow.getForm(), record = form.getRecord();
-	//
-	// form.submit({
-	// params: {
-	// id: record ? record.data.id : ''
-	// },
-	// scope: this,
-	// success: function() {
-	// editWindow.close();
-	// E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
-	// }
-	// });
-	// },
-
 	onTreeItemClick: function(treeview, record, item, index, event, options) {
 		this.pushHistoryState(record);
 	},
