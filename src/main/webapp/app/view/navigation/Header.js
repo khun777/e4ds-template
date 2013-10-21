@@ -9,7 +9,7 @@ Ext.define('E4ds.view.navigation.Header', {
 	initComponent: function() {
 		var me = this;
 		me.items = [ {
-			html: 'e4ds-template',
+			html: i18n.app_title,
 			cls: 'appHeader'
 		}, {
 			xtype: 'tbspacer',
