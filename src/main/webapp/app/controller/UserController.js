@@ -23,10 +23,11 @@ Ext.define('E4ds.controller.UserController', {
 		store.load();
 	},
 
-	destroy: function() {
+	destroy: function() {		
 		if (this.actionMenu) {
 			this.actionMenu.destroy();
-		}
+		}		
+		return this.callParent();
 	},
 
 	onItemContextMenu: function(view, record, item, index, e, eOpts) {
