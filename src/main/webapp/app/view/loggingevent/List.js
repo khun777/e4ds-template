@@ -51,17 +51,6 @@ Ext.define('E4ds.view.loggingevent.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				xtype: 'clearcombo',
-				fieldLabel: i18n.filter,
-				labelWidth: 40,
-				itemId: 'logLevelFilter',
-				name: 'logLevelFilter',
-				store: Ext.create('E4ds.store.LogLevels'),
-				valueField: 'level',
-				displayField: 'level',
-				queryMode: 'local',
-				forceSelection: true
-			}, '->', {
 				text: i18n.textexport,
 				itemId: 'exportButton',
 				icon: app_context_path + '/resources/images/Export-16.png',
@@ -75,7 +64,18 @@ Ext.define('E4ds.view.loggingevent.List', {
 				text: i18n.logevents_addtest,
 				itemId: 'testButton',
 				icon: app_context_path + '/resources/images/Add-New-16.png'
-			},/* </debug> */]
+			},/* </debug> */, '->', {
+				xtype: 'clearcombo',
+				fieldLabel: i18n.filter,
+				labelWidth: 40,
+				itemId: 'logLevelFilter',
+				name: 'logLevelFilter',
+				store: Ext.create('E4ds.store.LogLevels'),
+				valueField: 'level',
+				displayField: 'level',
+				queryMode: 'local',
+				forceSelection: true
+			} ]
 		}, {
 			xtype: 'pagingtoolbar',
 			dock: 'bottom',

@@ -77,12 +77,7 @@ Ext.define('E4ds.view.user.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				itemId: 'filterField',
-				fieldLabel: i18n.filter,
-				labelWidth: 40,
-				xtype: 'filterfield'
-			}, '->', {
-				text: i18n.user_new,
+				text: i18n.new_action,
 				itemId: 'createButton',
 				icon: app_context_path + '/resources/images/Add-New-16.png'
 			}, '-', {
@@ -91,6 +86,11 @@ Ext.define('E4ds.view.user.List', {
 				icon: app_context_path + '/resources/images/Microsoft-Excel-2013-02-16.png',
 				href: 'usersExport.xlsx',
 				hrefTarget: '_self'
+			}, '->', {
+				itemId: 'filterField',
+				fieldLabel: i18n.filter,
+				labelWidth: 40,
+				xtype: 'filterfield'
 			} ]
 		}, {
 			xtype: 'pagingtoolbar',
