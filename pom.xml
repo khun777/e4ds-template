@@ -15,7 +15,7 @@
 		<spring.security.version>3.2.0.RC1</spring.security.version>
 
 		<hibernate.version>4.3.0.Beta4</hibernate.version>
-		<querydsl.version>3.2.3</querydsl.version>
+		<querydsl.version>3.2.4</querydsl.version>
 
 		<slf4j.version>1.7.5</slf4j.version>
 		<logback.version>1.0.13</logback.version>
@@ -171,7 +171,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>snakeyaml</artifactId>
@@ -326,7 +326,7 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>embeddedtc</artifactId>
-			<version>1.9</version>
+			<version>1.10</version>
 			<scope>provided</scope>
 		</dependency>
 
