@@ -35,10 +35,6 @@
   </div>
   </div>
 	
-  <script>
-    var app_context_path = '<%= request.getContextPath() %>';
-  </script>		
-
   <% Locale locale = RequestContextUtils.getLocale(request); %>
   <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />
   <% if ((Boolean)pageContext.getAttribute("isDevelopment")) { %>
@@ -57,7 +53,7 @@
   Ext.onReady(function() {
     Ext.fly('circularG').destroy();
 	<% if (session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION") != null) { /**/ %> 
-	  E4ds.ux.window.Notification.error('Fehler', 'Anmeldung fehlgeschlagen');
+	  E4ds.ux.window.Notification.error(i18n.error, i18n.login_failed);
 	  <% session.removeAttribute("SPRING_SECURITY_LAST_EXCEPTION"); %>
 	<% } %>
   });

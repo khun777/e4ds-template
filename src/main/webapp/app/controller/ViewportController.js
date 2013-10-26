@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.NavigationController', {
+Ext.define('E4ds.controller.ViewportController', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {

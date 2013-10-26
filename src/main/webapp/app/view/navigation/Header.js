@@ -28,10 +28,11 @@ Ext.define('E4ds.view.navigation.Header', {
 			menu: {
 				items: [ {
 					text: i18n.settings,
-					icon: app_context_path + '/resources/images/Customize-02-16.png',
+					glyph: 0xe809,
 					itemId: 'settingsButton'
 				}, {
 					text: i18n.logout,
+					glyph: 0xe802,
 					handler: function() {
 						Ext.Ajax.request({
 							url: 'logout',

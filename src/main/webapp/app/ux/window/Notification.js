@@ -72,7 +72,7 @@ Ext.define('E4ds.ux.window.Notification', {
 				position: 'br',
 				title: title,
 				manager: 'notification',
-				iconCls: error ? 'ux-notification-icon-error' : 'ux-notification-icon-information',
+				glyph: error ? 0xe811 : 0xe810,
 				
 				autoCloseDelay: 4000,
 				slideInDuration: 300,

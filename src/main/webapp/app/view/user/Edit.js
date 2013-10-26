@@ -8,8 +8,7 @@ Ext.define('E4ds.view.user.Edit', {
 	constrain: true,
 	width: 500,
 	modal: true,
-
-	icon: app_context_path + '/resources/images/Data-Edit-16.png',
+	glyph: 0xe803,
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
 
@@ -91,13 +90,13 @@ Ext.define('E4ds.view.user.Edit', {
 				itemId: 'editFormSaveButton',
 				text: i18n.save,
 				action: 'save',
-				icon: app_context_path + '/resources/images/Submit-01-16.png',
+				glyph: 0xe80d,
 				formBind: true
 			}, {
 				text: i18n.cancel,
 				scope: me,
 				handler: me.close,
-				icon: app_context_path + '/resources/images/Close-16.png'
+				glyph: 0xe80e
 			} ]
 		} ];
 

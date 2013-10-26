@@ -34,11 +34,7 @@
   <div id="circularG_8" class="circularG">
   </div>
   </div>
-	
-  <script>
-    var app_context_path = '<%= request.getContextPath() %>';
-  </script>	
-	     
+		     
   <% Locale locale = RequestContextUtils.getLocale(request); %>
   <spring:eval expression="@environment.acceptsProfiles('development')" var="isDevelopment" />
   <% if ((Boolean)pageContext.getAttribute("isDevelopment")) { %>

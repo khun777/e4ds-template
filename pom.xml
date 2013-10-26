@@ -575,7 +575,7 @@
 								<vars>true</vars>
 								<plusplus>true</plusplus>
 								<unparam>true</unparam>
-								<predef>Ext,E4ds,REMOTING_API,POLLING_URLS,History,Deft,app_context_path,i18n,accessLogService,userService,logService,
+								<predef>Ext,E4ds,REMOTING_API,POLLING_URLS,History,Deft,i18n,accessLogService,userService,logService,
 								loggingEventService,navigationService,securityService,appConfigurationService</predef>
 							</options>
 						</configuration>

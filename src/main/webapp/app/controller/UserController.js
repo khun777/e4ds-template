@@ -8,6 +8,12 @@ Ext.define('E4ds.controller.UserController', {
 			itemdblclick: 'onItemDblClick',
 			itemcontextmenu: 'onItemContextMenu'
 		},
+		actionColumn: {
+			selector: 'actioncolumn',
+			listeners: {
+				click: 'onActionColumnClick'
+			}
+		},
 		createButton: {
 			click: 'onCreateButtonClick'
 		},
@@ -35,21 +41,24 @@ Ext.define('E4ds.controller.UserController', {
 		this.showContextMenu(record, e.getXY());
 	},
 
+	onActionColumnClick: function(grid, rowIndex, colIndex, item, e, record, row) {
+		this.showContextMenu(record, null, row);
+	},
+	
 	showContextMenu: function(record, xy, item) {
 		var me = this;
 		var items = [ {
 			text: i18n.edit_action,
-			icon: app_context_path + '/resources/images/Data-Edit-16.png',
+			glyph: 0xe803,
 			handler: Ext.bind(me.editUser, me, [record])
 		}, {
 			text: i18n.delete_action,
-			icon: app_context_path + '/resources/images/Garbage-16.png',
+			glyph: 0xe806,
 			handler: Ext.bind(me.destroyUser, me, [record])
 		}, {
 			xtype: 'menuseparator'
 		}, {
 			text: i18n.user_switchto,
-			icon: app_context_path + '/resources/images/Policeman-16.png',
 			handler: Ext.bind(me.switchTo, me, [record])
 		} ];
 

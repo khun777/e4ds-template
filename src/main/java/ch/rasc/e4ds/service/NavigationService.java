@@ -27,24 +27,19 @@ public class NavigationService {
 	public NavigationService() {
 		root = new MenuNode("root");
 
-		MenuNode businessNode = new MenuNode("navigation_business", "/resources/images/Shape18-16.png", true);
-		businessNode.addChild(new MenuNode("chart_title", "/resources/images/Real-Time-16.png", "E4ds.view.poll.PollChart",
-				Roles.ROLE_USER, Roles.ROLE_ADMIN));
+		MenuNode businessNode = new MenuNode("navigation_business", null, true);
+		businessNode.addChild(new MenuNode("chart_title", null, "E4ds.view.poll.PollChart", Roles.ROLE_USER,
+				Roles.ROLE_ADMIN));
 		root.addChild(businessNode);
 
-		MenuNode administrationNode = new MenuNode("navigation_administration", "/resources/images/Shape18-16.png",
-				true);
-		administrationNode.addChild(new MenuNode("user_users", "/resources/images/User-Group-16.png", "E4ds.view.user.List",
-				Roles.ROLE_ADMIN));
+		MenuNode administrationNode = new MenuNode("navigation_administration", null, true);
+		administrationNode.addChild(new MenuNode("user_users", null, "E4ds.view.user.List", Roles.ROLE_ADMIN));
 		root.addChild(administrationNode);
 
-		MenuNode systemNode = new MenuNode("navigation_system", "/resources/images/Shape18-16.png", true);
-		systemNode.addChild(new MenuNode("accesslog", "/resources/images/Books-16.png", "E4ds.view.accesslog.List",
-				Roles.ROLE_ADMIN));
-		systemNode.addChild(new MenuNode("logevents", "/resources/images/Books-16.png",
-				"E4ds.view.loggingevent.List", Roles.ROLE_ADMIN));
-		systemNode.addChild(new MenuNode("config", "/resources/images/Customize-02-16.png", "E4ds.view.config.Edit",
-				Roles.ROLE_ADMIN));
+		MenuNode systemNode = new MenuNode("navigation_system", null, true);
+		systemNode.addChild(new MenuNode("accesslog", null, "E4ds.view.accesslog.List", Roles.ROLE_ADMIN));
+		systemNode.addChild(new MenuNode("logevents", null, "E4ds.view.loggingevent.List", Roles.ROLE_ADMIN));
+		systemNode.addChild(new MenuNode("config", null, "E4ds.view.config.Edit", Roles.ROLE_ADMIN));
 		root.addChild(systemNode);
 	}
 

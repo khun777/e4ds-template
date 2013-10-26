@@ -1,10 +1,20 @@
+/* <debug> */
+Ext.Loader.setConfig({
+	enabled: true,
+	paths: {
+		'E4ds': 'app',
+		'Ext.ux': 'resources/extjs-gpl/4.2.2/ux'
+	}
+});
+/* </debug> */
+
 Ext.define('E4ds.App', {
 	extend: 'Deft.mvc.Application',
 	requires: [ 'overrides.AbstractMixedCollection', 'E4ds.ux.window.Notification', 'E4ds.view.Viewport' ],
 
 	init: function() {
 		Ext.fly('circularG').destroy();
-
+		Ext.setGlyphFontFamily('custom');
 		Ext.tip.QuickTipManager.init();
 
 		var chartdatapoller = new Ext.direct.PollingProvider({

@@ -42,7 +42,7 @@ Ext.define('E4ds.controller.PollChartController', {
 		var button = this.getStartStopButton();
 		if (button) {
 			button.setText(i18n.chart_stop);
-			button.setIcon(app_context_path + '/resources/images/Media-Stop-16.png');
+			button.setGlyph(0xe805);
 		}
 
 		if (!this.provider.isConnected()) {
@@ -55,7 +55,7 @@ Ext.define('E4ds.controller.PollChartController', {
 		var button = this.getStartStopButton();
 		if (button) {
 			button.setText(i18n.chart_start);
-			button.setIcon(app_context_path + '/resources/images/Media-Play-16.png');
+			button.setGlyph(0xe815);
 		}
 
 		if (this.provider.isConnected()) {

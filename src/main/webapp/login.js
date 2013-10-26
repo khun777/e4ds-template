@@ -1,5 +1,6 @@
 Ext.onReady(function() {
 	Ext.QuickTips.init();
+	Ext.setGlyphFontFamily('custom');
 
 	var header, login;
 	
@@ -30,7 +31,7 @@ Ext.onReady(function() {
 		url: 'login.html',
 		width: 400,
 		padding: 5,
-		icon: app_context_path + '/resources/images/Key-Access-01-16.png',
+		glyph: 0xe812,
 
 		standardSubmit: true,
 
@@ -57,7 +58,7 @@ Ext.onReady(function() {
 			}
 		}, {
 			fieldLabel: i18n.user_password,
-			name: 'password',
+			name: 'password',			
 			inputType: 'password',
 			allowBlank: false,
 			listeners: {
@@ -75,6 +76,7 @@ Ext.onReady(function() {
 
 		buttons: [ /* <_debug> */{
 			text: i18n.login_withuser,
+			glyph: 0xe801,
 			handler: function() {
 				var form = this.up('form').getForm();
 				form.setValues({
@@ -85,6 +87,7 @@ Ext.onReady(function() {
 			}
 		}, {
 			text: i18n.login_withadmin,
+			glyph: 0xe801,
 			handler: function() {
 				var form = this.up('form').getForm();
 				form.setValues({
@@ -95,6 +98,7 @@ Ext.onReady(function() {
 			}
 		},/* </debug> */{
 			text: i18n.login,
+			glyph: 0xe801,
 			handler: function() {
 				submitForm();
 			}

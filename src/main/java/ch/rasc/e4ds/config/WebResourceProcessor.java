@@ -54,7 +54,7 @@ public class WebResourceProcessor {
 	private final static Pattern DEV_CODE_PATTERN = Pattern.compile("/\\* <debug> \\*/.*?/\\* </debug> \\*/",
 			Pattern.DOTALL);
 
-	private final static Pattern CSS_URL_PATTERN = Pattern.compile("(.*?url.*?\\(\\s*'?)(.*?)('?\\s*\\))",
+	private final static Pattern CSS_URL_PATTERN = Pattern.compile("(.*?url.*?\\(\\s*'?)(.*?)(\\?.*?)??('?\\s*\\))",
 			Pattern.CASE_INSENSITIVE);
 
 	private final static String REQUIRES_PATTERN = "(?s)\\brequires\\s*?:\\s*?\\[.*?\\]\\s*?,";
@@ -318,7 +318,7 @@ public class WebResourceProcessor {
 				continue;
 			}
 			Path pa = basePath.resolveSibling(url).normalize();
-			matcher.appendReplacement(sb, "$1" + pa.toString().replace("\\", "/") + "$3");
+			matcher.appendReplacement(sb, "$1" + pa.toString().replace("\\", "/") + "$3$4");
 		}
 		matcher.appendTail(sb);
 		return sb.toString();

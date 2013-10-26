@@ -53,17 +53,17 @@ Ext.define('E4ds.view.loggingevent.List', {
 			items: [ {
 				text: i18n.textexport,
 				itemId: 'exportButton',
-				icon: app_context_path + '/resources/images/Export-16.png',
+				glyph: 0xe813,
 				href: 'loggingEventExport.txt',
 				hrefTarget: '_self'
 			}, '-', {
 				text: i18n.logevents_deleteall,
 				itemId: 'deleteAllButton',
-				icon: app_context_path + '/resources/images/Garbage-16.png'
+				glyph: 0xe806
 			},/* <debug> */'-', {
 				text: i18n.logevents_addtest,
 				itemId: 'testButton',
-				icon: app_context_path + '/resources/images/Add-New-16.png'
+				glyph: 0xe807
 			},/* </debug> */, '->', {
 				xtype: 'clearcombo',
 				fieldLabel: i18n.filter,

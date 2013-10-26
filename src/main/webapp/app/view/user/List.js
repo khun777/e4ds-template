@@ -17,12 +17,8 @@ Ext.define('E4ds.view.user.List', {
 			xtype: 'actioncolumn',
 			width: 30,
 			items: [ {
-				icon: app_context_path + '/resources/images/Arrowhead-Down-01-16.png',
-				tooltip: 'Actions',
-				handler: function(grid, rowIndex, colIndex, item, e, record, row) {
-					this.getController().showContextMenu(record, null, row);
-				},
-				scope: this
+				icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAc0lEQVR4AWOgA9gQsDYGN1wfwrDeZeXPlf9xwL/rQoBmrAtb+Re7gnVpUGvWZWGTXluF5JK1dRjSE9Ecu3YqsvSapWeZ0BQcZFqzHCa9evtONiwe3sG2eidY+vgOLhxhspNn9clVV7cK4Qm2zSKbZBjoDQBupofwQEmqdgAAAABJRU5ErkJggg==',
+				tooltip: i18n.actions
 			} ]
 		}, {
 			text: i18n.user_username,
@@ -64,7 +60,7 @@ Ext.define('E4ds.view.user.List', {
 		}, {
 			text: i18n.user_enabled,
 			dataIndex: 'enabled',
-			width: 70,
+			width: 85,
 			renderer: function(value) {
 				if (value === true) {
 					return i18n.yes;
@@ -79,11 +75,11 @@ Ext.define('E4ds.view.user.List', {
 			items: [ {
 				text: i18n.new_action,
 				itemId: 'createButton',
-				icon: app_context_path + '/resources/images/Add-New-16.png'
+				glyph: 0xe807
 			}, '-', {
 				text: i18n.excelexport,
 				itemId: 'exportButton',
-				icon: app_context_path + '/resources/images/Microsoft-Excel-2013-02-16.png',
+				glyph: 0xe813,
 				href: 'usersExport.xlsx',
 				hrefTarget: '_self'
 			}, '->', {

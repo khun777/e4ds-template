@@ -85,6 +85,7 @@ Ext.define('E4ds.view.config.Edit', {
 					xtype: 'button',
 					text: i18n.config_sendTestEmail,
 					itemId: 'sendTestEmailButton',
+					glyph: 0xe800,
 					disabled: true,
 					columnWidth: 0.4,
 					margin: '0 0 0 10'
@@ -96,7 +97,7 @@ Ext.define('E4ds.view.config.Edit', {
 			xtype: 'button',
 			itemId: 'saveButton',
 			text: i18n.save,
-			icon: app_context_path + '/resources/images/Submit-01-16.png',
+			glyph: 0xe80d,
 			formBind: true
 		} ];		
 
