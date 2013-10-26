@@ -37,19 +37,18 @@ Ext.define('E4ds.controller.UserController', {
 
 	showContextMenu: function(record, xy, item) {
 		var me = this;
-		var user = ' ' + record.get('userName');
 		var items = [ {
-			text: i18n.user_edit + user,
+			text: i18n.edit_action,
 			icon: app_context_path + '/resources/images/Data-Edit-16.png',
 			handler: Ext.bind(me.editUser, me, [record])
 		}, {
-			text: i18n.user_delete + user,
+			text: i18n.delete_action,
 			icon: app_context_path + '/resources/images/Garbage-16.png',
 			handler: Ext.bind(me.destroyUser, me, [record])
 		}, {
 			xtype: 'menuseparator'
 		}, {
-			text: i18n.user_switchto + user,
+			text: i18n.user_switchto,
 			icon: app_context_path + '/resources/images/Policeman-16.png',
 			handler: Ext.bind(me.switchTo, me, [record])
 		} ];
