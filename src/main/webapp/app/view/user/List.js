@@ -73,7 +73,7 @@ Ext.define('E4ds.view.user.List', {
 			xtype: 'toolbar',
 			dock: 'top',
 			items: [ {
-				text: i18n.new_action,
+				text: i18n.create,
 				itemId: 'createButton',
 				glyph: 0xe807
 			}, '-', {

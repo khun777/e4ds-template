@@ -10,7 +10,7 @@ Ext.Loader.setConfig({
 
 Ext.define('E4ds.App', {
 	extend: 'Deft.mvc.Application',
-	requires: [ 'overrides.AbstractMixedCollection', 'E4ds.ux.window.Notification', 'E4ds.view.Viewport' ],
+	requires: [ 'overrides.AbstractMixedCollection', 'E4ds.ux.window.Notification', 'E4ds.view.Viewport', 'E4ds.store.Roles' ],
 
 	init: function() {
 		Ext.fly('circularG').destroy();

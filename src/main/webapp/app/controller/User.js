@@ -48,11 +48,11 @@ Ext.define('E4ds.controller.User', {
 	showContextMenu: function(record, xy, item) {
 		var me = this;
 		var items = [ {
-			text: i18n.edit_action,
+			text: i18n.edit,
 			glyph: 0xe803,
 			handler: Ext.bind(me.editUser, me, [record])
 		}, {
-			text: i18n.delete_action,
+			text: i18n.destroy,
 			glyph: 0xe806,
 			handler: Ext.bind(me.destroyUser, me, [record])
 		}, {

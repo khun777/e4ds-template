@@ -29,17 +29,17 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 public class WebResourceProcessor {
 
-	private final static Logger logger = LoggerFactory.getLogger(WebResourceProcessor.class);
+	private final static Logger log = LogManager.getLogger("ch.rasc.e4ds");
 
 	private static final String HTML_SCRIPT_OR_LINK = "s";
 
@@ -181,7 +181,7 @@ public class WebResourceProcessor {
 									sourceCodes.get(varName).append(compressCss(changeImageUrls(sourcecode, line)));
 								}
 							} catch (IOException ioe) {
-								logger.error("web resource processing: " + line, ioe);
+								log.error("web resource processing: " + line, ioe);
 							}
 						}
 					}
@@ -261,7 +261,7 @@ public class WebResourceProcessor {
 		try (InputStream is = getClass().getResourceAsStream(webResourcesConfigName)) {
 			return readAllLines(is, StandardCharsets.UTF_8);
 		} catch (IOException ioe) {
-			logger.error("read lines from web resource config '" + webResourcesConfigName + "'", ioe);
+			log.error("read lines from web resource config '" + webResourcesConfigName + "'", ioe);
 		}
 		return Collections.emptyList();
 	}
@@ -301,7 +301,7 @@ public class WebResourceProcessor {
 		} else if (varName.endsWith(CSS_EXTENSION)) {
 			return String.format(CSSLINK_TAG, url);
 		}
-		logger.warn("Variable has to end with {} or {}", JS_EXTENSION, CSS_EXTENSION);
+		log.warn("Variable has to end with {} or {}", JS_EXTENSION, CSS_EXTENSION);
 		return null;
 	}
 
@@ -359,7 +359,7 @@ public class WebResourceProcessor {
 				properties.load(is);
 				return (Map) properties;
 			} catch (IOException ioe) {
-				logger.error("read variables from property '" + versionPropertiesName + "'", ioe);
+				log.error("read variables from property '" + versionPropertiesName + "'", ioe);
 			}
 		}
 		return Collections.emptyMap();
@@ -383,18 +383,18 @@ public class WebResourceProcessor {
 		@Override
 		public void warning(String message, String sourceName, int line, String lineSource, int lineOffset) {
 			if (line < 0) {
-				logger.warn("JavaScriptCompressor warning: {}", message);
+				log.warn("JavaScriptCompressor warning: {}", message);
 			} else {
-				logger.warn("JavaScriptCompressor warning: {}:{}:{}", line, lineOffset, message);
+				log.warn("JavaScriptCompressor warning: {}:{}:{}", line, lineOffset, message);
 			}
 		}
 
 		@Override
 		public void error(String message, String sourceName, int line, String lineSource, int lineOffset) {
 			if (line < 0) {
-				logger.error("JavaScriptCompressor error: {}", message);
+				log.error("JavaScriptCompressor error: {}", message);
 			} else {
-				logger.error("JavaScriptCompressor error: {}:{}:{}", line, lineOffset, message);
+				log.error("JavaScriptCompressor error: {}:{}:{}", line, lineOffset, message);
 			}
 		}
 

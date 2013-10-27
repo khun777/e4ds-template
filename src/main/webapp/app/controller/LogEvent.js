@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.LoggingEvent', {
+Ext.define('E4ds.controller.LogEvent', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {
@@ -43,14 +43,14 @@ Ext.define('E4ds.controller.LoggingEvent', {
 
 	deleteAll: function() {
 		var filter = this.getView().getStore().filters.get(0);
-		loggingEventService.deleteAll(filter && filter.value, function() {
+		logEventService.deleteAll(filter && filter.value, function() {
 			E4ds.ux.window.Notification.info(i18n.successful, i18n.logevents_deleted);
 			this.doGridRefresh();
 		}, this);
 	},
 
 	addTestData: function() {
-		loggingEventService.addTestData(function() {
+		logEventService.addTestData(function() {
 			E4ds.ux.window.Notification.info(i18n.successful, i18n.logevents_testinserted);
 			this.doGridRefresh();
 		}, this);

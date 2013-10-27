@@ -6,15 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.LoggerContext;
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.rasc.e4ds.dto.ConfigurationDto;
 import ch.rasc.e4ds.entity.Configuration;
@@ -46,8 +46,7 @@ public class AppConfigurationService {
 
 		ConfigurationDto dto = new ConfigurationDto();
 
-		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.e4ds");
+		Logger logger = (Logger) LogManager.getLogger("ch.rasc.e4ds");
 		String level = logger != null && logger.getLevel() != null ? logger.getLevel().toString() : "ERROR";
 
 		dto.setLogLevel(level);
@@ -82,8 +81,7 @@ public class AppConfigurationService {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public void save(ConfigurationDto data) {
-		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		ch.qos.logback.classic.Logger logger = lc.getLogger("ch.rasc.e4ds");
+		Logger logger = (Logger) LogManager.getLogger("ch.rasc.e4ds");
 		Level level = Level.toLevel(data.getLogLevel());
 		if (level != null) {
 			logger.setLevel(level);

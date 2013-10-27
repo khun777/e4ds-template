@@ -5,90 +5,27 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet author="dev" id="1">
-		<createTable tableName="logging_event">
-			<column name="timestmp" type="BIGINT">
-				<constraints nullable="false" />
+		<createTable tableName="LogEvent">		
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_LogEvent" />
 			</column>
-			<column name="formatted_message" type="CLOB">
-				<constraints nullable="false" />
-			</column>
-			<column name="logger_name" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="level_string" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="thread_name" type="VARCHAR(255)" />
-			<column name="reference_flag" type="SMALLINT" />
-			<column name="arg0" type="VARCHAR(255)" />
-			<column name="arg1" type="VARCHAR(255)" />
-			<column name="arg2" type="VARCHAR(255)" />
-			<column name="arg3" type="VARCHAR(255)" />
-			<column name="caller_filename" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="caller_class" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="caller_method" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="caller_line" type="CHAR(4)">
-				<constraints nullable="false" />
-			</column>
-			<column autoIncrement="true" name="event_id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
+            <column name="eventDate" type="datetime" />            
+			<column name="level" type="varchar(5)" />
+			<column name="logger" type="varchar(255)" />
+			<column name="source" type="varchar(255)" />
+			<column name="message" type="varchar(1000)" />
+			<column name="marker" type="varchar(255)" />
+			<column name="thread" type="varchar(255)" />			
+			<column name="exception" type="clob" />
+			
+			<column name="userName" type="varchar(100)" />
+			<column name="ip" type="varchar(39)" />
+			<column name="userAgent" type="varchar(255)" />
+			
 		</createTable>
 	</changeSet>
 
 	<changeSet author="dev" id="2">
-		<createTable tableName="logging_event_exception">
-			<column name="event_id" type="BIGINT">
-				<constraints nullable="false" />
-			</column>
-			<column name="i" type="SMALLINT">
-				<constraints nullable="false" />
-			</column>
-			<column name="trace_line" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<changeSet author="dev" id="3">
-		<createTable tableName="logging_event_property">
-			<column name="event_id" type="BIGINT">
-				<constraints nullable="false" />
-			</column>
-			<column name="mapped_key" type="VARCHAR(255)">
-				<constraints nullable="false" />
-			</column>
-			<column name="mapped_value" type="VARCHAR(1024)" />
-		</createTable>
-	</changeSet>
-
-	<changeSet author="dev" id="4">
-		<addPrimaryKey columnNames="event_id, i" constraintName="PK_log_event_ex" tableName="logging_event_exception" />
-	</changeSet>
-
-	<changeSet author="dev" id="5">
-		<addPrimaryKey columnNames="event_id, mapped_key" constraintName="PK_log_event_prop" tableName="logging_event_property" />
-	</changeSet>
-
-	<changeSet author="dev" id="6">
-		<addForeignKeyConstraint baseColumnNames="event_id" baseTableName="logging_event_exception" constraintName="FK_log_event_ex_event"
-			referencedColumnNames="event_id"
-			referencedTableName="logging_event" />
-	</changeSet>
-
-	<changeSet author="dev" id="7">
-		<addForeignKeyConstraint baseColumnNames="event_id" baseTableName="logging_event_property" constraintName="FK_log_event_prop_event"
-			referencedColumnNames="event_id"
-			referencedTableName="logging_event" />
-	</changeSet>
-
-	<changeSet author="dev" id="8">
 		<createTable tableName="AppUser">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AppUser" />
@@ -113,7 +50,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet author="dev" id="9">
+	<changeSet author="dev" id="3">
 		<createTable tableName="Role">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Role" />
@@ -125,7 +62,7 @@
 		</createTable>
 	</changeSet>
 
-	<changeSet author="dev" id="10">
+	<changeSet author="dev" id="4">
 		<createTable tableName="AppUserRoles">
 			<column name="userId" type="BIGINT">
 				<constraints nullable="false"/>
@@ -146,7 +83,7 @@
 			referencedTableName="Role" />			
 	</changeSet>
 	
-	<changeSet author="dev" id="11">
+	<changeSet author="dev" id="5">
 	  <insert tableName="Role">
 	  	<column name="name" value="ROLE_ADMIN"/>
 	  </insert>
@@ -155,7 +92,7 @@
 	  </insert>	  
 	</changeSet>
 
-	<changeSet author="dev" id="12">
+	<changeSet author="dev" id="6">
 		<createTable tableName="AccessLog">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AccessLog" />
@@ -170,7 +107,7 @@
 		</createTable>
 	</changeSet>	
 	
-	<changeSet author="dev" id="13">
+	<changeSet author="dev" id="7">
 		<createTable tableName="persistent_logins">
 			<column name="series" type="varchar(64)">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_persistent_logins" />
@@ -190,7 +127,7 @@
 		</createTable>
 	</changeSet>	
 	
-	<changeSet author="dev" id="14">
+	<changeSet author="dev" id="8">
 		<createTable tableName="Configuration">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Configuration" />
@@ -202,7 +139,7 @@
 		</createTable>
 	</changeSet>    
 	
-	<changeSet author="dev" id="15">
+	<changeSet author="dev" id="9">
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SENDER', 'test@test.com')</sql>
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SERVER', 'localhost')</sql>
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_PORT', '25')</sql>

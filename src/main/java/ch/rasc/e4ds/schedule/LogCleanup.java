@@ -8,10 +8,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.rasc.e4ds.entity.LoggingEvent;
-import ch.rasc.e4ds.entity.QLoggingEvent;
+import ch.rasc.e4ds.entity.QLogEvent;
 
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.jpa.impl.JPADeleteClause;
 
 @Component
 public class LogCleanup {
@@ -23,14 +22,10 @@ public class LogCleanup {
 	@Scheduled(cron = "0 0 4 * * *")
 	public void doCleanup() {
 
-		// Delete all log entries that are older than 2 months
-		DateTime yesterday = DateTime.now().minusMonths(2);
-
-		for (LoggingEvent le : new JPAQuery(entityManager).from(QLoggingEvent.loggingEvent)
-				.where(QLoggingEvent.loggingEvent.timestmp.loe(yesterday.toDate().getTime()))
-				.list(QLoggingEvent.loggingEvent)) {
-			entityManager.remove(le);
-		}
+		// Delete all log events that are older than 2 months
+		DateTime twoMonthsAgo = DateTime.now().minusMonths(2);
+		new JPADeleteClause(entityManager, QLogEvent.logEvent).where(QLogEvent.logEvent.eventDate.loe(twoMonthsAgo))
+				.execute();
 
 	}
 }

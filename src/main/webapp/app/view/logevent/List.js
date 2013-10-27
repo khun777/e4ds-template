@@ -1,6 +1,6 @@
-Ext.define('E4ds.view.loggingevent.List', {
+Ext.define('E4ds.view.logevent.List', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.LoggingEvent',
+	controller: 'E4ds.controller.LogEvent',
 
 	title: i18n.logevents,
 	closable: true,
@@ -12,17 +12,21 @@ Ext.define('E4ds.view.loggingevent.List', {
 		expandOnEnter: false,
 		expandOnDblClick: false,
 		selectRowOnExpand: true,
-		rowBodyTpl: [ '<tpl if="stacktrace">', '<p>{stacktrace}</p>', '</tpl>', '<tpl if="!stacktrace">', '<p>{message}</p>', '</tpl>' ]
+		rowBodyTpl: [ '<p><strong>',i18n.logevents_message,': </strong>{message}</p>',
+		              '<p><strong>',i18n.logevents_source,': </strong><span class="monospace">{source}</span></p>',		              
+		              '<tpl if="exception">', 
+		                '<p class="monospace">{exception}</p>', 
+		              '</tpl>' ]
 	} ],
 
 	initComponent: function() {
 		var me = this;
 
-		me.store = Ext.create('E4ds.store.LoggingEvents');
+		me.store = Ext.create('E4ds.store.LogEvents');
 
 		me.columns = [ {
 			text: i18n.logevents_timestamp,
-			dataIndex: 'dateTime',
+			dataIndex: 'eventDate',
 			width: 160,
 			xtype: 'datecolumn',
 			format: 'Y-m-d H:i:s'
@@ -33,19 +37,16 @@ Ext.define('E4ds.view.loggingevent.List', {
 		}, {
 			text: i18n.logevents_message,
 			dataIndex: 'message',
-			width: 200
-		}, {
-			text: i18n.logevents_callerclass,
-			dataIndex: 'callerClass',
-			sortable: false,
 			flex: 1
 		}, {
-			text: i18n.logevents_callerline,
-			dataIndex: 'callerLine',
-			align: 'right',
-			sortable: false,
-			width: 110
-		} ];
+			text: i18n.logevents_source,
+			dataIndex: 'source',
+			flex: 1
+		}, {
+			text: i18n.user,
+			dataIndex: 'userName',
+			width: 200
+		}];
 
 		me.dockedItems = [ {
 			xtype: 'toolbar',
@@ -54,7 +55,7 @@ Ext.define('E4ds.view.loggingevent.List', {
 				text: i18n.textexport,
 				itemId: 'exportButton',
 				glyph: 0xe813,
-				href: 'loggingEventExport.txt',
+				href: 'logEventExport.txt',
 				hrefTarget: '_self'
 			}, '-', {
 				text: i18n.logevents_deleteall,
