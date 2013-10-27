@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.accesslog.List', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.AccessLogController',
+	controller: 'E4ds.controller.AccessLog',
 	title: i18n.accesslog,
 	closable: true,
 	border: true,

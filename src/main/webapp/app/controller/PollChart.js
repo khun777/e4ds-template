@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.PollChartController', {
+Ext.define('E4ds.controller.PollChart', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {

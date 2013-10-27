@@ -1,6 +1,6 @@
-Ext.define('E4ds.view.navigation.UserSettings', {
+Ext.define('E4ds.view.UserSettings', {
 	extend: 'Ext.window.Window',
-	stateId: 'useroption',
+
 	title: i18n.settings,
 	width: 500,
 	layout: 'fit',

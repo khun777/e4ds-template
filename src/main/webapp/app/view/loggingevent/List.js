@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.loggingevent.List', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.LoggingEventController',
+	controller: 'E4ds.controller.LoggingEvent',
 
 	title: i18n.logevents,
 	closable: true,

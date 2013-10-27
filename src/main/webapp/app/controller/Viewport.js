@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.ViewportController', {
+Ext.define('E4ds.controller.Viewport', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {
@@ -47,7 +47,7 @@ Ext.define('E4ds.controller.ViewportController', {
 
 	openSettingsWindow: function(result) {
 		if (result) {
-			var userSettingsWindow = Ext.create('E4ds.view.navigation.UserSettings');
+			var userSettingsWindow = Ext.create('E4ds.view.UserSettings');
 			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', result));
 			userSettingsWindow.down('#editFormSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
 		}

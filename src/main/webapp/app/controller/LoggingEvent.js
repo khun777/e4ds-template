@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.LoggingEventController', {
+Ext.define('E4ds.controller.LoggingEvent', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {

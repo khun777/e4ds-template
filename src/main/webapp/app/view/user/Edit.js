@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.user.Edit', {
 	extend: 'Ext.window.Window',
-	stateId: 'E4ds.view.user.Edit',
+
 	title: i18n.user,
 	layout: 'fit',
 	autoShow: true,

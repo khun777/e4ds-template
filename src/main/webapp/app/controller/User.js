@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.UserController', {
+Ext.define('E4ds.controller.User', {
 	extend: 'Deft.mvc.ViewController',
 	inject: 'rolesStore',
 	requires: [ 'E4ds.view.user.Edit' ],

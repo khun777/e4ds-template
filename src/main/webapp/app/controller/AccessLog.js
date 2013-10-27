@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.AccessLogController', {
+Ext.define('E4ds.controller.AccessLog', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {

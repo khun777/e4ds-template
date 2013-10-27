@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.poll.PollChart', {
 	extend: 'Ext.panel.Panel',
-	controller: 'E4ds.controller.PollChartController',
+	controller: 'E4ds.controller.PollChart',
 	title: i18n.chart_title,
 	border: true,
 	layout: {

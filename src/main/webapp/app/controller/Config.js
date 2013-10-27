@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.ConfigController', {
+Ext.define('E4ds.controller.Config', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {

@@ -64,10 +64,14 @@ public class MenuNode {
 		menuNode.expanded = source.isExpanded();
 
 		if (source.getIcon() != null) {
-			if (source.getIcon().startsWith("/")) {
-				menuNode.icon = request.getContextPath() + source.getIcon();
+			if (!source.getIcon().startsWith("data:")) {
+				if (source.getIcon().startsWith("/")) {
+					menuNode.icon = request.getContextPath() + source.getIcon();
+				} else {
+					menuNode.icon = request.getContextPath() + "/" + source.getIcon();
+				}
 			} else {
-				menuNode.icon = request.getContextPath() + "/" + source.getIcon();
+				menuNode.icon = source.getIcon();
 			}
 		}
 

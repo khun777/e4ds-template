@@ -1,6 +1,5 @@
-Ext.define('E4ds.view.navigation.SideBar', {
+Ext.define('E4ds.view.SideBar', {
 	extend: 'Ext.panel.Panel',
-	stateId: 'sidebar',
 
 	title: i18n.navigation,
 	collapsible: true,

@@ -109,7 +109,7 @@ Ext.onReady(function() {
 		renderTo: Ext.getBody(),
 
 		style: {
-			backgroundColor: 'white'
+			backgroundColor: '#F8F8F8'
 		},		
 		
 		layout: {

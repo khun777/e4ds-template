@@ -31,12 +31,6 @@ Ext.define('E4ds.App', {
 		Ext.direct.Manager.addProvider(REMOTING_API, chartdatapoller, heartbeat);
 		Ext.direct.Manager.getProvider('chartdatapoller').disconnect();
 
-		if (this.hasLocalstorage()) {
-			Ext.state.Manager.setProvider(Ext.create('Ext.state.LocalStorageProvider'));
-		} else {
-			Ext.state.Manager.setProvider(Ext.create('Ext.state.CookieProvider'));
-		}
-
 		if (Ext.view.AbstractView) {
 			Ext.view.AbstractView.prototype.loadingText = i18n.loading;
 		}
@@ -80,14 +74,6 @@ Ext.define('E4ds.App', {
 	globalErrorHandler: function(msg, url, line) {
 		var message = msg + "-->" + url + "::" + line;
 		logService.error(message);
-	},
-
-	hasLocalstorage: function() {
-		try {
-			return !!localStorage.getItem;
-		} catch (e) {
-			return false;
-		}
 	}
 });
 

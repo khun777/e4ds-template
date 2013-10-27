@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.config.Edit', {
 	extend: 'Ext.form.Panel',
-	controller: 'E4ds.controller.ConfigController',
+	controller: 'E4ds.controller.Config',
 	border: true,
 	title: i18n.config,
 	closable: true,

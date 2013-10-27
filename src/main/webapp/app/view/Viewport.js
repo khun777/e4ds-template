@@ -1,10 +1,10 @@
 Ext.define('E4ds.view.Viewport', {
 	extend: 'Ext.Viewport',
-	controller: 'E4ds.controller.ViewportController',
-	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu', 'E4ds.view.navigation.Header', 'E4ds.view.navigation.SideBar', 'E4ds.store.Navigation' ],
+	controller: 'E4ds.controller.Viewport',
+	requires: [ 'Ext.ux.TabReorderer', 'Ext.ux.TabCloseMenu', 'E4ds.view.Header', 'E4ds.view.SideBar', 'E4ds.store.Navigation' ],
 
 	style: {
-		backgroundColor: 'white'
+		backgroundColor: '#F8F8F8'
 	},
 
 	layout: {
@@ -24,7 +24,7 @@ Ext.define('E4ds.view.Viewport', {
 		tabCloseMenu.closeOthersTabsText = i18n.tabclosemenu_closeother;
 		tabCloseMenu.closeAllTabsText = i18n.tabclosemenu_closeall;
 
-		me.items = [ Ext.create('E4ds.view.navigation.Header', {
+		me.items = [ Ext.create('E4ds.view.Header', {
 			region: 'north',
 			split: false
 		}), {
@@ -33,7 +33,7 @@ Ext.define('E4ds.view.Viewport', {
 			itemId: 'tabPanel',
 			plugins: [ Ext.create('Ext.ux.TabReorderer'), tabCloseMenu ],
 			plain: true
-		}, Ext.create('E4ds.view.navigation.SideBar', {
+		}, Ext.create('E4ds.view.SideBar', {
 			region: 'west',
 			width: 180
 		}) ];
