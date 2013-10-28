@@ -2,7 +2,7 @@ Ext.define('E4ds.view.user.List', {
 	extend: 'Ext.grid.Panel',
 	requires: [ 'E4ds.controller.User', 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
 	controller: 'E4ds.controller.User',
-	inject: 'rolesStore',
+	
 	title: i18n.user_users,
 	closable: true,
 	border: true,
@@ -17,8 +17,7 @@ Ext.define('E4ds.view.user.List', {
 			xtype: 'actioncolumn',
 			width: 30,
 			items: [ {
-				icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAK0lEQVR4AWMgBBhXyRFQsPI/xQoyCCgg7EgX2jkSYQWZAOFN2jtSjsKQBAD0NQ+N4ZAsdgAAAABJRU5ErkJggg==',
-				tooltip: i18n.actions
+				icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAK0lEQVR4AWMgBBhXyRFQsPI/xQoyCCgg7EgX2jkSYQWZAOFN2jtSjsKQBAD0NQ+N4ZAsdgAAAABJRU5ErkJggg=='
 			} ]
 		}, {
 			text: i18n.user_username,
