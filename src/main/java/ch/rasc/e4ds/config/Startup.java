@@ -46,7 +46,7 @@ public class Startup implements ApplicationListener<ContextRefreshedEvent> {
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 
 		configureLog();
-		
+
 		mailService.configure();
 
 		if (new JPAQuery(entityManager).from(QUser.user).count() == 0) {
@@ -80,33 +80,45 @@ public class Startup implements ApplicationListener<ContextRefreshedEvent> {
 	private void configureLog() {
 		Logger logger = (Logger) LogManager.getRootLogger();
 		if (logger.getAppenders().containsKey("databaseAppender")) {
-			//already configured
+			// already configured
 			return;
 		}
-		
-	    DataSourceConnectionSource connectionSource = DataSourceConnectionSource.createConnectionSource("java:comp/env/jdbc/e4ds");
-	    List<ColumnConfig> columnConfigs = Lists.newArrayList();
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "eventDate", null, null, "true", null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "level", "%level", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "logger", "%logger", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "source", "%location", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "message", "%message", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "marker", "%marker", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "thread", "%thread", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "exception", "%rEx{full}", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userName", "%mdc{userName}", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "ip", "%mdc{ip}", null, null, null, null));
-	    columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userAgent", "%mdc{userAgent}", null, null, null, null));
-	    
-	    CommitJDBCAppender appender = CommitJDBCAppender.createAppender("databaseAppender", null, null, connectionSource,
-				null, "LogEvent", columnConfigs.toArray(new ColumnConfig[columnConfigs.size()]));		
+
+		DataSourceConnectionSource connectionSource = DataSourceConnectionSource
+				.createConnectionSource("java:comp/env/jdbc/e4ds");
+		List<ColumnConfig> columnConfigs = Lists.newArrayList();
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "eventDate", null,
+				null, "true", null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "level", "%level",
+				null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "logger", "%logger",
+				null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "source",
+				"%location", null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "message",
+				"%message", null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "marker", "%marker",
+				null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "thread", "%thread",
+				null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "exception",
+				"%rEx{full}", null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userName",
+				"%mdc{userName}", null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "ip", "%mdc{ip}",
+				null, null, null, null));
+		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userAgent",
+				"%mdc{userAgent}", null, null, null, null));
+
+		CommitJDBCAppender appender = CommitJDBCAppender.createAppender("databaseAppender", null, null,
+				connectionSource, null, "LogEvent", columnConfigs.toArray(new ColumnConfig[columnConfigs.size()]));
 		logger.addAppender(appender);
 		appender.start();
-		
+
 		if (environment.acceptsProfiles("production")) {
 			logger.removeAppender(logger.getAppenders().get("stdout"));
 		}
-		
+
 	}
 
 }

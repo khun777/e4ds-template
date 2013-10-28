@@ -9,7 +9,7 @@ Ext.define('E4ds.view.poll.PollChart', {
 	},
 	closable: true,
 
-	requires: [ 'Ext.chart.*', 'E4ds.view.poll.HeapMemoryChart', 'E4ds.view.poll.PhysicalMemoryChart' ],
+	requires: [ 'Ext.chart.*', 'E4ds.view.poll.HeapMemoryChart', 'E4ds.view.poll.PhysicalMemoryChart', 'E4ds.store.PollChart' ],
 
 	initComponent: function() {
 

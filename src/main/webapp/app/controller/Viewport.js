@@ -1,5 +1,6 @@
 Ext.define('E4ds.controller.Viewport', {
 	extend: 'Deft.mvc.ViewController',
+	requires: [ 'E4ds.view.UserSettings' ],
 
 	control: {
 		menuTree: {

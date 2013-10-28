@@ -5,7 +5,7 @@ Ext.define('E4ds.view.logevent.List', {
 	title: i18n.logevents,
 	closable: true,
 	border: true,
-	requires: [ 'Ext.grid.plugin.RowExpander', 'E4ds.ux.form.field.ClearCombo' ],
+	requires: [ 'Ext.grid.plugin.RowExpander', 'E4ds.ux.form.field.ClearCombo', 'E4ds.store.LogLevels', 'E4ds.store.LogEvents' ],
 
 	plugins: [ {
 		ptype: 'rowexpander',

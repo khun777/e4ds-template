@@ -1,4 +1,4 @@
-package ch.rasc.e4ds.config;
+package ch.rasc.e4ds.web.optimizer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +35,11 @@ import org.apache.logging.log4j.Logger;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
+import com.google.common.base.Function;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
@@ -170,7 +176,13 @@ public class WebResourceProcessor {
 					scriptAndLinkTags.get(varName).append(createHtmlCode(container, line, varName));
 				} else {
 					boolean jsProcessing = varName.endsWith(JS_EXTENSION);
-					for (String resource : enumerateResources(container, line, jsProcessing ? ".js" : ".css")) {
+					List<String> enumeratedResources = enumerateResources(container, line, jsProcessing ? ".js"
+							: ".css");
+					if (jsProcessing) {
+						enumeratedResources = reorder(container, enumeratedResources);
+					}
+
+					for (String resource : enumeratedResources) {
 						if (!processedResource.contains(resource)) {
 							processedResource.add(resource);
 							try (InputStream lis = container.getResourceAsStream(resource)) {
@@ -231,6 +243,7 @@ public class WebResourceProcessor {
 
 			Set<String> resourcePaths = container.getResourcePaths(line);
 			if (resourcePaths != null) {
+
 				for (String resource : resourcePaths) {
 					resources.addAll(enumerateResources(container, resource, suffix));
 				}
@@ -244,6 +257,110 @@ public class WebResourceProcessor {
 		}
 
 		return Collections.emptyList();
+	}
+
+	private final static Pattern definePattern = Pattern.compile("Ext\\.define\\s*?\\(\\s*?['\"](.*?)['\"]");
+
+	private final static Pattern extendPattern = Pattern.compile("extend\\s*?:\\s*?['\"](.*?)['\"]");
+
+	private final static Pattern controllerPattern = Pattern.compile("controller\\s*?:\\s*?['\"](.*?)['\"]");
+
+	private final static Pattern modelPattern = Pattern.compile("model\\s*?:\\s*?['\"](.*?)['\"]");
+
+	private final static Pattern requiresPattern = Pattern.compile("(?s)requires\\s*?:\\s*?\\[(.*?)\\]");
+
+	private final static Pattern usesPattern = Pattern.compile("(?s)uses\\s*?:\\s*?\\[(.*?)\\]");
+
+	private final static Pattern requireUsePattern = Pattern.compile("(?s)['\"](.*?)['\"]");
+
+	private static List<String> reorder(ServletContext container, List<String> resources) {
+		if (resources.isEmpty() || resources.size() == 1) {
+			return resources;
+		}
+
+		Map<String, String> classToFileMap = Maps.newHashMap();
+		Multimap<String, String> resourceRequires = HashMultimap.create();
+
+		for (String resource : resources) {
+			try (InputStream lis = container.getResourceAsStream(resource)) {
+				String sourcecode = inputStream2String(lis, StandardCharsets.UTF_8);
+
+				Matcher matcher = definePattern.matcher(sourcecode);
+				if (matcher.find()) {
+					classToFileMap.put(matcher.group(1), resource);
+				}
+
+				matcher = extendPattern.matcher(sourcecode);
+				if (matcher.find()) {
+					resourceRequires.put(resource, matcher.group(1));
+				}
+
+				matcher = controllerPattern.matcher(sourcecode);
+				if (matcher.find()) {
+					resourceRequires.put(resource, matcher.group(1));
+				}
+
+				matcher = modelPattern.matcher(sourcecode);
+				if (matcher.find()) {
+					resourceRequires.put(resource, matcher.group(1));
+				}
+
+				matcher = requiresPattern.matcher(sourcecode);
+				if (matcher.find()) {
+					String all = matcher.group(1);
+					matcher = requireUsePattern.matcher(all);
+					while (matcher.find()) {
+						resourceRequires.put(resource, matcher.group(1));
+					}
+				}
+
+				matcher = usesPattern.matcher(sourcecode);
+				if (matcher.find()) {
+					String all = matcher.group(1);
+					matcher = requireUsePattern.matcher(all);
+					while (matcher.find()) {
+						resourceRequires.put(resource, matcher.group(1));
+					}
+				}
+
+			} catch (IOException ioe) {
+				log.error("web resource processing: " + resource, ioe);
+			}
+		}
+
+		Graph g = new Graph();
+		for (String key : resourceRequires.keySet()) {
+			Node node = g.createNode(key);
+			for (String r : resourceRequires.get(key)) {
+				String rr = classToFileMap.get(r);
+				if (rr != null) {
+					node.addEdge(g.createNode(rr));
+				}
+			}
+		}
+
+		try {
+			List<Node> resolved = g.resolveDependencies();
+			Collections.sort(resolved, new Comparator<Node>() {
+				@Override
+				public int compare(Node o1, Node o2) {
+					return o1.getEdges().size() == 0 ? -1 : 0;
+				}
+			});
+
+			return Lists.transform(resolved, new Function<Node, String>() {
+				@Override
+				public String apply(Node input) {
+					return input.getName();
+				}
+			});
+
+		} catch (CircularReferenceException e) {
+			log.error("circula reference", e);
+		}
+
+		return resources;
+
 	}
 
 	private static String cleanCode(String sourcecode) {

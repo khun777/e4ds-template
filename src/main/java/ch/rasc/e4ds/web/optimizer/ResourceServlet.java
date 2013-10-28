@@ -1,4 +1,4 @@
-package ch.rasc.e4ds.config;
+package ch.rasc.e4ds.web.optimizer;
 
 import java.io.IOException;
 

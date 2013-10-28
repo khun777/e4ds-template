@@ -30,11 +30,7 @@ app_js:
   /resources/extjs-gpl/{extjs.version}/ux/TabCloseMenu.js
   /resources/extjs-gpl/{extjs.version}/ux/TabReorderer.js
   /resources/extjs-gpl/{extjs.version}/ux/form/MultiSelect.js
-  /app/ux/
-  /app/model/
-  /app/store/
-  /app/controller/
-  /app/view/
+  /app/
   /app.js[dp]
   /resources/extjs.history.js[dp]
   /resources/detect.js[dp]

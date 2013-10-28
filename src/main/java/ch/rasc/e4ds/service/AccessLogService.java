@@ -43,7 +43,7 @@ public class AccessLogService {
 
 	@Autowired
 	private Environment environment;
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
 

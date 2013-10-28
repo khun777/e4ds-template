@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.user.List', {
 	extend: 'Ext.grid.Panel',
-	requires: [ 'E4ds.controller.User', 'E4ds.ux.form.field.FilterField', 'E4ds.model.Role' ],
+	requires: [ 'E4ds.controller.User', 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
 	controller: 'E4ds.controller.User',
 	inject: 'rolesStore',
 	title: i18n.user_users,

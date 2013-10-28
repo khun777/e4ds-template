@@ -1,6 +1,6 @@
 Ext.define('E4ds.view.SideBar', {
 	extend: 'Ext.panel.Panel',
-
+	requires: [ 'E4ds.view.poll.PollChart', 'E4ds.view.user.List', 'E4ds.view.accesslog.List', 'E4ds.view.logevent.List', 'E4ds.view.config.Edit' ],
 	title: i18n.navigation,
 	collapsible: true,
 	layout: 'fit',

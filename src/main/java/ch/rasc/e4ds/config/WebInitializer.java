@@ -15,6 +15,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import ch.rasc.e4ds.web.MdcFilter;
+import ch.rasc.e4ds.web.optimizer.WebResourceProcessor;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
