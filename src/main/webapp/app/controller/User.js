@@ -1,6 +1,5 @@
 Ext.define('E4ds.controller.User', {
 	extend: 'Deft.mvc.ViewController',
-	inject: 'rolesStore',
 	requires: [ 'E4ds.view.user.Edit' ],
 	control: {
 		view: {
@@ -29,10 +28,10 @@ Ext.define('E4ds.controller.User', {
 		store.load();
 	},
 
-	destroy: function() {		
+	destroy: function() {
 		if (this.actionMenu) {
 			this.actionMenu.destroy();
-		}		
+		}
 		return this.callParent();
 	},
 
@@ -44,22 +43,22 @@ Ext.define('E4ds.controller.User', {
 	onActionColumnClick: function(grid, rowIndex, colIndex, item, e, record, row) {
 		this.showContextMenu(record, null, row);
 	},
-	
+
 	showContextMenu: function(record, xy, item) {
 		var me = this;
 		var items = [ {
 			text: i18n.edit,
 			glyph: 0xe803,
-			handler: Ext.bind(me.editUser, me, [record])
+			handler: Ext.bind(me.editUser, me, [ record ])
 		}, {
 			text: i18n.destroy,
 			glyph: 0xe806,
-			handler: Ext.bind(me.destroyUser, me, [record])
+			handler: Ext.bind(me.destroyUser, me, [ record ])
 		}, {
 			xtype: 'menuseparator'
 		}, {
 			text: i18n.user_switchto,
-			handler: Ext.bind(me.switchTo, me, [record])
+			handler: Ext.bind(me.switchTo, me, [ record ])
 		} ];
 
 		if (this.actionMenu) {
@@ -93,9 +92,7 @@ Ext.define('E4ds.controller.User', {
 	editUser: function(record) {
 		this.getView().getStore().rejectChanges();
 
-		var editWindow = Ext.create('E4ds.view.user.Edit', {
-			rolesStore: this.rolesStore
-		});
+		var editWindow = Ext.create('E4ds.view.user.Edit');
 
 		var form = editWindow.down('form');
 		if (record) {
