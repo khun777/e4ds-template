@@ -1,16 +1,16 @@
-Ext.define('E4ds.view.accesslog.List', {
+Ext.define('BitP.view.accesslog.List', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.AccessLog',
+	controller: 'BitP.controller.AccessLog',
 	title: i18n.accesslog,
 	closable: true,
 	border: true,
 
-	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.store.AccessLogs' ],
+	requires: [ 'BitP.ux.form.field.FilterField', 'BitP.store.AccessLogs' ],
 
 	initComponent: function() {
 		var me = this;
 
-		me.store = Ext.create('E4ds.store.AccessLogs');
+		me.store = Ext.create('BitP.store.AccessLogs');
 
 		me.columns = [ {
 			text: i18n.user_username,

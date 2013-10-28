@@ -1,6 +1,6 @@
-Ext.define('E4ds.store.LogEvents', {
+Ext.define('BitP.store.LogEvents', {
 	extend: 'Ext.data.Store',
-	model: 'E4ds.model.LogEvent',
+	model: 'BitP.model.LogEvent',
 	autoLoad: false,
 	remoteSort: true,
 	remoteFilter: true,

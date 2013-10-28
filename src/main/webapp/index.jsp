@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>e4ds-template</title>	
+  <title>bitp-template</title>	
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-48.png" sizes="48x48">  

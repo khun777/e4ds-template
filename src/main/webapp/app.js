@@ -2,34 +2,27 @@
 Ext.Loader.setConfig({
 	enabled: true,
 	paths: {
-		'E4ds': 'app',
+		'BitP': 'app',
 		'Ext.ux': 'resources/extjs-gpl/4.2.2/ux'
 	}
 });
 /* </debug> */
 
-Ext.define('E4ds.App', {
+Ext.define('BitP.App', {
 	extend: 'Deft.mvc.Application',
-	requires: [ 'overrides.AbstractMixedCollection', 'E4ds.ux.window.Notification', 'E4ds.view.Viewport', 'E4ds.store.Roles' ],
+	requires: [ 'overrides.AbstractMixedCollection', 'BitP.ux.window.Notification', 'BitP.view.Viewport', 'BitP.store.Roles' ],
 
 	init: function() {
 		Ext.fly('circularG').destroy();
 		Ext.setGlyphFontFamily('custom');
 		Ext.tip.QuickTipManager.init();
 
-		var chartdatapoller = new Ext.direct.PollingProvider({
-			id: 'chartdatapoller',
-			type: 'polling',
-			interval: 2000,
-			url: POLLING_URLS.chartdata
-		});
 		var heartbeat = new Ext.direct.PollingProvider({
 			type: 'polling',
 			interval: 5 * 60 * 1000, // 5 minutes
 			url: POLLING_URLS.heartbeat
 		});
-		Ext.direct.Manager.addProvider(REMOTING_API, chartdatapoller, heartbeat);
-		Ext.direct.Manager.getProvider('chartdatapoller').disconnect();
+		Ext.direct.Manager.addProvider(REMOTING_API, heartbeat);
 
 		if (Ext.view.AbstractView) {
 			Ext.view.AbstractView.prototype.loadingText = i18n.loading;
@@ -45,21 +38,21 @@ Ext.define('E4ds.App', {
 
 		Ext.direct.Manager.on('exception', function(e) {
 			if (e.message === 'accessdenied') {
-				E4ds.ux.window.Notification.error(i18n.error, i18n.error_accessdenied);
+				BitP.ux.window.Notification.error(i18n.error, i18n.error_accessdenied);
 			} else {
-				E4ds.ux.window.Notification.error(i18n.error, e.message);
+				BitP.ux.window.Notification.error(i18n.error, e.message);
 			}
 		});
 
 		Deft.Injector.configure({
 			messageBus: 'Ext.util.Observable',
 			rolesStore: {
-				className: 'E4ds.store.Roles',
+				className: 'BitP.store.Roles',
 				eager: true
 			}
 		});
 
-		Ext.create('E4ds.view.Viewport');
+		Ext.create('BitP.view.Viewport');
 	},
 
 	setupGlobalErrorHandler: function() {
@@ -78,5 +71,5 @@ Ext.define('E4ds.App', {
 });
 
 Ext.onReady(function() {
-	Ext.create('E4ds.App');
+	Ext.create('BitP.App');
 });

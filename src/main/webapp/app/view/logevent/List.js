@@ -1,11 +1,11 @@
-Ext.define('E4ds.view.logevent.List', {
+Ext.define('BitP.view.logevent.List', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.LogEvent',
+	controller: 'BitP.controller.LogEvent',
 
 	title: i18n.logevents,
 	closable: true,
 	border: true,
-	requires: [ 'Ext.grid.plugin.RowExpander', 'E4ds.ux.form.field.ClearCombo', 'E4ds.store.LogLevels', 'E4ds.store.LogEvents' ],
+	requires: [ 'Ext.grid.plugin.RowExpander', 'BitP.ux.form.field.ClearCombo', 'BitP.store.LogLevels', 'BitP.store.LogEvents' ],
 
 	plugins: [ {
 		ptype: 'rowexpander',
@@ -22,7 +22,7 @@ Ext.define('E4ds.view.logevent.List', {
 	initComponent: function() {
 		var me = this;
 
-		me.store = Ext.create('E4ds.store.LogEvents');
+		me.store = Ext.create('BitP.store.LogEvents');
 
 		me.columns = [ {
 			text: i18n.logevents_timestamp,
@@ -71,7 +71,7 @@ Ext.define('E4ds.view.logevent.List', {
 				labelWidth: 40,
 				itemId: 'logLevelFilter',
 				name: 'logLevelFilter',
-				store: Ext.create('E4ds.store.LogLevels'),
+				store: Ext.create('BitP.store.LogLevels'),
 				valueField: 'level',
 				displayField: 'level',
 				queryMode: 'local',

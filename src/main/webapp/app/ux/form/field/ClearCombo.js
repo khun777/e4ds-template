@@ -1,4 +1,4 @@
-Ext.define('E4ds.ux.form.field.ClearCombo', {
+Ext.define('BitP.ux.form.field.ClearCombo', {
 	extend: 'Ext.form.field.ComboBox',
 	alias: 'widget.clearcombo',
 

@@ -1,4 +1,4 @@
-Ext.define('E4ds.ux.form.field.FilterField', {
+Ext.define('BitP.ux.form.field.FilterField', {
 	extend: 'Ext.form.field.Trigger',
 	alias: 'widget.filterfield',
 	

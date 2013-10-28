@@ -1,7 +1,7 @@
-Ext.define('E4ds.controller.User', {
+Ext.define('BitP.controller.User', {
 	extend: 'Deft.mvc.ViewController',
 	inject: 'rolesStore',
-	requires: [ 'E4ds.view.user.Edit' ],
+	requires: [ 'BitP.view.user.Edit' ],
 	control: {
 		view: {
 			removed: 'onRemoved',
@@ -93,7 +93,7 @@ Ext.define('E4ds.controller.User', {
 	editUser: function(record) {
 		this.getView().getStore().rejectChanges();
 
-		var editWindow = Ext.create('E4ds.view.user.Edit', {
+		var editWindow = Ext.create('BitP.view.user.Edit', {
 			rolesStore: this.rolesStore
 		});
 
@@ -101,7 +101,7 @@ Ext.define('E4ds.controller.User', {
 		if (record) {
 			form.loadRecord(record);
 		} else {
-			form.loadRecord(Ext.create('E4ds.model.User'));
+			form.loadRecord(Ext.create('BitP.model.User'));
 		}
 
 		form.isValid();
@@ -119,11 +119,11 @@ Ext.define('E4ds.controller.User', {
 				store.remove(record);
 				store.sync({
 					success: function() {
-						E4ds.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
+						BitP.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
 					},
 					failure: function(records, operation) {
 						store.rejectChanges();
-						E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
+						BitP.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
 					}
 				});
 			}
@@ -164,7 +164,7 @@ Ext.define('E4ds.controller.User', {
 
 		store.sync({
 			success: function(records, operation) {
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_saved);
+				BitP.ux.window.Notification.info(i18n.successful, i18n.user_saved);
 				win.close();
 			},
 			failure: function(records, operation) {

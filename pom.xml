@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.rasc</groupId>
-	<artifactId>e4ds-template</artifactId>
+	<artifactId>bitprototype</artifactId>
 	<version>1.0.0</version>
 	<packaging>war</packaging>
 
@@ -580,7 +580,7 @@
 								<vars>true</vars>
 								<plusplus>true</plusplus>
 								<unparam>true</unparam>
-								<predef>Ext,E4ds,REMOTING_API,POLLING_URLS,History,Deft,i18n,accessLogService,userService,logService,
+								<predef>Ext,BitP,REMOTING_API,POLLING_URLS,History,Deft,i18n,accessLogService,userService,logService,
 									logEventService,navigationService,securityService,appConfigurationService</predef>
 							</options>
 						</configuration>

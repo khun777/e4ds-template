@@ -1,4 +1,4 @@
-Ext.define('E4ds.model.PollChart', {
+Ext.define('BitP.model.PollChart', {
 	extend: 'Ext.data.Model',
 	fields: [ 'id', {
 		name: 'time',

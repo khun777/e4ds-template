@@ -1,4 +1,4 @@
-Ext.define("E4ds.model.LogEvent",
+Ext.define("BitP.model.LogEvent",
 {
   extend : "Ext.data.Model",
   fields : [ {

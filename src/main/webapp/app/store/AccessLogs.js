@@ -1,6 +1,6 @@
-Ext.define('E4ds.store.AccessLogs', {
+Ext.define('BitP.store.AccessLogs', {
 	extend: 'Ext.data.Store',
-	model: 'E4ds.model.AccessLog',
+	model: 'BitP.model.AccessLog',
 	autoLoad: false,
 	remoteSort: true,
 	remoteFilter: true,

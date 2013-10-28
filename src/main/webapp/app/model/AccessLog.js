@@ -1,4 +1,4 @@
-Ext.define("E4ds.model.AccessLog",
+Ext.define("BitP.model.AccessLog",
 {
   extend : "Ext.data.Model",
   fields : [ {

@@ -1,11 +1,11 @@
 <!DOCTYPE context>
 <Context>
 
-  <Resource name="jdbc/e4ds" auth="Container"
+  <Resource name="jdbc/bitp" auth="Container"
             factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
             type="javax.sql.DataSource" username="sa" password=""
             driverClassName="org.h2.Driver"
-            url="jdbc:h2:./target/e4ds"
+            url="jdbc:h2:./target/bitp"
             initialSize="2"
             minIdle="2"
             maxIdle="4"

@@ -1,7 +1,7 @@
-Ext.define('E4ds.view.user.List', {
+Ext.define('BitP.view.user.List', {
 	extend: 'Ext.grid.Panel',
-	requires: [ 'E4ds.controller.User', 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
-	controller: 'E4ds.controller.User',
+	requires: [ 'BitP.controller.User', 'BitP.ux.form.field.FilterField', 'BitP.store.Users' ],
+	controller: 'BitP.controller.User',
 	inject: 'rolesStore',
 	title: i18n.user_users,
 	closable: true,
@@ -11,7 +11,7 @@ Ext.define('E4ds.view.user.List', {
 
 		var me = this;
 
-		me.store = Ext.create('E4ds.store.Users');
+		me.store = Ext.create('BitP.store.Users');
 
 		me.columns = [ {
 			xtype: 'actioncolumn',

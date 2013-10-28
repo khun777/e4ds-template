@@ -1,4 +1,4 @@
-Ext.define('E4ds.controller.LogEvent', {
+Ext.define('BitP.controller.LogEvent', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {
@@ -44,7 +44,7 @@ Ext.define('E4ds.controller.LogEvent', {
 	deleteAll: function() {
 		var filter = this.getView().getStore().filters.get(0);
 		logEventService.deleteAll(filter && filter.value, function() {
-			E4ds.ux.window.Notification.info(i18n.successful, i18n.logevents_deleted);
+			BitP.ux.window.Notification.info(i18n.successful, i18n.logevents_deleted);
 			this.doGridRefresh();
 		}, this);
 	},
@@ -52,7 +52,7 @@ Ext.define('E4ds.controller.LogEvent', {
 	/* <debug> */
 	addTestData: function() {
 		logEventService.addTestData(function() {
-			E4ds.ux.window.Notification.info(i18n.successful, i18n.logevents_testinserted);
+			BitP.ux.window.Notification.info(i18n.successful, i18n.logevents_testinserted);
 			this.doGridRefresh();
 		}, this);
 

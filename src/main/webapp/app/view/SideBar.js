@@ -1,6 +1,6 @@
-Ext.define('E4ds.view.SideBar', {
+Ext.define('BitP.view.SideBar', {
 	extend: 'Ext.panel.Panel',
-	requires: [ 'E4ds.view.poll.PollChart', 'E4ds.view.user.List', 'E4ds.view.accesslog.List', 'E4ds.view.logevent.List', 'E4ds.view.config.Edit' ],
+	requires: [ 'BitP.view.user.List', 'BitP.view.accesslog.List', 'BitP.view.logevent.List', 'BitP.view.config.Edit' ],
 	title: i18n.navigation,
 	collapsible: true,
 	layout: 'fit',
@@ -13,7 +13,7 @@ Ext.define('E4ds.view.SideBar', {
 			xtype: 'treepanel',
 			itemId: 'menuTree',
 			border: 0,
-			store: Ext.create('E4ds.store.Navigation'),
+			store: Ext.create('BitP.store.Navigation'),
 			rootVisible: false,
 			animate: false
 		} ];

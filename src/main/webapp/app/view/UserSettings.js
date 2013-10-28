@@ -1,4 +1,4 @@
-Ext.define('E4ds.view.UserSettings', {
+Ext.define('BitP.view.UserSettings', {
 	extend: 'Ext.window.Window',
 
 	title: i18n.settings,

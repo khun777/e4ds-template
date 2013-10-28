@@ -1,6 +1,6 @@
-Ext.define('E4ds.controller.Viewport', {
+Ext.define('BitP.controller.Viewport', {
 	extend: 'Deft.mvc.ViewController',
-	requires: [ 'E4ds.view.UserSettings' ],
+	requires: [ 'BitP.view.UserSettings' ],
 
 	control: {
 		menuTree: {
@@ -48,8 +48,8 @@ Ext.define('E4ds.controller.Viewport', {
 
 	openSettingsWindow: function(result) {
 		if (result) {
-			var userSettingsWindow = Ext.create('E4ds.view.UserSettings');
-			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', result));
+			var userSettingsWindow = Ext.create('BitP.view.UserSettings');
+			userSettingsWindow.down('form').loadRecord(Ext.create('BitP.model.User', result));
 			userSettingsWindow.down('#editFormSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
 		}
 	},
@@ -61,7 +61,7 @@ Ext.define('E4ds.controller.Viewport', {
 		userService.updateSettings(form.getForm().getFieldValues(), function(result) {
 			if (result.success) {
 				win.close();
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
+				BitP.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
 			}
 		});
 

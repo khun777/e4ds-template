@@ -1,9 +1,9 @@
 /**
- * @class E4ds.ux.form.field.plugin.ClearTrigger
+ * @class BitP.ux.form.field.plugin.ClearTrigger
  * @extends Ext.AbstractPlugin Plugin that adds the ability to clean an input field with a trigger class
  * @ptype cleartrigger
  */
-Ext.define('E4ds.ux.form.field.plugin.ClearTrigger', {
+Ext.define('BitP.ux.form.field.plugin.ClearTrigger', {
 	extend: 'Ext.AbstractPlugin',
 	alias: 'plugin.cleartrigger',
 	constructor: function() {

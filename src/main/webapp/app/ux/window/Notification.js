@@ -11,7 +11,7 @@
  *
  */
 
-Ext.define('E4ds.ux.window.Notification', {
+Ext.define('BitP.ux.window.Notification', {
 	extend: 'Ext.window.Window',
 	alias: 'widget.uxNotification',
 
@@ -68,7 +68,7 @@ Ext.define('E4ds.ux.window.Notification', {
 			this.notification(title, text, true);
 		},
 		notification: function(title, text, error) {
-			Ext.create('E4ds.ux.window.Notification', {
+			Ext.create('BitP.ux.window.Notification', {
 				position: 'br',
 				title: title,
 				manager: 'notification',
