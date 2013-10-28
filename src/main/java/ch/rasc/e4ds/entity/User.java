@@ -1,16 +1,8 @@
 package ch.rasc.e4ds.entity;
 
-import java.util.Collection;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
@@ -20,13 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import ch.ralscha.extdirectspring.generator.Model;
-import ch.ralscha.extdirectspring.generator.ModelAssociation;
-import ch.ralscha.extdirectspring.generator.ModelAssociationType;
-import ch.ralscha.extdirectspring.generator.ModelField;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 
 @Entity
 @Table(name = "AppUser")
@@ -50,6 +37,8 @@ public class User extends AbstractPersistable {
 	@Column(unique = true)
 	private String email;
 
+	private String role;
+
 	@Size(max = 255)
 	@JsonIgnore
 	private String passwordHash;
@@ -67,16 +56,6 @@ public class User extends AbstractPersistable {
 	private String locale;
 
 	private boolean enabled;
-
-	@ModelField
-	@Transient
-	private Collection<Long> roleIds;
-
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "AppUserRoles", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
-	@ModelAssociation(value = ModelAssociationType.HAS_MANY, model = Role.class, foreignKey = "user_id", autoLoad = false)
-	private Set<Role> roles;
 
 	@JsonIgnore
 	private Integer failedLogins;
@@ -117,20 +96,20 @@ public class User extends AbstractPersistable {
 		this.email = email;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public String getPasswordHash() {
 		return passwordHash;
 	}
 
 	public void setPasswordHash(String passwordHash) {
 		this.passwordHash = passwordHash;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
 	}
 
 	public boolean isEnabled() {
@@ -181,32 +160,12 @@ public class User extends AbstractPersistable {
 		this.passwordNewConfirm = passwordNewConfirm;
 	}
 
-	public Collection<Long> getRoleIds() {
-		return roleIds;
-	}
-
-	public void setRoleIds(Collection<Long> roleIds) {
-		this.roleIds = roleIds;
-	}
-
 	public String getOldPassword() {
 		return oldPassword;
 	}
 
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
-	}
-
-	@PostLoad
-	private void populate() {
-
-		roleIds = Collections2.transform(roles, new Function<Role, Long>() {
-			@Override
-			public Long apply(Role input) {
-				return input.getId();
-			}
-		});
-
 	}
 
 }

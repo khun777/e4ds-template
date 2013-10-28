@@ -9,10 +9,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 
-import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 
@@ -57,8 +57,8 @@ public class JpaUserDetails implements UserDetails {
 		}
 
 		Builder<GrantedAuthority> builder = ImmutableSet.builder();
-		for (Role role : user.getRoles()) {
-			builder.add(new SimpleGrantedAuthority(role.getName()));
+		for (String role : Splitter.on(",").split(user.getRole())) {
+			builder.add(new SimpleGrantedAuthority(role));
 		}
 
 		this.authorities = builder.build();

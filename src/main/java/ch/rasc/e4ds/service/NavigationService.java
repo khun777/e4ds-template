@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
+import ch.rasc.e4ds.entity.Role;
 
 @Service
 public class NavigationService {
@@ -32,7 +33,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"chart_title",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAA50lEQVR4Ab2Qr0vHUBTFxxjDP8AgpgWDGEQMBpNBFgxLYjSZxSSysCYiBoN5UeRz3wTBIMMoQ5aMYhgLhmEwyoKM5+UxvyD2ncE4755zf3oTogjZ4Yxr/c5JzNxfMeCIDktDyQNvyj45MeEoyyLPfHNllmSNnBuJTcQFPS8SOZmGRtaVrVBxwAcDib6WeeVdLVR0suApNCvT/z2W0lWep6X2OGRgfzT0VNiZIeabVAmXDBzf+driy8muBXv0mFvfjUnKwJNs/Q4pq4AlL4LZomxSY+l4pKR1C+/+O5VskLlDnbKtpafDD+DijjGiKOJHAAAAAElFTkSuQmCC",
-						"E4ds.view.poll.PollChart", Roles.ROLE_USER, Roles.ROLE_ADMIN));
+						"E4ds.view.poll.PollChart", Role.USER, Role.ADMIN));
 		root.addChild(businessNode);
 
 		MenuNode administrationNode = new MenuNode("navigation_administration", null, true);
@@ -40,7 +41,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"user_users",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAArklEQVR4Ac2NMQ6CQBREf2HBAaioiScgnIJYcABiOAgXoaKcDx2FMdpScAQOYYyFsSAbnd3faKxNnCn2ZWb4yL8Je9zo6qvQDGUfcXDFk76I9BFKzcSEHI5xS3qEwZ3U8nXIbVCFeCYdAx1IcyD7mabhQkcqfKwFBx3JaSomTFg0GWI04btmiDXBgsnKGic47DD6O2bSyMSxqQWrj4atVea3ZJXzxlvsNX8k8nu9AB/XjIWC18JAAAAAAElFTkSuQmCC",
-						"E4ds.view.user.List", Roles.ROLE_ADMIN));
+						"E4ds.view.user.List", Role.ADMIN));
 		root.addChild(administrationNode);
 
 		MenuNode systemNode = new MenuNode("navigation_system", null, true);
@@ -48,17 +49,17 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"accesslog",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA00lEQVQ4y2NYuXJlMxD/JRG/ZoABqAHPgTiBBByBbsBNKDsGiDNIwGboBjwG4v8k4GZsBuxcvXq1GgFsgM+A1SD2qlWrIoDsPHQMFDdav349D0EDgPR0IN6LBYcRZQDQmVpA28zQMVBcglgXHAXi71hwEVEG4APEumA/EH/EgvPWrl3LBzWgEV8sGACxDTIG+t9jzZo1GkA1ZVADokjyAlBuPVIieg40lItUA45CNYMylB9M0ASUaJAMuA3EE7FgmO0/gTgJlw0P8WThj1BDDJD1AAB30hUSZGmhygAAAABJRU5ErkJggg==",
-						"E4ds.view.accesslog.List", Roles.ROLE_ADMIN));
+						"E4ds.view.accesslog.List", Role.ADMIN));
 		systemNode
 				.addChild(new MenuNode(
 						"logevents",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA00lEQVQ4y2NYuXJlMxD/JRG/ZoABqAHPgTiBBByBbsBNKDsGiDNIwGboBjwG4v8k4GZsBuxcvXq1GgFsgM+A1SD2qlWrIoDsPHQMFDdav349D0EDgPR0IN6LBYcRZQDQmVpA28zQMVBcglgXHAXi71hwEVEG4APEumA/EH/EgvPWrl3LBzWgEV8sGACxDTIG+t9jzZo1GkA1ZVADokjyAlBuPVIieg40lItUA45CNYMylB9M0ASUaJAMuA3EE7FgmO0/gTgJlw0P8WThj1BDDJD1AAB30hUSZGmhygAAAABJRU5ErkJggg==",
-						"E4ds.view.logevent.List", Roles.ROLE_ADMIN));
+						"E4ds.view.logevent.List", Role.ADMIN));
 		systemNode
 				.addChild(new MenuNode(
 						"config",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAABF0lEQVR4AXXPIUuDURTG8cchY2GILI0xxDCGisG0ZJBhMJnEYBQRm4JVBIMYFg0isrBg+J+7l0WDGIYMP8GCwWCQIbIsY84ruzB4X9Tf4cI9l+ccuJqwAjs2p780U1aQuMRzPQ5GKSVxxYAuPlSXAfXfAR+vZGC87iuc46lFHYb7t+LohKmGAm5C99Sc1gTD8FRTwEXoRrGAy9PG825lyUr08HRcQWqlWxkp4DRMDXlmEG7nUdq2ueXBttysJO7xiWq7eTx93vBUJVmePSvRDsvL7FqRBt6KLkufR02wirM1q9qRLXOAt02r8ElNcbbBCxFdt8SI8BvWFccJ9WaaD1twOfY5s5ySrMIrPe6ijP7jZtyKyyrmB9IlukeQunFqAAAAAElFTkSuQmCC",
-						"E4ds.view.config.Edit", Roles.ROLE_ADMIN));
+						"E4ds.view.config.Edit", Role.ADMIN));
 		root.addChild(systemNode);
 	}
 

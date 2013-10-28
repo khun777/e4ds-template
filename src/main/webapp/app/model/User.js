@@ -1,7 +1,6 @@
 Ext.define("E4ds.model.User",
 {
   extend : "Ext.data.Model",
-  uses : [ "E4ds.model.Role" ],
   fields : [ {
     name : "userName",
     type : "string"
@@ -13,6 +12,9 @@ Ext.define("E4ds.model.User",
     type : "string"
   }, {
     name : "email",
+    type : "string"
+  }, {
+    name : "role",
     type : "string"
   }, {
     name : "passwordNew",
@@ -30,19 +32,9 @@ Ext.define("E4ds.model.User",
     name : "enabled",
     type : "boolean"
   }, {
-    name : "roleIds",
-    type : "auto"
-  }, {
     name : "id",
     type : "int",
     useNull : true
-  } ],
-  associations : [ {
-    type : "hasMany",
-    model : "E4ds.model.Role",
-    associationKey : "roles",
-    foreignKey : "user_id",
-    name : "roles"
   } ],
   proxy : {
     type : "direct",

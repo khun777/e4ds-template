@@ -34,13 +34,13 @@ public class AppConfigurationService {
 	private MailService mailService;
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void sendTestEmail(String to) {
 		mailService.sendSimpleMessage(to, "TEST EMAIL FROM e4ds-template", "THIS IS A TEST MESSAGE");
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
 	public ConfigurationDto read() {
 
@@ -78,7 +78,7 @@ public class AppConfigurationService {
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public void save(ConfigurationDto data) {
 		Logger logger = (Logger) LogManager.getLogger("ch.rasc.e4ds");

@@ -43,6 +43,7 @@
 			</column>
 			
 			<column name="passwordHash" type="varchar(255)" />
+			<column name="role" type="varchar(255)" />
 			<column name="locale" type="varchar(8)" />
 			<column name="enabled" type="BOOLEAN" />
             <column name="failedLogins" type="INT" />            
@@ -51,48 +52,6 @@
 	</changeSet>
 
 	<changeSet author="dev" id="3">
-		<createTable tableName="Role">
-			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Role" />
-			</column>
-
-			<column name="name" type="varchar(50)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<changeSet author="dev" id="4">
-		<createTable tableName="AppUserRoles">
-			<column name="userId" type="BIGINT">
-				<constraints nullable="false"/>
-			</column>
-
-			<column name="roleId" type="BIGINT">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-		<addPrimaryKey columnNames="userId,roleId" constraintName="PK_AppUserRoles" tableName="AppUserRoles" />
-		
-		<addForeignKeyConstraint baseColumnNames="userId" baseTableName="AppUserRoles" constraintName="FK_AppUserRoles_AppUser"
-			referencedColumnNames="id"
-			referencedTableName="AppUser" />		
-		
-		<addForeignKeyConstraint baseColumnNames="roleId" baseTableName="AppUserRoles" constraintName="FK_AppUserRoles_Role"
-			referencedColumnNames="id"
-			referencedTableName="Role" />			
-	</changeSet>
-	
-	<changeSet author="dev" id="5">
-	  <insert tableName="Role">
-	  	<column name="name" value="ROLE_ADMIN"/>
-	  </insert>
-	  <insert tableName="Role">
-	  	<column name="name" value="ROLE_USER"/>
-	  </insert>	  
-	</changeSet>
-
-	<changeSet author="dev" id="6">
 		<createTable tableName="AccessLog">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_AccessLog" />
@@ -107,7 +66,7 @@
 		</createTable>
 	</changeSet>	
 	
-	<changeSet author="dev" id="7">
+	<changeSet author="dev" id="4">
 		<createTable tableName="persistent_logins">
 			<column name="series" type="varchar(64)">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_persistent_logins" />
@@ -127,7 +86,7 @@
 		</createTable>
 	</changeSet>	
 	
-	<changeSet author="dev" id="8">
+	<changeSet author="dev" id="5">
 		<createTable tableName="Configuration">
 			<column autoIncrement="true" name="id" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_Configuration" />
@@ -139,7 +98,7 @@
 		</createTable>
 	</changeSet>    
 	
-	<changeSet author="dev" id="9">
+	<changeSet author="dev" id="6">
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SENDER', 'test@test.com')</sql>
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_SERVER', 'localhost')</sql>
 	  <sql>insert into Configuration(confKey, confValue) values('SMTP_PORT', '25')</sql>

@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration packages="ch.rasc.e4ds.util">
   <Appenders>
-      
-    <CommitJDBC name="databaseAppender" tableName="LogEvent">
-      <DataSource jndiName="java:comp/env/jdbc/e4ds" />
-      <Column name="eventDate" isEventTimestamp="true" />
-      <Column name="level" pattern="%level" />
-      <Column name="logger" pattern="%logger" />
-      <Column name="source" pattern="%location" />
-      <Column name="message" pattern="%message" />
-      <Column name="marker" pattern="%marker" />
-      <Column name="thread" pattern="%thread" />                  
-      <Column name="exception" pattern="%rEx{full}" />
-      
-      <Column name="userName" pattern="%mdc{userName}" />
-      <Column name="ip" pattern="%mdc{ip}" />
-      <Column name="userAgent" pattern="%mdc{userAgent}" />
-    </CommitJDBC>
+  
+    <Console name="stdout" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %msg%n%rEx{full}"/>
+    </Console>
     
   </Appenders>
   
   <Loggers>
-    <Root level="error">      
-      <AppenderRef ref="databaseAppender"/>
+    <Root level="warn">
+      <AppenderRef ref="stdout"/>
     </Root>
   </Loggers>
 </Configuration>

@@ -33,7 +33,7 @@ public class LogEventService {
 
 	@ExtDirectMethod(STORE_READ)
 	@Transactional(readOnly = true)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ExtDirectStoreResult<LogEvent> read(ExtDirectStoreReadRequest request) {
 
 		JPQLQuery query = new JPAQuery(entityManager).from(QLogEvent.logEvent);
@@ -55,7 +55,7 @@ public class LogEventService {
 
 	@ExtDirectMethod
 	@Transactional
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void deleteAll(String level) {
 		if (StringUtils.hasText(level)) {
 			new JPADeleteClause(entityManager, QLogEvent.logEvent).where(QLogEvent.logEvent.level.eq(level)).execute();
@@ -66,7 +66,7 @@ public class LogEventService {
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void addTestData() {
 		Logger log = LogManager.getLogger("ch.rasc.e4ds");
 		log.debug("a simple debug log entry");

@@ -12,6 +12,8 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 
+import ch.rasc.e4ds.entity.Role;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 
@@ -30,7 +32,7 @@ public class MenuNode {
 	private String icon;
 
 	@JsonIgnore
-	private EnumSet<Roles> roles;
+	private EnumSet<Role> roles;
 
 	private final List<MenuNode> children = Lists.newArrayList();
 
@@ -44,14 +46,14 @@ public class MenuNode {
 		this.expanded = expanded;
 	}
 
-	public MenuNode(String text, String icon, String view, Roles... roles) {
+	public MenuNode(String text, String icon, String view, Role... roles) {
 		this.text = text;
 		this.icon = icon;
 		this.view = view;
 		if (roles != null) {
 			this.roles = EnumSet.copyOf(Arrays.asList(roles));
 		} else {
-			this.roles = EnumSet.noneOf(Roles.class);
+			this.roles = EnumSet.noneOf(Role.class);
 		}
 	}
 
@@ -103,7 +105,7 @@ public class MenuNode {
 		}
 
 		for (GrantedAuthority grantedAuthority : authorities) {
-			if (node.roles.contains(Roles.valueOf(grantedAuthority.getAuthority()))) {
+			if (node.roles.contains(Role.valueOf(grantedAuthority.getAuthority()))) {
 				return true;
 			}
 		}

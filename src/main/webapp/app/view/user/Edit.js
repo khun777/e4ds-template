@@ -77,11 +77,11 @@ Ext.define('E4ds.view.user.Edit', {
 				uncheckedValue: 'false'
 			}, {
 				xtype: 'multiselect',
-				name: 'roleIds',
+				name: 'role',
 				fieldLabel: i18n.user_roles,
 				store: me.rolesStore,
 				displayField: 'name',
-				valueField: 'id',
+				valueField: 'name',
 				allowBlank: true
 			} ],
 

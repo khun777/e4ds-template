@@ -37,26 +37,9 @@ Ext.define('E4ds.view.user.List', {
 			dataIndex: 'email',
 			flex: 1
 		}, {
-			text: 'Roles',
-			dataIndex: 'roleIds',
-			sortable: false,
-			width: 160,
-			renderer: function(value, metadata, record) {
-				var result = '';
-				if (value) {
-					for (var i = 0; i < value.length; i++) {
-						if (result.length > 0) {
-							result += ', ';
-						}
-						var role = this.rolesStore.getById(value[i]);
-						if (role) {
-							result += role.get('name');
-						}
-					}
-				}
-				metadata.tdAttr = 'data-qtip="' + result + '"';
-				return result;
-			}
+			text: 'Role',
+			dataIndex: 'role',
+            flex: 1
 		}, {
 			text: i18n.user_enabled,
 			dataIndex: 'enabled',

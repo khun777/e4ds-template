@@ -46,7 +46,7 @@ public class SecurityService {
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public boolean switchUser(Long userId) {
 		User switchToUser = entityManager.find(User.class, userId);

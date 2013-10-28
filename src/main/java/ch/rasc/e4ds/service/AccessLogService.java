@@ -47,7 +47,7 @@ public class AccessLogService {
 	private MessageSource messageSource;
 
 	@ExtDirectMethod(STORE_READ)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
 	public ExtDirectStoreResult<AccessLog> read(ExtDirectStoreReadRequest request, Locale locale) {
 
@@ -89,14 +89,14 @@ public class AccessLogService {
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public void deleteAll() {
 		new JPADeleteClause(entityManager, QAccessLog.accessLog).execute();
 	}
 
 	@ExtDirectMethod
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public void addTestData(HttpServletRequest request) {
 		String[] users = { "admin", "user" };

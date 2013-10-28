@@ -4,7 +4,7 @@ import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_RE
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,15 +23,14 @@ import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.base.BaseCRUDService;
 import ch.rasc.e4ds.base.ExtDirectStoreValidationResult;
 import ch.rasc.e4ds.base.ValidationError;
-import ch.rasc.e4ds.entity.QRole;
 import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.security.JpaUserDetails;
 import ch.rasc.e4ds.util.Util;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
@@ -39,7 +38,7 @@ import com.mysema.query.jpa.impl.JPAQuery;
 
 @Service
 @Lazy
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class UserService extends BaseCRUDService<User> {
 
 	@Autowired
@@ -163,16 +162,6 @@ public class UserService extends BaseCRUDService<User> {
 	protected void preModify(User entity) {
 		super.preModify(entity);
 
-		if (entity.getRoleIds() != null) {
-			Set<Role> roles = Sets.newHashSet();
-			for (Long roleId : entity.getRoleIds()) {
-				if (roleId != null) {
-					roles.add(entityManager.getReference(Role.class, roleId));
-				}
-			}
-			entity.setRoles(roles);
-		}
-
 		if (StringUtils.hasText(entity.getPasswordNew())) {
 			entity.setPasswordHash(passwordEncoder.encode(entity.getPasswordNew()));
 		} else {
@@ -208,17 +197,24 @@ public class UserService extends BaseCRUDService<User> {
 	}
 
 	private boolean isLastAdmin(Long id) {
-		Role role = new JPAQuery(entityManager).from(QRole.role).where(QRole.role.name.eq("ROLE_ADMIN"))
-				.singleResult(QRole.role);
 		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
-		query.where(QUser.user.id.ne(id).and(QUser.user.roles.contains(role)));
+		BooleanBuilder bb = new BooleanBuilder();
+		bb.or(QUser.user.role.eq(Role.ADMIN.name()));
+		bb.or(QUser.user.role.endsWith("," + Role.ADMIN.name()));
+		bb.or(QUser.user.role.contains("," + Role.ADMIN.name() + ","));
+		bb.or(QUser.user.role.startsWith(Role.ADMIN.name() + ","));
+
+		query.where(QUser.user.id.ne(id).and(bb));
 		return query.notExists();
 	}
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("isAuthenticated()")
-	public List<Role> readRoles() {
-		return new JPAQuery(entityManager).from(QRole.role).orderBy(QRole.role.name.asc()).list(QRole.role);
+	public List<Map<String, String>> readRoles() {
+		List<Map<String, String>> result = Lists.newArrayList();
+		for (Role role : Role.values()) {
+			result.add(ImmutableMap.of("name", role.name()));
+		}
+		return result;
 	}
-
 }

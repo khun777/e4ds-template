@@ -34,7 +34,7 @@ public class LogEventExport {
 
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/logEventExport.txt", method = RequestMethod.GET)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public void logEventExport(HttpServletResponse response, @RequestParam(required = false) final String level)
 			throws Exception {
 
