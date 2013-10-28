@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,9 @@ import com.mysema.query.jpa.impl.JPAQuery;
 
 @Service
 public class LogEventService {
+
+	@Autowired
+	private Environment environment;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -68,11 +73,13 @@ public class LogEventService {
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
 	public void addTestData() {
-		Logger log = LogManager.getLogger("ch.rasc.e4ds");
-		log.debug("a simple debug log entry");
-		log.info("this is a info log entry");
-		log.warn("a warning", new IllegalArgumentException());
-		log.error("a serious error", new NullPointerException());
+		if (!environment.acceptsProfiles("production")) {
+			Logger log = LogManager.getLogger("ch.rasc.e4ds");
+			log.debug("a simple debug log entry");
+			log.info("this is a info log entry");
+			log.warn("a warning", new IllegalArgumentException());
+			log.error("a serious error", new NullPointerException());
+		}
 	}
 
 }

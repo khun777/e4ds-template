@@ -20,6 +20,7 @@ import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,9 @@ import com.mysema.query.jpa.impl.JPAQuery;
 @Service
 public class AccessLogService {
 
+	@Autowired
+	private Environment environment;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -99,28 +103,30 @@ public class AccessLogService {
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional
 	public void addTestData(HttpServletRequest request) {
-		String[] users = { "admin", "user" };
-		Random random = new Random();
-		String userAgent = request.getHeader("User-Agent");
+		if (!environment.acceptsProfiles("production")) {
 
-		for (int i = 0; i < 1000; i++) {
-			try {
-				AccessLog accessLog = new AccessLog();
-				accessLog.setUserName(users[random.nextInt(2)]);
-				accessLog.setSessionId(RandomStringUtils.randomAlphanumeric(16));
+			String[] users = { "admin", "user" };
+			Random random = new Random();
+			String userAgent = request.getHeader("User-Agent");
 
-				DateTime logIn = new DateTime(2013, random.nextInt(12) + 1, random.nextInt(31) + 1, random.nextInt(24),
-						random.nextInt(60), random.nextInt(60));
-				accessLog.setLogIn(logIn);
-				accessLog.setLogOut(logIn.plusMinutes(random.nextInt(120)));
-				accessLog.setUserAgent(userAgent);
+			for (int i = 0; i < 1000; i++) {
+				try {
+					AccessLog accessLog = new AccessLog();
+					accessLog.setUserName(users[random.nextInt(2)]);
+					accessLog.setSessionId(RandomStringUtils.randomAlphanumeric(16));
 
-				entityManager.persist(accessLog);
-			} catch (IllegalArgumentException iae) {
-				// do nothing here
+					DateTime logIn = new DateTime(2013, random.nextInt(12) + 1, random.nextInt(31) + 1,
+							random.nextInt(24), random.nextInt(60), random.nextInt(60));
+					accessLog.setLogIn(logIn);
+					accessLog.setLogOut(logIn.plusMinutes(random.nextInt(120)));
+					accessLog.setUserAgent(userAgent);
+
+					entityManager.persist(accessLog);
+				} catch (IllegalArgumentException iae) {
+					// do nothing here
+				}
 			}
 		}
-
 	}
 
 }

@@ -49,6 +49,7 @@ Ext.define('E4ds.controller.LogEvent', {
 		}, this);
 	},
 
+	/* <debug> */
 	addTestData: function() {
 		logEventService.addTestData(function() {
 			E4ds.ux.window.Notification.info(i18n.successful, i18n.logevents_testinserted);
@@ -56,6 +57,7 @@ Ext.define('E4ds.controller.LogEvent', {
 		}, this);
 
 	},
+	/* </debug> */
 
 	doGridRefresh: function() {
 		this.getView().getStore().load();

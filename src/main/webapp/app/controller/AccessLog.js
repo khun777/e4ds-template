@@ -43,13 +43,15 @@ Ext.define('E4ds.controller.AccessLog', {
 		}, this);
 	},
 
+	/* <debug> */
 	addTestData: function() {
 		accessLogService.addTestData(function() {
 			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
 			this.doGridRefresh();
 		}, this);
 	},
-
+	/* </debug> */
+	
 	doGridRefresh: function() {
 		this.getView().getStore().load();
 	}
