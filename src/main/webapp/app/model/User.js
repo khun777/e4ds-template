@@ -1,4 +1,4 @@
-Ext.define("BitP.model.User",
+Ext.define("E4ds.model.User",
 {
   extend : "Ext.data.Model",
   fields : [ {
@@ -31,10 +31,6 @@ Ext.define("BitP.model.User",
   }, {
     name : "enabled",
     type : "boolean"
-  }, {
-    name : "lieferantId",
-    type : "int",
-    useNull : true
   }, {
     name : "id",
     type : "int",

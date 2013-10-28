@@ -1,5 +1,5 @@
-Ext.define('BitP.store.Roles', {
+Ext.define('E4ds.store.Roles', {
 	extend: 'Ext.data.Store',
-	model: 'BitP.model.Role',
+	model: 'E4ds.model.Role',
 	autoLoad: true
 });

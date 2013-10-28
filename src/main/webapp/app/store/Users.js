@@ -1,6 +1,6 @@
-Ext.define('BitP.store.Users', {
+Ext.define('E4ds.store.Users', {
 	extend: 'Ext.data.Store',
-	model: 'BitP.model.User',
+	model: 'E4ds.model.User',
 	autoLoad: false,
 	remoteSort: true,
 	remoteFilter: true,

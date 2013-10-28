@@ -1,4 +1,4 @@
-Ext.define('BitP.view.user.Edit', {
+Ext.define('E4ds.view.user.Edit', {
 	extend: 'Ext.window.Window',
 
 	title: i18n.user,
@@ -10,7 +10,7 @@ Ext.define('BitP.view.user.Edit', {
 	modal: true,
 	glyph: 0xe803,
 
-	requires: [ 'Ext.ux.form.MultiSelect', 'BitP.store.Lieferanten' ],
+	requires: [ 'Ext.ux.form.MultiSelect' ],
 
 	initComponent: function() {
 		var me = this;
@@ -76,28 +76,13 @@ Ext.define('BitP.view.user.Edit', {
 				inputValue: 'true',
 				uncheckedValue: 'false'
 			}, {
-				xtype: 'combobox',
+				xtype: 'multiselect',
 				name: 'role',
 				fieldLabel: i18n.user_roles,
 				store: me.rolesStore,
-                                queryMode: 'local',
 				displayField: 'name',
 				valueField: 'name',
 				allowBlank: true
-			}, {
-				xtype: 'ux.form.field.remotecombobox',
-				name: 'lieferantId',
-				fieldLabel: 'Lieferant',
-				displayField: 'firma',
-				valueField: 'id',
-				store: {
-					type: 'lieferanten'
-				},
-				plugins: [ {
-					ptype: 'cleartrigger'
-				} ],				
-				editable: false,
-				forceSelection: true
 			} ],
 
 			buttons: [ {

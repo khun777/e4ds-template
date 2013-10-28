@@ -1,4 +1,4 @@
-Ext.define("BitP.model.Role", {
+Ext.define("E4ds.model.Role", {
 	extend: "Ext.data.Model",
 	idProperty: 'name',
 	fields: [ {

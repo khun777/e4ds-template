@@ -1,4 +1,4 @@
-Ext.define('BitP.controller.AccessLog', {
+Ext.define('E4ds.controller.AccessLog', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {
@@ -38,7 +38,7 @@ Ext.define('BitP.controller.AccessLog', {
 
 	deleteAll: function() {
 		accessLogService.deleteAll(function() {
-			BitP.ux.window.Notification.info(i18n.successful, i18n.accesslog_deleted);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_deleted);
 			this.doGridRefresh();
 		}, this);
 	},
@@ -46,7 +46,7 @@ Ext.define('BitP.controller.AccessLog', {
 	/* <debug> */
 	addTestData: function() {
 		accessLogService.addTestData(function() {
-			BitP.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.accesslog_testinserted);
 			this.doGridRefresh();
 		}, this);
 	},

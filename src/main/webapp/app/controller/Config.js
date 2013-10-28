@@ -1,4 +1,4 @@
-Ext.define('BitP.controller.Config', {
+Ext.define('E4ds.controller.Config', {
 	extend: 'Deft.mvc.ViewController',
 
 	control: {
@@ -39,7 +39,7 @@ Ext.define('BitP.controller.Config', {
 	onSaveButtonClick: function() {
 		var form = this.getView().getForm();
 		appConfigurationService.save(form.getFieldValues(), function() {
-			BitP.ux.window.Notification.info(i18n.successful, i18n.config_saved);
+			E4ds.ux.window.Notification.info(i18n.successful, i18n.config_saved);
 		});
 	},
 
@@ -49,14 +49,14 @@ Ext.define('BitP.controller.Config', {
 
 		if (form.isValid()) {
 			appConfigurationService.save(form.getFieldValues(), function() {
-				BitP.ux.window.Notification.info(i18n.successful, i18n.config_saved);
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.config_saved);
 				appConfigurationService.sendTestEmail(testReceiver, function() {
-					BitP.ux.window.Notification.info(i18n.successful, i18n.config_testEmailsent);
+					E4ds.ux.window.Notification.info(i18n.successful, i18n.config_testEmailsent);
 				});
 			});
 		} else {
 			appConfigurationService.sendTestEmail(testReceiver, function() {
-				BitP.ux.window.Notification.info(i18n.successful, i18n.config_testEmailsent);
+				E4ds.ux.window.Notification.info(i18n.successful, i18n.config_testEmailsent);
 			});
 		}
 	}

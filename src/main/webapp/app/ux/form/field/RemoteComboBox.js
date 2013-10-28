@@ -1,7 +1,7 @@
 /**
  * Custom {@link Ext.form.field.ComboBox} that handles retrieval of initial values from server
  */
-Ext.define('BitP.ux.form.field.RemoteComboBox', {
+Ext.define('E4ds.ux.form.field.RemoteComboBox', {
 	extend: 'Ext.form.field.ComboBox',
 	alias: 'widget.ux.form.field.remotecombobox',
 	setValue: function( value, doSelect ) {

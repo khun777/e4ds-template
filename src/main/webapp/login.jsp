@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>bitp-template</title>
+  <title>e4ds-template</title>
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="resources/images/Shape-Cube-48.png" sizes="48x48">  
@@ -53,7 +53,7 @@
   Ext.onReady(function() {
     Ext.fly('circularG').destroy();
 	<% if (session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION") != null) { /**/ %> 
-	  BitP.ux.window.Notification.error(i18n.error, i18n.login_failed);
+	  E4ds.ux.window.Notification.error(i18n.error, i18n.login_failed);
 	  <% session.removeAttribute("SPRING_SECURITY_LAST_EXCEPTION"); %>
 	<% } %>
   });

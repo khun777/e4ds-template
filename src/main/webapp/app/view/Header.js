@@ -1,4 +1,4 @@
-Ext.define('BitP.view.Header', {
+Ext.define('E4ds.view.Header', {
 	extend: 'Ext.container.Container',
 	height: 35,
 	layout: {

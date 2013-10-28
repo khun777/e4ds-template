@@ -1,4 +1,4 @@
-Ext.define('BitP.store.Navigation', {
+Ext.define('E4ds.store.Navigation', {
 	extend: 'Ext.data.TreeStore',
 	requires: [ 'Ext.data.proxy.Direct' ],
 	autoLoad: true,

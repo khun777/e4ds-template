@@ -1,6 +1,6 @@
-Ext.define('BitP.view.config.Edit', {
+Ext.define('E4ds.view.config.Edit', {
 	extend: 'Ext.form.Panel',
-	controller: 'BitP.controller.Config',
+	controller: 'E4ds.controller.Config',
 	border: true,
 	title: i18n.config,
 	closable: true,
@@ -23,7 +23,7 @@ Ext.define('BitP.view.config.Edit', {
 				itemId: 'logLevelCombobox',
 				fieldLabel: i18n.config_loglevel,
 				name: 'logLevel',
-				store: Ext.create('BitP.store.LogLevels'),
+				store: Ext.create('E4ds.store.LogLevels'),
 				valueField: 'level',
 				displayField: 'level',
 				queryMode: 'local',

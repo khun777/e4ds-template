@@ -13,7 +13,7 @@ Ext.onReady(function() {
 		},
 
 		items: [ {
-			html: 'bitp-template',
+			html: 'e4ds-template',
 			cls: 'appHeader'
 		} ]
 	});
@@ -29,7 +29,7 @@ Ext.onReady(function() {
 		frame: true,
 		title: i18n.login_title,
 		url: 'login.html',
-		width: 600,
+		width: 400,
 		padding: 5,
 		glyph: 0xe812,
 
@@ -75,32 +75,13 @@ Ext.onReady(function() {
 		} ],
 
 		buttons: [ /* <_debug> */{
-			text: 'Bedarf Login',
+			text: i18n.login_withuser,
+			glyph: 0xe801,
 			handler: function() {
 				var form = this.up('form').getForm();
 				form.setValues({
-					username: 'bedarf',
-					password: 'bedarf'
-				});
-				form.submit();
-			}
-		}, {
-			text: 'Einkauf Login',
-			handler: function() {
-				var form = this.up('form').getForm();
-				form.setValues({
-					username: 'einkauf',
-					password: 'einkauf'
-				});
-				form.submit();
-			}
-		}, {
-			text: 'Lieferant Login',
-			handler: function() {
-				var form = this.up('form').getForm();
-				form.setValues({
-					username: 'lieferant',
-					password: 'lieferant'
+					username: 'user',
+					password: 'user'
 				});
 				form.submit();
 			}
