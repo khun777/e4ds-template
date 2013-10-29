@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.SortDirection;
 import ch.ralscha.extdirectspring.bean.SortInfo;
+import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.security.JpaUserDetails;
 
@@ -84,7 +87,7 @@ public class Util {
 		SecurityContextHolder.getContext().setAuthentication(token);
 	}
 
-	public static boolean hasRole(String role) {
+	public static boolean userInRole(Role role) {
 		SecurityContext context = SecurityContextHolder.getContext();
 		if (context == null) {
 			return false;
@@ -96,7 +99,7 @@ public class Util {
 		}
 
 		for (GrantedAuthority auth : authentication.getAuthorities()) {
-			if (role.equals(auth.getAuthority())) {
+			if (role.name().equals(auth.getAuthority())) {
 				return true;
 			}
 		}
@@ -104,4 +107,19 @@ public class Util {
 		return false;
 	}
 
+	public static User getLoggedInUser(EntityManager em) {
+		Long userId = getLoggedInUserId();
+		if (userId != null) {
+			return em.find(User.class, userId);
+		}
+		return null;
+	}
+
+	public static Long getLoggedInUserId() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof JpaUserDetails) {
+			return ((JpaUserDetails) principal).getUserDbId();
+		}
+		return null;
+	}
 }
