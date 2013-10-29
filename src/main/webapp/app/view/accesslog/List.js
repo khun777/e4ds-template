@@ -47,11 +47,11 @@ Ext.define('E4ds.view.accesslog.List', {
 				text: i18n.accesslog_deleteall,
 				itemId: 'deleteAllButton',
 				glyph: 0xe806
-			}, /* <debug> */'-', {
+			}, /* <debug> */ '-', {
 				text: i18n.accesslog_testinsert,
 				itemId: 'testButton',
 				glyph: 0xe807
-			}, /* </debug> */, '->', {
+			}, /* </debug> */ '->', {
 				fieldLabel: i18n.user_username,
 				itemId: 'filterField',
 				xtype: 'filterfield'

@@ -61,11 +61,11 @@ Ext.define('E4ds.view.logevent.List', {
 				text: i18n.logevents_deleteall,
 				itemId: 'deleteAllButton',
 				glyph: 0xe806
-			},/* <debug> */'-', {
+			},/* <debug> */ '-', {
 				text: i18n.logevents_addtest,
 				itemId: 'testButton',
 				glyph: 0xe807
-			},/* </debug> */, '->', {
+			},/* </debug> */ '->', {
 				xtype: 'clearcombo',
 				fieldLabel: i18n.filter,
 				labelWidth: 40,
