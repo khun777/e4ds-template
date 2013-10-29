@@ -7,7 +7,10 @@ import javax.persistence.MappedSuperclass;
 
 import ch.ralscha.extdirectspring.generator.ModelField;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @MappedSuperclass
+@JsonIgnoreProperties(value = { "handler", "hibernateLazyInitializer" })
 public abstract class AbstractPersistable {
 
 	@Id
