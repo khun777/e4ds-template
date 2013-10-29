@@ -185,17 +185,6 @@ public class UserService extends BaseCRUDService<User> {
 		return result;
 	}
 
-	@ExtDirectMethod
-	@PreAuthorize("isAuthenticated()")
-	@Transactional(readOnly = true)
-	public User getLoggedOnUser() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof JpaUserDetails) {
-			return entityManager.find(User.class, ((JpaUserDetails) principal).getUserDbId());
-		}
-		return null;
-	}
-
 	private boolean isLastAdmin(Long id) {
 		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
 		BooleanBuilder bb = new BooleanBuilder();

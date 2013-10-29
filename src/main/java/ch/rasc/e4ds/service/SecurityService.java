@@ -26,23 +26,24 @@ public class SecurityService {
 	@ExtDirectMethod
 	@PreAuthorize("isAuthenticated()")
 	@Transactional
-	public String getLoggedOnUsername(HttpServletRequest request, HttpSession session) {
+	public User getLoggedOnUser(HttpServletRequest request, HttpSession session) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof JpaUserDetails) {
-			JpaUserDetails userDetail = (JpaUserDetails) principal;
+
+			User user = entityManager.find(User.class, ((JpaUserDetails) principal).getUserDbId());
 
 			AccessLog accessLog = new AccessLog();
-			accessLog.setUserName(userDetail.getUsername());
+			accessLog.setUserName(user.getUserName());
 			accessLog.setSessionId(session.getId());
 			accessLog.setLogIn(DateTime.now());
 			accessLog.setUserAgent(request.getHeader("User-Agent"));
 
 			entityManager.persist(accessLog);
 
-			return userDetail.getFullName();
+			return user;
 
 		}
-		return principal.toString();
+		return null;
 	}
 
 	@ExtDirectMethod
