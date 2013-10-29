@@ -11,13 +11,19 @@ Ext.define('E4ds.controller.Viewport', {
 		},
 		loggedOnLabel: true,
 		settingsButton: {
-			click: 'getUser'
+			click: 'onSettingsButtonClick'
 		}
 	},
 
 	init: function() {
+		securityService.getLoggedOnUser(this.afterLoggedOnUserReceived, this);
+	},
+
+	afterLoggedOnUserReceived: function(user) {
 		var me = this;
-		securityService.getLoggedOnUsername(this.showLoggedOnUser, this);
+
+		E4ds.user = user;
+		this.getLoggedOnLabel().setText(user.firstName + ' ' + user.name);
 
 		History.Adapter.bind(window, 'statechange', function() {
 			var state = History.getState();
@@ -30,26 +36,18 @@ Ext.define('E4ds.controller.Viewport', {
 
 		var state = History.getState();
 		if (state && state.data) {
-			this.showTab(state.data);
+			me.showTab(state.data);
 		}
-	},
-
-	showLoggedOnUser: function(fullname) {
-		this.getLoggedOnLabel().setText(fullname);
 	},
 
 	getPath: function(node) {
 		return node.parentNode ? this.getPath(node.parentNode) + "/" + node.getId() : "/" + node.getId();
 	},
 
-	getUser: function() {
-		userService.getLoggedOnUser(this.openSettingsWindow, this);
-	},
-
-	openSettingsWindow: function(result) {
-		if (result) {
+	onSettingsButtonClick: function() {
+		if (E4ds.user) {
 			var userSettingsWindow = Ext.create('E4ds.view.UserSettings');
-			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', result));
+			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', E4ds.user));
 			userSettingsWindow.down('#editFormSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
 		}
 	},
