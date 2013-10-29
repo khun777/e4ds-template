@@ -76,14 +76,7 @@ Ext.define('E4ds.view.user.List', {
 			store: me.store
 		} ];
 
-		me.listeners = {
-			filterchange: function(store) {
-				me.down('#exportButton').setDisabled(store.getCount() > 0);
-			}
-		};
-
 		me.callParent(arguments);
-
 	}
 
 });
