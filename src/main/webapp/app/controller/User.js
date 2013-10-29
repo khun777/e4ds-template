@@ -1,174 +1,50 @@
 Ext.define('E4ds.controller.User', {
-	extend: 'Deft.mvc.ViewController',
+	extend: 'E4ds.controller.CrudBase',
 	requires: [ 'E4ds.view.user.Edit' ],
+
 	control: {
-		view: {
-			removed: 'onRemoved',
-			itemdblclick: 'onItemDblClick',
-			itemcontextmenu: 'onItemContextMenu'
-		},
-		actionColumn: {
-			selector: 'actioncolumn',
-			listeners: {
-				click: 'onActionColumnClick'
-			}
-		},
-		createButton: {
-			click: 'onCreateButtonClick'
-		},
-		filterField: {
-			filter: 'onFilterField'
-		},
 		exportButton: true
 	},
 
-	init: function() {
-		var store = this.getView().getStore();
-		store.clearFilter(true);
-		store.load();
+	destroyConfirmMsg: function(record) {
+		return record.get('userName') + ' ' + i18n.reallyDestroy;
 	},
 
-	destroy: function() {
-		if (this.actionMenu) {
-			this.actionMenu.destroy();
-		}
-		return this.callParent();
+	destroyFailureCallback: function() {
+		E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
 	},
 
-	onItemContextMenu: function(view, record, item, index, e, eOpts) {
-		e.stopEvent();
-		this.showContextMenu(record, e.getXY());
+	editWindowClass: 'E4ds.view.user.Edit',
+
+	createModel: function() {
+		return Ext.create('E4ds.model.User');
 	},
 
-	onActionColumnClick: function(grid, rowIndex, colIndex, item, e, record, row) {
-		this.showContextMenu(record, null, row);
-	},
-
-	showContextMenu: function(record, xy, item) {
+	buildContextMenuItems: function(record) {
 		var me = this;
-		var items = [ {
-			text: i18n.edit,
-			glyph: 0xe803,
-			handler: Ext.bind(me.editUser, me, [ record ])
-		}, {
-			text: i18n.destroy,
-			glyph: 0xe806,
-			handler: Ext.bind(me.destroyUser, me, [ record ])
-		}, {
+		var items = this.callParent(arguments);
+
+		items.push({
 			xtype: 'menuseparator'
-		}, {
+		});
+		items.push({
 			text: i18n.user_switchto,
 			handler: Ext.bind(me.switchTo, me, [ record ])
-		} ];
-
-		if (this.actionMenu) {
-			this.actionMenu.destroy();
-		}
-
-		this.actionMenu = Ext.create('Ext.menu.Menu', {
-			items: items,
-			border: true
 		});
 
-		if (xy) {
-			this.actionMenu.showAt(xy);
-		} else {
-			this.actionMenu.showBy(item);
-		}
-	},
-
-	onRemoved: function() {
-		History.pushState({}, i18n.app_title, "?");
-	},
-
-	onItemDblClick: function(grid, record) {
-		this.editUser(record);
-	},
-
-	onCreateButtonClick: function() {
-		this.editUser();
-	},
-
-	editUser: function(record) {
-		this.getView().getStore().rejectChanges();
-
-		var editWindow = Ext.create('E4ds.view.user.Edit');
-
-		var form = editWindow.down('form');
-		if (record) {
-			form.loadRecord(record);
-		} else {
-			form.loadRecord(Ext.create('E4ds.model.User'));
-		}
-
-		form.isValid();
-
-		editWindow.down('#userNameTextField').focus();
-		editWindow.down('#editFormSaveButton').addListener('click', this.onEditFormSaveButtonClick, this);
-	},
-
-	destroyUser: function(record) {
-		var me = this;
-		var store = me.getView().getStore();
-
-		Ext.Msg.confirm(i18n.attention, i18n.user_deleteconfirm, function(buttonId, text, opt) {
-			if (buttonId === 'yes') {
-				store.remove(record);
-				store.sync({
-					success: function() {
-						E4ds.ux.window.Notification.info(i18n.successful, i18n.user_deleted);
-					},
-					failure: function(records, operation) {
-						store.rejectChanges();
-						E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
-					}
-				});
-			}
-		});
+		return items;
 	},
 
 	onFilterField: function(field, newValue) {
-		var store = this.getView().getStore();
+		this.callParent(arguments);
+
 		if (newValue) {
-			store.clearFilter(true);
-			store.filter('filter', newValue);
 			this.getExportButton().setParams({
 				filter: newValue
 			});
 		} else {
-			store.clearFilter();
 			this.getExportButton().setParams();
 		}
-	},
-
-	onEditFormSaveButtonClick: function(button) {
-		var win = button.up('window');
-		var form = win.down('form');
-		var store = this.getView().getStore();
-
-		form.updateRecord();
-		var record = form.getRecord();
-
-		if (!record.dirty) {
-			win.close();
-			return;
-		}
-
-		if (record.phantom) {
-			store.rejectChanges();
-			store.add(record);
-		}
-
-		store.sync({
-			success: function(records, operation) {
-				E4ds.ux.window.Notification.info(i18n.successful, i18n.user_saved);
-				win.close();
-			},
-			failure: function(records, operation) {
-				store.rejectChanges();
-			}
-		});
-
 	},
 
 	switchTo: function(record) {
