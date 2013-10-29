@@ -565,11 +565,11 @@
 							</sourceFolders>
 
 							<excludes>
-								<exclude>resources/extjs-gpl/**/*.js</exclude>
-								<exclude>deft.js</exclude>
-								<exclude>deft-debug.js</exclude>
+								<exclude>resources/deft.js</exclude>
+								<exclude>resources/deft-debug.js</exclude>
 								<exclude>resources/extjs.history.js</exclude>
 								<exclude>resources/detect.js</exclude>
+								<exclude>resources/customtheme/*</exclude>
 								<exclude>app/ux/window/Notification.js</exclude>
 							</excludes>
 
