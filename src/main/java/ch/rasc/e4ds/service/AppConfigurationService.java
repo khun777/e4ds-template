@@ -36,7 +36,7 @@ public class AppConfigurationService {
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
 	public void sendTestEmail(String to) {
-		mailService.sendSimpleMessage(to, "TEST EMAIL FROM e4ds-template", "THIS IS A TEST MESSAGE");
+		mailService.sendSimpleMessage(to, "TEST EMAIL", "THIS IS A TEST MESSAGE");
 	}
 
 	@ExtDirectMethod
