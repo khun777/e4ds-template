@@ -13,7 +13,7 @@ Ext.onReady(function() {
 		},
 
 		items: [ {
-			html: 'e4ds-template',
+			html: i18n.app_title,
 			cls: 'appHeader'
 		} ]
 	});
