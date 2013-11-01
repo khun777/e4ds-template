@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ch.rasc.edsutil.entity.AbstractPersistable;
+
 @Entity
 public class Configuration extends AbstractPersistable {
 

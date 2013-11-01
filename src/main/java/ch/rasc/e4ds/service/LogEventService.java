@@ -20,7 +20,7 @@ import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.entity.LogEvent;
 import ch.rasc.e4ds.entity.QLogEvent;
-import ch.rasc.e4ds.util.Util;
+import ch.rasc.edsutil.QueryUtil;
 
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
@@ -51,7 +51,7 @@ public class LogEventService {
 			}
 		}
 
-		Util.addPagingAndSorting(query, request, LogEvent.class, QLogEvent.logEvent);
+		QueryUtil.addPagingAndSorting(query, request, LogEvent.class, QLogEvent.logEvent);
 
 		SearchResults<LogEvent> searchResult = query.listResults(QLogEvent.logEvent);
 		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());

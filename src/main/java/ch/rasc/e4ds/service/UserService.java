@@ -20,14 +20,14 @@ import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreReadRequest;
 import ch.ralscha.extdirectspring.bean.ExtDirectStoreResult;
 import ch.ralscha.extdirectspring.filter.StringFilter;
-import ch.rasc.e4ds.base.BaseCRUDService;
-import ch.rasc.e4ds.base.ExtDirectStoreValidationResult;
-import ch.rasc.e4ds.base.ValidationError;
 import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.security.JpaUserDetails;
-import ch.rasc.e4ds.util.Util;
+import ch.rasc.edsutil.BaseCRUDService;
+import ch.rasc.edsutil.QueryUtil;
+import ch.rasc.edsutil.bean.ExtDirectStoreValidationResult;
+import ch.rasc.edsutil.bean.ValidationError;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -65,7 +65,7 @@ public class UserService extends BaseCRUDService<User> {
 			query.where(bb);
 		}
 
-		Util.addPagingAndSorting(query, request, User.class, QUser.user);
+		QueryUtil.addPagingAndSorting(query, request, User.class, QUser.user);
 		SearchResults<User> searchResult = query.listResults(QUser.user);
 
 		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());

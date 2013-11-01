@@ -9,7 +9,9 @@ import org.joda.time.DateTime;
 
 import ch.ralscha.extdirectspring.generator.Model;
 import ch.ralscha.extdirectspring.generator.ModelField;
-import ch.rasc.e4ds.util.ISO8601DateTimeSerializer;
+import ch.rasc.edsutil.entity.AbstractPersistable;
+import ch.rasc.edsutil.entity.DateTimeConverter;
+import ch.rasc.edsutil.jackson.ISO8601DateTimeSerializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

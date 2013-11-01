@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 import ch.ralscha.extdirectspring.generator.Model;
+import ch.rasc.edsutil.entity.AbstractPersistable;
+import ch.rasc.edsutil.entity.DateTimeConverter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
