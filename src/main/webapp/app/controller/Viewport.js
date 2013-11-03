@@ -4,10 +4,11 @@ Ext.define('E4ds.controller.Viewport', {
 
 	control: {
 		menuTree: {
-			itemclick: 'onTreeItemClick'
+			selectionchange: 'onSelectionChange',
 		},
 		tabPanel: {
-			tabchange: 'onTabChange'
+			tabchange: 'onTabChange',
+			remove: 'onRemove'
 		},
 		loggedOnLabel: true,
 		settingsButton: {
@@ -62,18 +63,22 @@ Ext.define('E4ds.controller.Viewport', {
 				E4ds.ux.window.Notification.info(i18n.successful, i18n.settings_saved);
 			}
 		});
-
 	},
 
-	onTreeItemClick: function(treeview, record, item, index, event, options) {
-		this.pushHistoryState(record);
-	},
-
-	onTabChange: function(tabPanel, newCard) {
-		var record = this.syncNavigation();
-		if (record) {
-			this.pushHistoryState(record);
+	onSelectionChange: function(treePanel, selected) {
+		if (selected && selected.length == 1) {
+			this.pushHistoryState(selected[0]);
 		}
+	},
+
+	onRemove: function() {
+		if (this.getTabPanel().items.length == 0) {
+			this.getMenuTree().getSelectionModel().deselectAll();
+		}
+	},
+	
+	onTabChange: function(tabPanel, newCard) {
+		this.syncNavigation();
 	},
 
 	pushHistoryState: function(record) {
@@ -102,21 +107,10 @@ Ext.define('E4ds.controller.Viewport', {
 	},
 
 	syncNavigation: function(e) {
-		var record = null;
 		var activeTab = this.getTabPanel().getActiveTab();
-		var selectionModel = this.getMenuTree().getSelectionModel();
-		this.getMenuTree().expandPath(activeTab.treePath);
-
-		var activeTabId = activeTab.navigationId;
-		var selection = selectionModel.getLastSelected();
-		var currentId = selection && selection.raw.id;
-
-		if (activeTabId !== currentId) {
-			record = this.getMenuTree().getStore().getNodeById(activeTabId);
-			selectionModel.select(record);
+		if (activeTab) {
+			this.getMenuTree().selectPath(activeTab.treePath);
 		}
-
-		return record;
 	},
 
 	handleDirectResponse: function(event) {
