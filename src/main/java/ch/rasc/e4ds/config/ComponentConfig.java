@@ -13,7 +13,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 @ComponentScan(basePackages = { "ch.ralscha.extdirectspring", "ch.rasc.e4ds.config", "ch.rasc.e4ds.schedule",
 		"ch.rasc.e4ds.security", "ch.rasc.e4ds.service", "ch.rasc.e4ds.web" })
-@PropertySource({ "version.properties" })
+@PropertySource("classpath:/version.properties")
 public class ComponentConfig {
 
 	@Bean

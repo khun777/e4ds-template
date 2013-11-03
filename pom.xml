@@ -11,8 +11,8 @@
 	</prerequisites>
 
 	<properties>
-		<spring.version>3.2.4.RELEASE</spring.version>
-		<spring.security.version>3.2.0.RC1</spring.security.version>
+		<spring.version>4.0.0.RC1</spring.version>
+		<spring.security.version>3.2.0.RC2</spring.security.version>
 
 		<hibernate.version>4.3.0.Beta4</hibernate.version>
 		<querydsl.version>3.2.4</querydsl.version>
@@ -325,7 +325,7 @@
 		<dependency>
 			<groupId>net.sf.uadetector</groupId>
 			<artifactId>uadetector-resources</artifactId>
-			<version>2013.09</version>
+			<version>2013.10</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jsr305</artifactId>

@@ -33,15 +33,8 @@ Ext.define('E4ds.view.Header', {
 				}, {
 					text: i18n.logout,
 					glyph: 0xe802,
-					handler: function() {
-						Ext.Ajax.request({
-							url: 'logout',
-							method: 'POST',
-							success: function(response) {
-								window.location = 'login.html?logout';
-							}
-						});
-					}
+					href: 'logout',
+					hrefTarget: '_self'
 				} ]
 			}
 		} ];
