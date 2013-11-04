@@ -4,7 +4,7 @@ Ext.define('E4ds.controller.Viewport', {
 
 	control: {
 		menuTree: {
-			selectionchange: 'onSelectionChange',
+			selectionchange: 'onSelectionChange'
 		},
 		tabPanel: {
 			tabchange: 'onTabChange',
@@ -66,13 +66,13 @@ Ext.define('E4ds.controller.Viewport', {
 	},
 
 	onSelectionChange: function(treePanel, selected) {
-		if (selected && selected.length == 1) {
+		if (selected && selected.length === 1) {
 			this.pushHistoryState(selected[0]);
 		}
 	},
 
 	onRemove: function() {
-		if (this.getTabPanel().items.length == 0) {
+		if (this.getTabPanel().items.length === 0) {
 			this.getMenuTree().getSelectionModel().deselectAll();
 		}
 	},
