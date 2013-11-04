@@ -21,6 +21,7 @@ login_css:
 app_js:
   /resources/extjs-gpl/{extjs.version}/ext-all-dev.js[d]
   /resources/extjs-gpl/{extjs.version}/ext-all.js[ps]
+  /overrides/
   /resources/customtheme/customtheme.js[dps]
   /resources/deft-debug.js[d]
   /resources/deft.js
