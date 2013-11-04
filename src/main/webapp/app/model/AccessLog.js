@@ -21,7 +21,8 @@ Ext.define("E4ds.model.AccessLog",
   }, {
     name : "id",
     type : "int",
-    useNull : true
+    useNull : true,
+    convert : null
   } ],
   proxy : {
     type : "direct",
