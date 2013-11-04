@@ -11,3 +11,7 @@ Switch between production and development mode comment or uncomment the followin
 ```
 <Environment name="spring.profiles.active" value="development" type="java.lang.String" override="false"/>
 ```
+
+Icons: http://iconmonstr.com/
+Glyphs: http://fontello.com/
+Dataurl Generator: http://dataurl.net/#dataurlmaker
