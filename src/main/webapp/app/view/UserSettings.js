@@ -9,6 +9,7 @@ Ext.define('E4ds.view.UserSettings', {
 	autoShow: true,
 	modal: true,
 	glyph: 0xe803,
+	defaultFocus: 'field[name=firstName]',
 
 	initComponent: function() {
 		var me = this;

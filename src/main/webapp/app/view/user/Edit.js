@@ -9,6 +9,7 @@ Ext.define('E4ds.view.user.Edit', {
 	width: 500,
 	modal: true,
 	glyph: 0xe803,
+	defaultFocus: 'field[name=userName]',
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
 
@@ -31,7 +32,6 @@ Ext.define('E4ds.view.user.Edit', {
 
 			items: [ {
 				name: 'userName',
-				itemId: 'userNameTextField',
 				fieldLabel: i18n.user_username,
 				allowBlank: false
 			}, {

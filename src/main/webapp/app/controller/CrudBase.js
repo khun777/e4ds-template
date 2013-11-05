@@ -109,8 +109,6 @@ Ext.define('E4ds.controller.CrudBase', {
 
 		form.isValid();
 
-		this.setFocus(editWindow);
-
 		var saveButton = editWindow.down('#editFormSaveButton');
 		if (this.isReadonly(record)) {
 			Ext.suspendLayouts();
@@ -186,27 +184,11 @@ Ext.define('E4ds.controller.CrudBase', {
 		});
 	},
 
-	setFocus: function(editWindow) {
-		var query;
-		if (this.focusFieldName) {
-			query = 'field[name=' + this.focusFieldName + ']';
-		} else {
-			query = 'field';
-		}
-
-		var field = editWindow.down(query);
-		if (field) {
-			field.focus();
-		}
-	},
-
 	successfulDestroyMsg: i18n.defaultSuccessfulDestroyMsg,
 	successfulSaveMsg: i18n.defaultSuccessfulSaveMsg,
 
 	destroyConfirmMsg: Ext.emptyFn,
 	destroyFailureCallback: Ext.emptyFn,
-
-	focusFieldName: null,
 
 	isReadonly: function(record) {
 		return false;
