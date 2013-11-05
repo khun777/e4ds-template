@@ -1,23 +1,14 @@
 Ext.define('E4ds.view.SideBar', {
-	extend: 'Ext.panel.Panel',
-	requires: [ 'E4ds.view.poll.PollChart', 'E4ds.view.user.List', 'E4ds.view.accesslog.List', 'E4ds.view.logevent.List', 'E4ds.view.config.Edit' ],
+	extend: 'Ext.tree.Panel',
+	requires: [ 'E4ds.view.poll.PollChart', 'E4ds.view.user.List', 'E4ds.view.accesslog.List', 'E4ds.view.logevent.List', 'E4ds.view.config.Edit', 'E4ds.store.Navigation' ],
 	title: i18n.navigation,
+	itemId: 'menuTree',
 	collapsible: true,
 	layout: 'fit',
 	minWidth: 100,
 	maxWidth: 200,
-
-	initComponent: function() {
-		var me = this;
-		me.items = [ {
-			xtype: 'treepanel',
-			itemId: 'menuTree',
-			border: 0,
-			store: Ext.create('E4ds.store.Navigation'),
-			rootVisible: false,
-			animate: false
-		} ];
-
-		me.callParent(arguments);
-	}
+	border: true,
+	rootVisible: false,
+	animate: false,
+	store: Ext.create('E4ds.store.Navigation')
 });
