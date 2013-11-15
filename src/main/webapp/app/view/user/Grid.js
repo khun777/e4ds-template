@@ -1,12 +1,7 @@
-Ext.define('E4ds.view.user.List', {
+Ext.define('E4ds.view.user.Grid', {
 	extend: 'Ext.grid.Panel',
-	requires: [ 'E4ds.controller.User', 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
-	controller: 'E4ds.controller.User',
+	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
 	
-	title: i18n.user_users,
-	closable: true,
-	border: true,
-
 	initComponent: function() {
 
 		var me = this;

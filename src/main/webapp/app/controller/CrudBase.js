@@ -3,11 +3,17 @@ Ext.define('E4ds.controller.CrudBase', {
 	control: {
 		view: {
 			removed: 'onRemoved',
-			itemdblclick: 'onItemDblClick',
-			itemcontextmenu: 'onItemContextMenu'
+		},
+		grid: {
+			selector: 'grid',
+			listeners: {
+				itemclick: 'onItemClick',
+				itemdblclick: 'onItemDblClick',
+				itemcontextmenu: 'onItemContextMenu'
+			}
 		},
 		actionColumn: {
-			selector: 'actioncolumn',
+			selector: 'grid actioncolumn',
 			listeners: {
 				click: 'onActionColumnClick'
 			}
@@ -42,7 +48,7 @@ Ext.define('E4ds.controller.CrudBase', {
 	},
 
 	init: function() {
-		var store = this.getView().getStore();
+		var store = this.getGrid().getStore();
 		store.clearFilter(true);
 		store.load();
 	},
@@ -52,6 +58,24 @@ Ext.define('E4ds.controller.CrudBase', {
 			this.actionMenu.destroy();
 		}
 		return this.callParent(arguments);
+	},
+
+	onRemoved: function() {
+		if (this.formPanel) {
+			this.formPanel.close();
+		}
+
+		History.pushState({}, i18n.app_title, "?");
+	},
+
+	onItemClick: function(grid, record) {
+		if (this.formPanel) {
+			this.editObject(record);
+		}
+	},
+
+	onItemDblClick: function(grid, record) {
+		this.editObject(record);
 	},
 
 	onItemContextMenu: function(view, record, item, index, e, eOpts) {
@@ -83,24 +107,25 @@ Ext.define('E4ds.controller.CrudBase', {
 		}
 	},
 
-	onRemoved: function() {
-		History.pushState({}, i18n.app_title, "?");
-	},
-
-	onItemDblClick: function(grid, record) {
-		this.editObject(record);
-	},
-
 	onCreateButtonClick: function() {
 		this.editObject();
 	},
 
 	editObject: function(record) {
-		this.getView().getStore().rejectChanges();
+		Ext.suspendLayouts();
+		this.getGrid().getStore().rejectChanges();
 
-		var editWindow = Ext.create(this.editWindowClass);
+		if (!this.formPanel) {
+			this.formPanel = Ext.create(this.formClass, {
+				region: 'east'
+			});
+			this.getView().add(this.formPanel);
 
-		var form = editWindow.down('form');
+			this.formPanel.down('#formSaveButton').addListener('click', this.onFormSaveButtonClick, this);
+			this.formPanel.down('#formCloseButton').addListener('click', this.onFormCloseButtonClick, this);
+		}
+
+		var form = this.formPanel.down('form');
 		if (record) {
 			form.loadRecord(record);
 		} else {
@@ -109,27 +134,24 @@ Ext.define('E4ds.controller.CrudBase', {
 
 		form.isValid();
 
-		var saveButton = editWindow.down('#editFormSaveButton');
 		if (this.isReadonly(record)) {
-			Ext.suspendLayouts();
 			form.getForm().getFields().each(function(field) {
 				field.setReadOnly(true);
 			});
-			saveButton.setVisible(false);
-			Ext.resumeLayouts();
-		} else {
-			saveButton.addListener('click', this.onEditFormSaveButtonClick, this);
+			this.formPanel.down('#formSaveButton').setVisible(false);
 		}
 
+		Ext.resumeLayouts(true);
 	},
 
 	destroyObject: function(record) {
 		var me = this;
-		var store = me.getView().getStore();
+		me.onFormCloseButtonClick();
+		var store = me.getGrid().getStore();
 
 		Ext.Msg.confirm(i18n.attention, this.destroyConfirmMsg(record), function(buttonId, text, opt) {
 			if (buttonId === 'yes') {
-				var record = me.getView().getSelectionModel().getSelection()[0];
+				var record = me.getGrid().getSelectionModel().getSelection()[0];
 				store.remove(record);
 				store.sync({
 					success: function() {
@@ -145,7 +167,7 @@ Ext.define('E4ds.controller.CrudBase', {
 	},
 
 	onFilterField: function(field, newValue) {
-		var store = this.getView().getStore();
+		var store = this.getGrid().getStore();
 		if (newValue) {
 			store.clearFilter(true);
 			store.filter('filter', newValue);
@@ -154,17 +176,15 @@ Ext.define('E4ds.controller.CrudBase', {
 		}
 	},
 
-	onEditFormSaveButtonClick: function(button) {
+	onFormSaveButtonClick: function(button) {
 		var me = this;
-		var win = button.up('window');
-		var form = win.down('form');
-		var store = this.getView().getStore();
+		var form = this.formPanel.down('form');
+		var store = this.getGrid().getStore();
 
 		form.updateRecord();
 		var record = form.getRecord();
 
 		if (!record.dirty) {
-			win.close();
 			return;
 		}
 
@@ -176,12 +196,16 @@ Ext.define('E4ds.controller.CrudBase', {
 		store.sync({
 			success: function(records, operation) {
 				E4ds.ux.window.Notification.info(i18n.successful, me.successfulSaveMsg);
-				win.close();
 			},
 			failure: function(records, operation) {
 				store.rejectChanges();
 			}
 		});
+	},
+
+	onFormCloseButtonClick: function() {
+		this.formPanel.close();
+		this.formPanel = null;
 	},
 
 	successfulDestroyMsg: i18n.defaultSuccessfulDestroyMsg,
@@ -217,5 +241,5 @@ Ext.define('E4ds.controller.CrudBase', {
 
 	},
 
-	editWindowClass: null
+	formClass: null
 });

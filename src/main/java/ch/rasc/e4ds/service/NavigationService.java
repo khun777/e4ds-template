@@ -41,7 +41,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"user_users",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAArklEQVR4Ac2NMQ6CQBREf2HBAaioiScgnIJYcABiOAgXoaKcDx2FMdpScAQOYYyFsSAbnd3faKxNnCn2ZWb4yL8Je9zo6qvQDGUfcXDFk76I9BFKzcSEHI5xS3qEwZ3U8nXIbVCFeCYdAx1IcyD7mabhQkcqfKwFBx3JaSomTFg0GWI04btmiDXBgsnKGic47DD6O2bSyMSxqQWrj4atVea3ZJXzxlvsNX8k8nu9AB/XjIWC18JAAAAAAElFTkSuQmCC",
-						"E4ds.view.user.List", Role.ADMIN));
+						"E4ds.view.user.Container", Role.ADMIN));
 		root.addChild(administrationNode);
 
 		MenuNode systemNode = new MenuNode("navigation_system", null, true);

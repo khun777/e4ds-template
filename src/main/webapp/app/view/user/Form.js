@@ -1,22 +1,15 @@
-Ext.define('E4ds.view.user.Edit', {
-	extend: 'Ext.window.Window',
+Ext.define('E4ds.view.user.Form', {
+	extend: 'Ext.form.Panel',
 	inject: 'rolesStore',
-	title: i18n.user,
 	layout: 'fit',
-	autoShow: true,
-	resizable: true,
-	constrain: true,
-	width: 500,
+	width: 400,
 	modal: true,
 	glyph: 0xe803,
-	defaultFocus: 'field[name=userName]',
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
 
 	initComponent: function() {
-		var me = this;
-
-		me.items = [ {
+		this.items = [ {
 			xtype: 'form',
 			padding: 5,
 			bodyPadding: 10,
@@ -79,7 +72,7 @@ Ext.define('E4ds.view.user.Edit', {
 				xtype: 'multiselect',
 				name: 'role',
 				fieldLabel: i18n.user_roles,
-				store: me.rolesStore,
+				store: this.rolesStore,
 				displayField: 'name',
 				valueField: 'name',
 				allowBlank: true
@@ -87,19 +80,18 @@ Ext.define('E4ds.view.user.Edit', {
 
 			buttons: [ {
 				xtype: 'button',
-				itemId: 'editFormSaveButton',
+				itemId: 'formSaveButton',
 				text: i18n.save,
 				action: 'save',
 				glyph: 0xe80d,
 				formBind: true
 			}, {
-				text: i18n.cancel,
-				scope: me,
-				handler: me.close,
+				text: i18n.close,
+				itemId: 'formCloseButton',
 				glyph: 0xe80e
 			} ]
 		} ];
 
-		me.callParent(arguments);
+		this.callParent(arguments);
 	}
 });

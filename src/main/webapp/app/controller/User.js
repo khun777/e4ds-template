@@ -1,6 +1,5 @@
 Ext.define('E4ds.controller.User', {
 	extend: 'E4ds.controller.CrudBase',
-	requires: [ 'E4ds.view.user.Edit' ],
 
 	control: {
 		exportButton: true
@@ -14,7 +13,7 @@ Ext.define('E4ds.controller.User', {
 		E4ds.ux.window.Notification.error(i18n.error, i18n.user_lastAdminUserError);
 	},
 
-	editWindowClass: 'E4ds.view.user.Edit',
+	formClass: 'E4ds.view.user.Form',
 
 	createModel: function() {
 		return Ext.create('E4ds.model.User');

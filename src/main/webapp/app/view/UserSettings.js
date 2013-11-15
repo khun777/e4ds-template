@@ -74,13 +74,13 @@ Ext.define('E4ds.view.UserSettings', {
 
 			buttons: [ {
 				xtype: 'button',
-				itemId: 'editFormSaveButton',
+				itemId: 'formSaveButton',
 				text: i18n.save,
 				action: 'save',
 				glyph: 0xe80d,
 				formBind: true
 			}, {
-				text: i18n.cancel,
+				text: i18n.close,
 				scope: me,
 				handler: me.close,
 				glyph: 0xe80e

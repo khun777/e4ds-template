@@ -33,9 +33,9 @@ Ext.define("E4ds.model.User",
     type : "boolean"
   }, {
     name : "id",
-    type : "int",
     useNull : true,
-    convert : null
+    convert : null,
+    type : "int"
   } ],
   proxy : {
     type : "direct",

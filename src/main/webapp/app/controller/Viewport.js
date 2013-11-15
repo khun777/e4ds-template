@@ -49,7 +49,7 @@ Ext.define('E4ds.controller.Viewport', {
 		if (E4ds.user) {
 			var userSettingsWindow = Ext.create('E4ds.view.UserSettings');
 			userSettingsWindow.down('form').loadRecord(Ext.create('E4ds.model.User', E4ds.user));
-			userSettingsWindow.down('#editFormSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
+			userSettingsWindow.down('#formSaveButton').addListener('click', this.onUserSettingsSaveButtonClick, this);
 		}
 	},
 
@@ -76,7 +76,7 @@ Ext.define('E4ds.controller.Viewport', {
 			this.getMenuTree().getSelectionModel().deselectAll();
 		}
 	},
-	
+
 	onTabChange: function(tabPanel, newCard) {
 		this.syncNavigation();
 	},
