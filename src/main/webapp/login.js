@@ -1,9 +1,11 @@
 Ext.onReady(function() {
-	Ext.QuickTips.init();
 	Ext.setGlyphFontFamily('custom');
+	Ext.tip.QuickTipManager.init();
 
 	var header, login;
-	
+	var capslockwarningText = '<div style="font-weight: bold;">' + i18n.login_capslockwarning_title + '</div><br />' + '<div>'
+			+ i18n.login_capslockwarning_line1 + '</div><br />' + '<div>' + i18n.login_capslockwarning_line2 + '</div>';
+
 	header = Ext.create('Ext.container.Container', {
 		region: 'north',
 		height: 35,
@@ -24,7 +26,7 @@ Ext.onReady(function() {
 			form.submit();
 		}
 	}
-	
+
 	login = Ext.create('Ext.form.Panel', {
 		frame: true,
 		title: i18n.login_title,
@@ -58,13 +60,47 @@ Ext.onReady(function() {
 			}
 		}, {
 			fieldLabel: i18n.user_password,
-			name: 'password',			
+			name: 'password',
 			inputType: 'password',
+			validateOnBlur: false,
 			allowBlank: false,
+			enableKeyEvents: true,
 			listeners: {
 				specialkey: function(field, e) {
 					if (e.getKey() === e.ENTER) {
 						submitForm();
+					}
+				},
+				render: {
+					fn: function(field, eOpts) {
+						field.capsWarningTooltip = Ext.create('Ext.tip.ToolTip', {
+							target: field.bodyEl,
+							anchor: 'top',
+							width: 305,
+							html: capslockwarningText
+						});
+						field.capsWarningTooltip.disable();
+					},
+					scope: this
+				},
+				keypress: {
+					fn: function(field, e, eOpts) {
+						var charCode = e.getCharCode();
+						if ((e.shiftKey && charCode >= 97 && charCode <= 122) || (!e.shiftKey && charCode >= 65 && charCode <= 90)) {
+							field.capsWarningTooltip.enable();
+							field.capsWarningTooltip.show();
+						} else {
+							if (field.capsWarningTooltip.hidden === false) {
+								field.capsWarningTooltip.disable();
+								field.capsWarningTooltip.hide();
+							}
+						}
+					},
+					scope: this
+				},
+				blur: function(field) {
+					if (field.capsWarningTooltip.hidden === false) {
+						field.capsWarningTooltip.hide();
 					}
 				}
 			}
@@ -110,8 +146,8 @@ Ext.onReady(function() {
 
 		style: {
 			backgroundColor: '#F8F8F8'
-		},		
-		
+		},
+
 		layout: {
 			type: 'border',
 			padding: 5
