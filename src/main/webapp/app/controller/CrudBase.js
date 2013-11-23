@@ -204,8 +204,10 @@ Ext.define('E4ds.controller.CrudBase', {
 	},
 
 	onFormCloseButtonClick: function() {
-		this.formPanel.close();
-		this.formPanel = null;
+		if (this.formPanel) {
+			this.formPanel.close();
+			this.formPanel = null;
+		}
 	},
 
 	successfulDestroyMsg: i18n.defaultSuccessfulDestroyMsg,
