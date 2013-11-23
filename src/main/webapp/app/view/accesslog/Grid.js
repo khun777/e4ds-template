@@ -1,9 +1,8 @@
-Ext.define('E4ds.view.accesslog.List', {
+Ext.define('E4ds.view.accesslog.Grid', {
 	extend: 'Ext.grid.Panel',
-	controller: 'E4ds.controller.AccessLog',
-	title: i18n.accesslog,
-	closable: true,
-	border: true,
+    alias: 'widget.accesslog',
+    
+	title: 'Log',
 
 	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.store.AccessLogs' ],
 
@@ -15,12 +14,19 @@ Ext.define('E4ds.view.accesslog.List', {
 		me.columns = [ {
 			text: i18n.user_username,
 			dataIndex: 'userName',
+			width: 200
+		}, {
+			text: i18n.accesslog_userAgent,
+			dataIndex: 'userAgentName',
 			flex: 1
 		}, {
-			text: i18n.accesslog_browser,
-			dataIndex: 'browser',
-			width: 180,
-			sortable: false
+			text: i18n.accesslog_userAgentVersion,
+			dataIndex: 'userAgentVersion',
+			width: 100
+		}, {
+			text: i18n.accesslog_operatingSystem,
+			dataIndex: 'operatingSystem',
+			width: 200
 		}, {
 			text: i18n.accesslog_login,
 			dataIndex: 'logIn',

@@ -3,7 +3,8 @@ Ext.define('E4ds.controller.AccessLog', {
 
 	control: {
 		view: {
-			removed: 'onRemoved'
+			removed: 'onRemoved',
+			tabchange: 'onTabChange'
 		},
 		deleteAllButton: {
 			click: 'deleteAll'
@@ -15,11 +16,46 @@ Ext.define('E4ds.controller.AccessLog', {
 		/* </debug> */
 		filterField: {
 			filter: 'handleFilter'
-		}
+		},
+		grid: {
+			selector: 'grid'
+		},
+		uaYearsCB: {
+			change: 'onUaYearsCBChange'
+		},
+		osYearsCB: {
+			change: 'onOsYearsCBChange'
+		},
+		uaChart: true,
+		osChart: true
 	},
 
 	init: function() {
 		this.doGridRefresh();
+	},
+	
+	onTabChange: function(tabPanel, newCard) {
+		if (newCard.itemId === 'uaGraphPanel') {
+			var uaStore = this.getUaYearsCB().getStore();		
+			uaStore.load({
+				scope: this,
+				callback: function(records, operation, success) {
+					if (records.length > 0) {
+						this.getUaYearsCB().select(records[records.length-1]);
+					}
+				}
+			});
+		} else if (newCard.itemId === 'osGraphPanel') {
+			var osStore = this.getOsYearsCB().getStore();		
+			osStore.load({
+				scope: this,
+				callback: function(records, operation, success) {
+					if (records.length > 0) {
+						this.getOsYearsCB().select(records[records.length-1]);
+					}
+				}
+			});
+		}
 	},
 
 	onRemoved: function() {
@@ -27,7 +63,7 @@ Ext.define('E4ds.controller.AccessLog', {
 	},
 
 	handleFilter: function(field, newValue) {
-		var myStore = this.getView().getStore();
+		var myStore = this.getGrid().getStore();
 		if (newValue) {
 			myStore.clearFilter(true);
 			myStore.filter('filter', newValue);
@@ -43,6 +79,22 @@ Ext.define('E4ds.controller.AccessLog', {
 		}, this);
 	},
 
+	onUaYearsCBChange: function(cb, newValue) {
+		this.getUaChart().getStore().load({
+			params: {
+				queryYear: newValue
+			}
+		});
+	},
+	
+	onOsYearsCBChange: function(cb, newValue) {
+		this.getOsChart().getStore().load({
+			params: {
+				queryYear: newValue
+			}
+		});
+	},	
+
 	/* <debug> */
 	addTestData: function() {
 		accessLogService.addTestData(function() {
@@ -51,9 +103,9 @@ Ext.define('E4ds.controller.AccessLog', {
 		}, this);
 	},
 	/* </debug> */
-	
+
 	doGridRefresh: function() {
-		this.getView().getStore().load();
+		this.getGrid().getStore().load();
 	}
 
 });

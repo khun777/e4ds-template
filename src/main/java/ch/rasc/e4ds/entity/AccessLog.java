@@ -5,10 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
-import net.sf.uadetector.ReadableUserAgent;
-import net.sf.uadetector.UserAgentStringParser;
-import net.sf.uadetector.service.UADetectorServiceFactory;
-
 import org.joda.time.DateTime;
 
 import ch.ralscha.extdirectspring.generator.Model;
@@ -31,12 +27,10 @@ public class AccessLog extends AbstractPersistable {
 	@Size(max = 255)
 	private String userName;
 
-	// @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logIn;
 
-	// @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
 	private DateTime logOut;
@@ -48,9 +42,14 @@ public class AccessLog extends AbstractPersistable {
 	@JsonIgnore
 	private String userAgent;
 
-	@ModelField
-	@Transient
-	private String browser;
+	@Size(max = 20)
+	private String userAgentName;
+
+	@Size(max = 10)
+	private String userAgentVersion;
+
+	@Size(max = 20)
+	private String operatingSystem;
 
 	public String getUserName() {
 		return userName;
@@ -94,22 +93,36 @@ public class AccessLog extends AbstractPersistable {
 		this.userAgent = userAgent;
 	}
 
-	public String getBrowser() {
-		if (userAgent != null) {
-			UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
-			ReadableUserAgent agent = parser.parse(userAgent);
-			return agent.getName() + " " + agent.getVersionNumber().getMajor() + " ("
-					+ agent.getOperatingSystem().getName() + ")";
-		}
-		return "";
-	}
-
 	public String getDuration() {
 		return duration;
 	}
 
 	public void setDuration(String duration) {
 		this.duration = duration;
+	}
+
+	public String getUserAgentName() {
+		return userAgentName;
+	}
+
+	public void setUserAgentName(String userAgentName) {
+		this.userAgentName = userAgentName;
+	}
+
+	public String getUserAgentVersion() {
+		return userAgentVersion;
+	}
+
+	public void setUserAgentVersion(String userAgentVersion) {
+		this.userAgentVersion = userAgentVersion;
+	}
+
+	public String getOperatingSystem() {
+		return operatingSystem;
+	}
+
+	public void setOperatingSystem(String operatingSystem) {
+		this.operatingSystem = operatingSystem;
 	}
 
 }

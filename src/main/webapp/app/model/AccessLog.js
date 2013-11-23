@@ -16,7 +16,13 @@ Ext.define("E4ds.model.AccessLog",
     name : "duration",
     type : "string"
   }, {
-    name : "browser",
+    name : "userAgentName",
+    type : "string"
+  }, {
+    name : "userAgentVersion",
+    type : "string"
+  }, {
+    name : "operatingSystem",
     type : "string"
   }, {
     name : "id",

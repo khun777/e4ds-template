@@ -62,6 +62,10 @@
 			<column name="logIn" type="DATETIME" />
 			<column name="logOut" type="DATETIME" />
 			<column name="userAgent" type="varchar(255)" />
+			
+			<column name="userAgentName" type="varchar(20)" />
+			<column name="userAgentVersion" type="varchar(10)" />
+			<column name="operatingSystem" type="varchar(20)" />
 
 		</createTable>
 	</changeSet>	
