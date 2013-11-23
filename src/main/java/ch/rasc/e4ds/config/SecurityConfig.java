@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity builder) throws Exception {
-		builder.ignoring().antMatchers("/resources/**", "/favicon.ico");
+		builder.ignoring().antMatchers("/resources/**", "/favicon.ico", "/api*.js");
 	}
 
 	@Bean
