@@ -14,7 +14,7 @@
 		<spring.version>4.0.0.RC1</spring.version>
 		<spring.security.version>3.2.0.RC2</spring.security.version>
 
-		<hibernate.version>4.3.0.Beta4</hibernate.version>
+		<hibernate.version>4.3.0.CR1</hibernate.version>
 		<querydsl.version>3.2.4</querydsl.version>
 
 		<log4j.version>2.0-beta9</log4j.version>
@@ -291,21 +291,17 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.9</version>
+			<version>3.10-beta2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
+			<version>3.10-beta2</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>stax-api</artifactId>
 					<groupId>stax</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -358,30 +354,12 @@
 		</repository>
 
 		<repository>
-			<id>jboss.release</id>
-			<name>JBoss Release Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-		</repository>
-
-		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>http://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
-
-		<repository>
-			<id>sonatype</id>
-			<name>sonatype</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
 		</repository>
 
 	</repositories>
@@ -598,19 +576,5 @@
 
 
 	</build>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>sonatype</id>
-			<name>sonatype</name>
-			<url>https://oss.sonatype.org/content/groups/public</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>
