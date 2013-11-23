@@ -2,6 +2,8 @@ Ext.define('E4ds.view.user.Grid', {
 	extend: 'Ext.grid.Panel',
 	requires: [ 'E4ds.ux.form.field.FilterField', 'E4ds.store.Users' ],
 	
+	border: true,
+	
 	initComponent: function() {
 
 		var me = this;

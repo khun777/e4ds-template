@@ -4,7 +4,6 @@ Ext.define('E4ds.view.user.Container', {
 	controller: 'E4ds.controller.User',
 	
 	title: i18n.user_users,
-	border: true,
 	closable: true,
 	
 	layout: {

@@ -4,6 +4,7 @@ Ext.define('E4ds.view.user.Form', {
 	layout: 'fit',
 	width: 400,
 	modal: true,
+	border: true,
 	glyph: 0xe803,
 
 	requires: [ 'Ext.ux.form.MultiSelect' ],
