@@ -2,7 +2,7 @@ Ext.define('E4ds.controller.CrudBase', {
 	extend: 'Deft.mvc.ViewController',
 	control: {
 		view: {
-			removed: 'onRemoved',
+			removed: 'onRemoved'
 		},
 		grid: {
 			selector: 'grid',
