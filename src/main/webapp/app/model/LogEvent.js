@@ -3,8 +3,8 @@ Ext.define("E4ds.model.LogEvent",
   extend : "Ext.data.Model",
   fields : [ {
     name : "eventDate",
-    dateFormat : "c",
-    type : "date"
+    type : "date",
+    dateFormat : "c"
   }, {
     name : "level",
     type : "string"
@@ -37,9 +37,9 @@ Ext.define("E4ds.model.LogEvent",
     type : "string"
   }, {
     name : "id",
+    type : "int",
     useNull : true,
-    convert : null,
-    type : "int"
+    convert : null
   } ],
   proxy : {
     type : "direct",

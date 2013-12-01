@@ -6,12 +6,12 @@ Ext.define("E4ds.model.AccessLog",
     type : "string"
   }, {
     name : "logIn",
-    dateFormat : "c",
-    type : "date"
+    type : "date",
+    dateFormat : "c"
   }, {
     name : "logOut",
-    dateFormat : "c",
-    type : "date"
+    type : "date",
+    dateFormat : "c"
   }, {
     name : "duration",
     type : "string"
@@ -26,9 +26,9 @@ Ext.define("E4ds.model.AccessLog",
     type : "string"
   }, {
     name : "id",
+    type : "int",
     useNull : true,
-    convert : null,
-    type : "int"
+    convert : null
   } ],
   proxy : {
     type : "direct",
