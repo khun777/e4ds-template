@@ -19,7 +19,7 @@
 
 		<log4j.version>2.0-beta9</log4j.version>
 
-		<eds.version>1.3.8</eds.version>
+		<eds.version>1.3.9</eds.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.debug>true</maven.compiler.debug>
