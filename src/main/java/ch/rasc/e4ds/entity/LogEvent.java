@@ -14,7 +14,6 @@ import ch.rasc.edsutil.entity.DateTimeConverter;
 import ch.rasc.edsutil.jackson.ISO8601DateTimeSerializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -140,8 +139,7 @@ public class LogEvent extends AbstractPersistable {
 	private final static class NewLineBrSerializer extends JsonSerializer<String> {
 
 		@Override
-		public void serialize(String value, JsonGenerator jgen, SerializerProvider provider) throws IOException,
-				JsonProcessingException {
+		public void serialize(String value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
 			jgen.writeString(value.replace("\n", "<br>"));
 		}
 

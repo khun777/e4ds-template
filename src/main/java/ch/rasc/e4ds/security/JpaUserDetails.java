@@ -34,7 +34,7 @@ public class JpaUserDetails implements UserDetails {
 
 	private final boolean locked;
 
-	private Locale locale;
+	private final Locale locale;
 
 	public JpaUserDetails(User user) {
 		this.userDbId = user.getId();
@@ -50,11 +50,7 @@ public class JpaUserDetails implements UserDetails {
 			this.locale = Locale.ENGLISH;
 		}
 
-		if (user.getLockedOut() != null && user.getLockedOut().isAfter(DateTime.now())) {
-			locked = true;
-		} else {
-			locked = false;
-		}
+		locked = user.getLockedOut() != null && user.getLockedOut().isAfter(DateTime.now());
 
 		Builder<GrantedAuthority> builder = ImmutableSet.builder();
 		for (String role : Splitter.on(",").split(user.getRole())) {

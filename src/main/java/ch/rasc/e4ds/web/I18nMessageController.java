@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ch.ralscha.extdirectspring.util.ExtDirectSpringUtil;
 import ch.ralscha.extdirectspring.util.JsonHandler;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -40,8 +38,7 @@ public class I18nMessageController implements InitializingBean {
 	}
 
 	@RequestMapping(value = "/i18n.js", method = RequestMethod.GET)
-	public void i18n(HttpServletResponse response, Locale locale) throws JsonGenerationException, JsonMappingException,
-			IOException {
+	public void i18n(HttpServletResponse response, Locale locale) throws IOException {
 
 		response.setContentType(JS_CONTENT_TYPE);
 
@@ -55,8 +52,7 @@ public class I18nMessageController implements InitializingBean {
 	}
 
 	@RequestMapping(value = "/i18n-{version}.js", method = RequestMethod.GET)
-	public void i18n(HttpServletRequest request, HttpServletResponse response, Locale locale)
-			throws JsonGenerationException, JsonMappingException, IOException {
+	public void i18n(HttpServletRequest request, HttpServletResponse response, Locale locale) throws IOException {
 
 		byte[] output = buildResponse(locale);
 		ExtDirectSpringUtil.handleCacheableResponse(request, response, output, JS_CONTENT_TYPE);
