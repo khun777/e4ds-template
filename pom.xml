@@ -11,7 +11,6 @@
 	</prerequisites>
 
 	<properties>
-		<spring.version>4.0.0.RC2</spring.version>
 		<spring.security.version>3.2.0.RC2</spring.security.version>
 
 		<hibernate.version>4.3.0.CR2</hibernate.version>
@@ -29,60 +28,64 @@
 		<extjs.version>4.2.2</extjs.version>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>4.0.0.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>edsutil</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -170,7 +173,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.0.7</version>
+			<version>3.0.8</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>snakeyaml</artifactId>
@@ -332,6 +335,12 @@
 
 		<dependency>
 			<groupId>ch.rasc</groupId>
+			<artifactId>extclassgenerator-annotations</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.rasc</groupId>
 			<artifactId>embeddedtc</artifactId>
 			<version>1.10</version>
 			<scope>provided</scope>
@@ -430,7 +439,7 @@
 							<goal>process</goal>
 						</goals>
 						<configuration>
-							<processor>ch.ralscha.extdirectspring.generator.ModelAnnotationProcessor</processor>
+							<processor>ch.rasc.extclassgenerator.ModelAnnotationProcessor</processor>
 							<outputDirectory>src/main/webapp/app</outputDirectory>
 							<options>
 								<debug>true</debug>
@@ -451,6 +460,11 @@
 						<artifactId>querydsl-jpa</artifactId>
 						<classifier>apt</classifier>
 						<version>${querydsl.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>ch.rasc</groupId>
+						<artifactId>extclassgenerator</artifactId>
+						<version>1.0.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
