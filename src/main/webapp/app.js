@@ -21,14 +21,14 @@ Ext.define('E4ds.App', {
 			id: 'chartdatapoller',
 			type: 'polling',
 			interval: 2000,
-			url: POLLING_URLS.chartdata
+			url: Ext.app.POLLING_URLS.chartdata
 		});
 		var heartbeat = new Ext.direct.PollingProvider({
 			type: 'polling',
 			interval: 5 * 60 * 1000, // 5 minutes
-			url: POLLING_URLS.heartbeat
+			url: Ext.app.POLLING_URLS.heartbeat
 		});
-		Ext.direct.Manager.addProvider(REMOTING_API, chartdatapoller, heartbeat);
+		Ext.direct.Manager.addProvider(Ext.app.REMOTING_API, chartdatapoller, heartbeat);
 		Ext.direct.Manager.getProvider('chartdatapoller').disconnect();
 
 		if (Ext.view.AbstractView) {

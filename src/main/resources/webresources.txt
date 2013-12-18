@@ -25,8 +25,8 @@ app_js:
   /resources/customtheme/customtheme.js[dps]
   /resources/deft-debug.js[d]
   /resources/deft.js
-  /api.js?apiNs=[d]
-  /api-{application.version}.js?apiNs=[ps]
+  /api.js[d]
+  /api-{application.version}.js[ps]
   /resources/extjs-gpl/{extjs.version}/ux/BoxReorderer.js
   /resources/extjs-gpl/{extjs.version}/ux/TabCloseMenu.js
   /resources/extjs-gpl/{extjs.version}/ux/TabReorderer.js
