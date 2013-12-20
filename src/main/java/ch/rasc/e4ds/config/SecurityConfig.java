@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,71 +23,94 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private DataSource dataSource;
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Configuration
+	@Order(1)
+	public static class CachableWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			//@formatter:off
+			http
+				.antMatcher("/i18n*")
+				.headers()
+					.disable()
+				.authorizeRequests()
+					.antMatchers("/i18n*").permitAll()
+					.and()
+				.csrf()
+					.disable();
+			//@formatter:on
+		}
 	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+	@Configuration
+	public static class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-	@Override
-	public void configure(WebSecurity builder) throws Exception {
-		builder.ignoring().antMatchers("/resources/**", "/favicon.ico", "/api*.js");
-	}
+		@Autowired
+		private UserDetailsService userDetailsService;
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+		@Autowired
+		private DataSource dataSource;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+		@Bean
+		public PasswordEncoder passwordEncoder() {
+			return new BCryptPasswordEncoder();
+		}
 
-		JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
-		tokenRepo.setDataSource(dataSource);
-		tokenRepo.setCreateTableOnStartup(false);
-		tokenRepo.afterPropertiesSet();
+		@Override
+		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+			auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		}
 
-		//@formatter:off
-		http
-		.headers()
-		    .contentTypeOptions()
-		    .xssProtection()
-		    .cacheControl()
-		    .httpStrictTransportSecurity()
-		    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
-		    .and()		
-		  .authorizeRequests()
-		    .antMatchers("/i18n*", "/login*", "/app/ux/window/Notification.js").permitAll()
-			.anyRequest().authenticated()
-		    .and()
-	      .formLogin()
-	        .loginPage("/login.html")
-	        .defaultSuccessUrl("/index.html", true)
-	        .permitAll()
-		    .and()
-		  .logout()
-		    .deleteCookies("JSESSIONID")
-		    .permitAll()
-		    .and()
-		  .rememberMe()
-		    .tokenRepository(tokenRepo)
-		    .and()
-		  .csrf()
-		    .disable();
-		//@formatter:on
+		@Override
+		public void configure(WebSecurity builder) throws Exception {
+			builder.ignoring().antMatchers("/resources/**", "/favicon.ico", "/api*.js");
+		}
+
+		@Bean
+		@Override
+		public AuthenticationManager authenticationManagerBean() throws Exception {
+			return super.authenticationManagerBean();
+		}
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+
+			JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
+			tokenRepo.setDataSource(dataSource);
+			tokenRepo.setCreateTableOnStartup(false);
+			tokenRepo.afterPropertiesSet();
+
+			//@formatter:off
+			http
+			.headers()
+			    .contentTypeOptions()
+			    .xssProtection()
+			    .cacheControl()
+			    .httpStrictTransportSecurity()
+			    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsMode.SAMEORIGIN))
+			    .and()
+			  .authorizeRequests()
+			    .antMatchers("/login*", "/app/ux/window/Notification.js").permitAll()
+				.anyRequest().authenticated()
+			    .and()
+		      .formLogin()
+		        .loginPage("/login.html")
+		        .defaultSuccessUrl("/index.html", true)
+		        .permitAll()
+			    .and()
+			  .logout()
+			    .deleteCookies("JSESSIONID")
+			    .permitAll()
+			    .and()
+			  .rememberMe()
+			    .tokenRepository(tokenRepo)
+			    .and()
+			  .csrf()
+			    .disable();
+			//@formatter:on
+		}
 	}
 
 }
