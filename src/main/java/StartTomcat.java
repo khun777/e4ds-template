@@ -11,6 +11,8 @@ public class StartTomcat {
 		// Comment out the following line to activate production profile
 		System.setProperty("spring.profiles.active", "development");
 
+		//String compressableMimeTypes = "text/html,text/plain,text/xml,application/xml,application/xhtml+xml,text/javascript,text/css,application/x-javascript,application/json,application/javascript";
+		//enableCompression(2048, compressableMimeTypes).
 		EmbeddedTomcat.create().setContextFile("./src/main/config/tomcat.xml").startAndWait();
 	}
 }
