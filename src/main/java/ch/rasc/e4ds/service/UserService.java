@@ -206,4 +206,16 @@ public class UserService extends BaseCRUDService<User> {
 		}
 		return result;
 	}
+	
+	// Override create and update because @PreAuthorize does not protect methods inherited from the superclass
+	@Override
+	public ExtDirectStoreValidationResult<User> create(User newEntity) {
+		return super.create(newEntity);
+	}
+
+	@Override
+	public ExtDirectStoreValidationResult<User> update(User updatedEntity) {
+		return super.update(updatedEntity);
+	}
+
 }
