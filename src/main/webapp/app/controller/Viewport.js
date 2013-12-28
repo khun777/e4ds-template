@@ -78,7 +78,12 @@ Ext.define('E4ds.controller.Viewport', {
 	},
 
 	onTabChange: function(tabPanel, newCard) {
-		this.syncNavigation();
+		var activeTab = this.getTabPanel().getActiveTab();
+		if (activeTab) {
+			this.getMenuTree().suspendEvents();
+			this.getMenuTree().selectPath(activeTab.treePath);
+			this.getMenuTree().resumeEvents();
+		}
 	},
 
 	pushHistoryState: function(record) {
@@ -103,13 +108,6 @@ Ext.define('E4ds.controller.Viewport', {
 				tab = this.getTabPanel().add(viewObject);
 			}
 			this.getTabPanel().setActiveTab(tab);
-		}
-	},
-
-	syncNavigation: function(e) {
-		var activeTab = this.getTabPanel().getActiveTab();
-		if (activeTab) {
-			this.getMenuTree().selectPath(activeTab.treePath);
 		}
 	},
 
