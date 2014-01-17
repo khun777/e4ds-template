@@ -342,7 +342,7 @@
 		<dependency>
 			<groupId>ch.rasc</groupId>
 			<artifactId>embeddedtc</artifactId>
-			<version>1.10</version>
+			<version>1.11</version>
 			<scope>provided</scope>
 		</dependency>
 
