@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.appender.db.jdbc.ColumnConfig;
 import org.apache.logging.log4j.core.appender.db.jdbc.DataSourceConnectionSource;
+import org.apache.logging.log4j.core.appender.db.jdbc.JDBCAppender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -21,7 +22,6 @@ import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.service.MailService;
-import ch.rasc.e4ds.util.CommitJDBCAppender;
 
 import com.google.common.collect.Lists;
 import com.mysema.query.jpa.impl.JPAQuery;
@@ -110,7 +110,7 @@ public class Startup implements ApplicationListener<ContextRefreshedEvent> {
 		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userAgent",
 				"%mdc{userAgent}", null, null, null, null));
 
-		CommitJDBCAppender appender = CommitJDBCAppender.createAppender("databaseAppender", null, null,
+		JDBCAppender appender = JDBCAppender.createAppender("databaseAppender", null, null,
 				connectionSource, null, "LogEvent", columnConfigs.toArray(new ColumnConfig[columnConfigs.size()]));
 		logger.addAppender(appender);
 		appender.start();
