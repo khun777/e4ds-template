@@ -7,7 +7,7 @@ Ext.define("E4ds.model.LoggingEvent",
   }, {
     name : "dateTime",
     type : "date",
-    dateFormat : "Y-m-d H:i:s"
+    dateFormat : "c"
   }, {
     name : "message",
     type : "string"

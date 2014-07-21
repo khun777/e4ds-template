@@ -1,8 +1,8 @@
 package ch.rasc.e4ds.dto;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,16 +10,20 @@ import java.util.Set;
 
 import ch.rasc.e4ds.entity.LoggingEventException;
 import ch.rasc.e4ds.entity.LoggingEventProperty;
+import ch.rasc.edsutil.jackson.ISO8601LocalDateTimeSerializer;
 import ch.rasc.extclassgenerator.Model;
 import ch.rasc.extclassgenerator.ModelField;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Model(value = "E4ds.model.LoggingEvent", readMethod = "loggingEventService.read",
 		paging = true)
 public class LoggingEventDto {
 	private final long id;
 
-	@ModelField(dateFormat = "Y-m-d H:i:s")
-	private final ZonedDateTime dateTime;
+	@ModelField(dateFormat = "c")
+	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
+	private final LocalDateTime dateTime;
 
 	private final String message;
 
@@ -35,7 +39,7 @@ public class LoggingEventDto {
 
 	public LoggingEventDto(ch.rasc.e4ds.entity.LoggingEvent event) {
 		this.id = event.getEventId();
-		this.dateTime = ZonedDateTime.ofInstant(
+		this.dateTime = LocalDateTime.ofInstant(
 				Instant.ofEpochMilli(event.getTimestmp().longValue()), ZoneOffset.UTC);
 		this.message = event.getFormattedMessage();
 		this.level = event.getLevelString();
@@ -74,7 +78,7 @@ public class LoggingEventDto {
 
 	}
 
-	public ZonedDateTime getDateTime() {
+	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
 

@@ -2,10 +2,15 @@ package ch.rasc.e4ds.config;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.db.DBAppender;
+import ch.qos.logback.core.db.DataSourceConnectionSource;
 import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
 import ch.rasc.e4ds.repository.UserRepository;
@@ -62,24 +67,24 @@ class Startup {
 
 	private void configureLog() {
 
-		// LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		// ch.qos.logback.classic.Logger logger = lc.getLogger(Logger.ROOT_LOGGER_NAME);
-		//
-		// if (logger.getAppender("DB") == null) {
-		// DBAppender appender = new DBAppender();
-		// appender.setName("DB");
-		// appender.setContext(lc);
-		//
-		// DataSourceConnectionSource cs = new DataSourceConnectionSource();
-		// cs.setDataSource(dataSource);
-		// cs.setContext(lc);
-		// cs.start();
-		//
-		// appender.setConnectionSource(cs);
-		// appender.start();
-		//
-		// logger.addAppender(appender);
-		// }
+		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		ch.qos.logback.classic.Logger logger = lc.getLogger(Logger.ROOT_LOGGER_NAME);
+
+		if (logger.getAppender("DB") == null) {
+			DBAppender appender = new DBAppender();
+			appender.setName("DB");
+			appender.setContext(lc);
+
+			DataSourceConnectionSource cs = new DataSourceConnectionSource();
+			cs.setDataSource(dataSource);
+			cs.setContext(lc);
+			cs.start();
+
+			appender.setConnectionSource(cs);
+			appender.start();
+
+			logger.addAppender(appender);
+		}
 
 	}
 
