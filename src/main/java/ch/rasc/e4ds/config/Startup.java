@@ -1,55 +1,38 @@
 package ch.rasc.e4ds.config;
 
-import java.util.List;
+import javax.sql.DataSource;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
-import org.apache.logging.log4j.core.appender.db.jdbc.ColumnConfig;
-import org.apache.logging.log4j.core.appender.db.jdbc.DataSourceConnectionSource;
-import org.apache.logging.log4j.core.appender.db.jdbc.JDBCAppender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.Role;
 import ch.rasc.e4ds.entity.User;
-import ch.rasc.e4ds.service.MailService;
-
-import com.google.common.collect.Lists;
-import com.mysema.query.jpa.impl.JPAQuery;
+import ch.rasc.e4ds.repository.UserRepository;
 
 @Component
-public class Startup implements ApplicationListener<ContextRefreshedEvent> {
+class Startup {
+
+	private final UserRepository userRepository;
+
+	private final DataSource dataSource;
+
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private Environment environment;
+	public Startup(UserRepository userRepository, DataSource dataSource,
+			PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.dataSource = dataSource;
+		this.passwordEncoder = passwordEncoder;
+		init();
+	}
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	@Autowired
-	private MailService mailService;
-
-	@Override
-	@Transactional
-	public void onApplicationEvent(ContextRefreshedEvent event) {
+	public void init() {
 
 		configureLog();
 
-		mailService.configure();
-
-		if (new JPAQuery(entityManager).from(QUser.user).count() == 0) {
+		if (userRepository.count() == 0) {
 			// admin user
 			User adminUser = new User();
 			adminUser.setUserName("admin");
@@ -60,7 +43,7 @@ public class Startup implements ApplicationListener<ContextRefreshedEvent> {
 			adminUser.setPasswordHash(passwordEncoder.encode("admin"));
 			adminUser.setEnabled(true);
 			adminUser.setRole(Role.ADMIN.name());
-			entityManager.persist(adminUser);
+			userRepository.save(adminUser);
 
 			// normal user
 			User normalUser = new User();
@@ -72,52 +55,31 @@ public class Startup implements ApplicationListener<ContextRefreshedEvent> {
 			normalUser.setPasswordHash(passwordEncoder.encode("user"));
 			normalUser.setEnabled(true);
 			normalUser.setRole(Role.USER.name());
-			entityManager.persist(normalUser);
+			userRepository.save(normalUser);
 		}
 
 	}
 
 	private void configureLog() {
-		Logger logger = (Logger) LogManager.getRootLogger();
-		if (logger.getAppenders().containsKey("databaseAppender")) {
-			// already configured
-			return;
-		}
 
-		DataSourceConnectionSource connectionSource = DataSourceConnectionSource
-				.createConnectionSource("java:comp/env/jdbc/e4ds");
-		List<ColumnConfig> columnConfigs = Lists.newArrayList();
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "eventDate", null,
-				null, "true", null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "level", "%level",
-				null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "logger", "%logger",
-				null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "source",
-				"%location", null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "message",
-				"%message", null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "marker", "%marker",
-				null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "thread", "%thread",
-				null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "exception",
-				"%rEx{full}", null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userName",
-				"%mdc{userName}", null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "ip", "%mdc{ip}",
-				null, null, null, null));
-		columnConfigs.add(ColumnConfig.createColumnConfig(logger.getContext().getConfiguration(), "userAgent",
-				"%mdc{userAgent}", null, null, null, null));
-
-		JDBCAppender appender = JDBCAppender.createAppender("databaseAppender", null, null,
-				connectionSource, null, "LogEvent", columnConfigs.toArray(new ColumnConfig[columnConfigs.size()]));
-		logger.addAppender(appender);
-		appender.start();
-
-		if (environment.acceptsProfiles("production")) {
-			logger.removeAppender(logger.getAppenders().get("stdout"));
-		}
+		// LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		// ch.qos.logback.classic.Logger logger = lc.getLogger(Logger.ROOT_LOGGER_NAME);
+		//
+		// if (logger.getAppender("DB") == null) {
+		// DBAppender appender = new DBAppender();
+		// appender.setName("DB");
+		// appender.setContext(lc);
+		//
+		// DataSourceConnectionSource cs = new DataSourceConnectionSource();
+		// cs.setDataSource(dataSource);
+		// cs.setContext(lc);
+		// cs.start();
+		//
+		// appender.setConnectionSource(cs);
+		// appender.start();
+		//
+		// logger.addAppender(appender);
+		// }
 
 	}
 

@@ -4,6 +4,9 @@ import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_RE
 import static ch.rasc.e4ds.entity.QAccessLog.accessLog;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,14 +23,6 @@ import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.DurationFieldType;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.env.Environment;
@@ -41,10 +37,7 @@ import ch.ralscha.extdirectspring.filter.StringFilter;
 import ch.rasc.e4ds.entity.AccessLog;
 import ch.rasc.edsutil.QueryUtil;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.mysema.query.SearchResults;
@@ -70,42 +63,40 @@ public class AccessLogService {
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ADMIN')")
 	@Transactional(readOnly = true)
-	public ExtDirectStoreResult<AccessLog> read(ExtDirectStoreReadRequest request, Locale locale) {
+	public ExtDirectStoreResult<AccessLog> read(ExtDirectStoreReadRequest request,
+			Locale locale) {
 
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 
 		if (!request.getFilters().isEmpty()) {
-			StringFilter userNameFilter = (StringFilter) request.getFilters().iterator().next();
+			StringFilter userNameFilter = (StringFilter) request.getFilters().iterator()
+					.next();
 			String userName = userNameFilter.getValue();
 			query.where(accessLog.userName.contains(userName));
 		}
 
-		QueryUtil.addPagingAndSorting(query, request, AccessLog.class, accessLog,
-				Collections.<String, String> emptyMap(), Collections.singleton("browser"));
+		QueryUtil
+				.addPagingAndSorting(query, request, AccessLog.class, accessLog,
+						Collections.<String, String> emptyMap(),
+						Collections.singleton("browser"));
 
 		SearchResults<AccessLog> searchResult = query.listResults(accessLog);
 
-		PeriodFormatter minutesAndSeconds = new PeriodFormatterBuilder()
-				.appendMinutes()
-				.appendSuffix(" " + messageSource.getMessage("accesslog_minute", null, locale),
-						" " + messageSource.getMessage("accesslog_minutes", null, locale))
-				.appendSeparator(" " + messageSource.getMessage("accesslog_and", null, locale) + " ")
-				.printZeroRarelyLast()
-				.appendSeconds()
-				.appendSuffix(" " + messageSource.getMessage("accesslog_second", null, locale),
-						" " + messageSource.getMessage("accesslog_seconds", null, locale)).toFormatter();
+		String minutesText = messageSource.getMessage("accesslog_minutes", null, locale);
+		String andText = messageSource.getMessage("accesslog_and", null, locale);
+		String secondsText = messageSource.getMessage("accesslog_seconds", null, locale);
 
 		for (AccessLog log : searchResult.getResults()) {
 			if (log.getLogIn() != null && log.getLogOut() != null) {
-				Duration duration = new Duration(log.getLogIn(), log.getLogOut());
-				Period period = new Period(duration, PeriodType.forFields(new DurationFieldType[] {
-						DurationFieldType.minutes(), DurationFieldType.seconds() }));
-				log.setDuration(minutesAndSeconds.print(period));
+				Duration duration = Duration.between(log.getLogIn(), log.getLogOut());
+				log.setDuration(duration.toMinutes() + " " + minutesText + " " + andText
+						+ " " + (duration.getSeconds() % 60) + " " + secondsText);
 			}
 
 		}
 
-		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());
+		return new ExtDirectStoreResult<>(searchResult.getTotal(),
+				searchResult.getResults());
 	}
 
 	@ExtDirectMethod(STORE_READ)
@@ -113,13 +104,9 @@ public class AccessLogService {
 	@Transactional(readOnly = true)
 	public Collection<Map<String, Integer>> readAccessLogYears() {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
-		return Collections2.transform(query.distinct().list(accessLog.logIn.year()),
-				new Function<Integer, Map<String, Integer>>() {
-					@Override
-					public Map<String, Integer> apply(Integer input) {
-						return Collections.singletonMap("year", input);
-					}
-				});
+		List<Integer> years = query.distinct().list(accessLog.logIn.year());
+		return years.stream().map(year -> Collections.singletonMap("year", year))
+				.collect(Collectors.toList());
 	}
 
 	@ExtDirectMethod
@@ -135,10 +122,11 @@ public class AccessLogService {
 	public List<Map<String, Object>> readUserAgentsStats(int queryYear) {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 		query.where(accessLog.logIn.year().eq(queryYear));
-		query.groupBy(accessLog.logIn.year(), accessLog.logIn.month(), accessLog.userAgentName);
+		query.groupBy(accessLog.logIn.year(), accessLog.logIn.month(),
+				accessLog.userAgentName);
 		query.orderBy(accessLog.logIn.year().asc(), accessLog.logIn.month().asc());
-		List<Tuple> queryResult = query.list(accessLog.logIn.year(), accessLog.logIn.month(), accessLog.userAgentName,
-				accessLog.count());
+		List<Tuple> queryResult = query.list(accessLog.logIn.year(),
+				accessLog.logIn.month(), accessLog.userAgentName, accessLog.count());
 
 		String[] browsers = new String[] { "Chrome", "Firefox", "IE", "Opera", "Safari" };
 
@@ -162,25 +150,28 @@ public class AccessLogService {
 
 			if (Arrays.binarySearch(browsers, userAgentName) >= 0) {
 				uas.addAndGet(userAgentName, count);
-			} else if (userAgentName.equals("Mobile Safari")) {
+			}
+			else if (userAgentName.equals("Mobile Safari")) {
 				uas.addAndGet("Safari", count);
-			} else {
+			}
+			else {
 				uas.addAndGet("Other", count);
 			}
 		}
 
-		List<Map<String, Object>> result = Lists.newArrayList();
+		List<Map<String, Object>> result = new ArrayList<>();
 
 		for (String yearMonth : monthYearUACount.keySet()) {
 			long total = monthYearTotal.get(yearMonth);
 			ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
 			builder.put("yearMonth", yearMonth);
 
-			for (Map.Entry<String, Long> entry : monthYearUACount.get(yearMonth).asMap().entrySet()) {
+			for (Map.Entry<String, Long> entry : monthYearUACount.get(yearMonth).asMap()
+					.entrySet()) {
 				builder.put(
 						entry.getKey(),
-						new BigDecimal(entry.getValue()).multiply(ONE_HUNDRED).divide(new BigDecimal(total), 2,
-								BigDecimal.ROUND_DOWN));
+						new BigDecimal(entry.getValue()).multiply(ONE_HUNDRED).divide(
+								new BigDecimal(total), 2, BigDecimal.ROUND_DOWN));
 			}
 
 			result.add(builder.build());
@@ -196,9 +187,10 @@ public class AccessLogService {
 		JPQLQuery query = new JPAQuery(entityManager).from(accessLog);
 		query.where(accessLog.logIn.year().eq(queryYear));
 		query.groupBy(accessLog.operatingSystem);
-		List<Tuple> queryResult = query.list(accessLog.operatingSystem, accessLog.count());
+		List<Tuple> queryResult = query
+				.list(accessLog.operatingSystem, accessLog.count());
 
-		List<Map<String, ?>> result = Lists.newArrayList();
+		List<Map<String, ?>> result = new ArrayList<>();
 
 		for (Tuple tuple : queryResult) {
 			String os = tuple.get(accessLog.operatingSystem);
@@ -215,7 +207,8 @@ public class AccessLogService {
 	public void addTestData() {
 		if (!environment.acceptsProfiles("production")) {
 
-			String[] users = { "admin", "user1", "user2", "user3", "user4", "user5", "user6" };
+			String[] users = { "admin", "user1", "user2", "user3", "user4", "user5",
+					"user6" };
 			String[] userAgent = {
 					"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36",
 					"Mozilla/5.0 (Windows NT 6.3; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0",
@@ -226,8 +219,9 @@ public class AccessLogService {
 					"Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25" };
 
 			Random random = new Random();
-			int currentYear = DateTime.now().getYear();
-			UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
+			int currentYear = LocalDateTime.now().getYear();
+			UserAgentStringParser parser = UADetectorServiceFactory
+					.getResourceModuleParser();
 
 			for (int i = 0; i < 1000; i++) {
 				try {
@@ -242,15 +236,19 @@ public class AccessLogService {
 					log.setUserAgentVersion(agent.getVersionNumber().getMajor());
 					log.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
 
-					log.setSessionId(RandomStringUtils.randomAlphanumeric(16));
+					log.setSessionId(String.valueOf(i));
 
-					DateTime logIn = new DateTime(currentYear - random.nextInt(2), random.nextInt(12) + 1,
-							random.nextInt(31) + 1, random.nextInt(24), random.nextInt(60), random.nextInt(60));
+					LocalDateTime logIn = LocalDateTime.of(
+							currentYear - random.nextInt(2), random.nextInt(12) + 1,
+							random.nextInt(28) + 1, random.nextInt(24),
+							random.nextInt(60), random.nextInt(60));
 					log.setLogIn(logIn);
-					log.setLogOut(logIn.plusMinutes(random.nextInt(120)));
+					log.setLogOut(logIn.plusMinutes(random.nextInt(120)).plusSeconds(
+							random.nextInt(60)));
 
 					entityManager.persist(log);
-				} catch (IllegalArgumentException iae) {
+				}
+				catch (IllegalArgumentException iae) {
 					// do nothing here
 				}
 			}

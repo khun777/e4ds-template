@@ -1,7 +1,7 @@
 package ch.rasc.e4ds.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,39 +9,50 @@ import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 import net.sf.uadetector.service.UADetectorServiceFactory;
 
-import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
 import ch.rasc.e4ds.entity.AccessLog;
 import ch.rasc.e4ds.entity.User;
+import ch.rasc.e4ds.repository.AccessLogRepository;
+import ch.rasc.e4ds.repository.UserRepository;
 import ch.rasc.e4ds.security.JpaUserDetails;
-import ch.rasc.e4ds.util.Util;
 
 @Service
 public class SecurityService {
-	private final static UserAgentStringParser UAPARSER = UADetectorServiceFactory.getResourceModuleParser();
+	private final static UserAgentStringParser UAPARSER = UADetectorServiceFactory
+			.getResourceModuleParser();
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final UserRepository userRepository;
+
+	private final AccessLogRepository accessLogRepository;
+
+	@Autowired
+	public SecurityService(UserRepository userRepository,
+			AccessLogRepository accessLogRepository) {
+		this.userRepository = userRepository;
+		this.accessLogRepository = accessLogRepository;
+	}
 
 	@ExtDirectMethod
 	@PreAuthorize("isAuthenticated()")
-	@Transactional
 	public User getLoggedOnUser(HttpServletRequest request, HttpSession session) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principal = SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		if (principal instanceof JpaUserDetails) {
 
-			User user = entityManager.find(User.class, ((JpaUserDetails) principal).getUserDbId());
+			User user = userRepository
+					.findOne(((JpaUserDetails) principal).getUserDbId());
 
 			AccessLog accessLog = new AccessLog();
 			accessLog.setUserName(user.getUserName());
 			accessLog.setSessionId(session.getId());
-			accessLog.setLogIn(DateTime.now());
+			accessLog.setLogIn(LocalDateTime.now());
 			String ua = request.getHeader("User-Agent");
 			if (StringUtils.hasText(ua)) {
 				accessLog.setUserAgent(ua);
@@ -51,7 +62,7 @@ public class SecurityService {
 				accessLog.setOperatingSystem(agent.getOperatingSystem().getFamilyName());
 			}
 
-			entityManager.persist(accessLog);
+			accessLogRepository.save(accessLog);
 
 			return user;
 
@@ -61,11 +72,16 @@ public class SecurityService {
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")
-	@Transactional
 	public boolean switchUser(Long userId) {
-		User switchToUser = entityManager.find(User.class, userId);
+		User switchToUser = userRepository.findOne(userId);
 		if (switchToUser != null) {
-			Util.signin(switchToUser);
+
+			JpaUserDetails principal = new JpaUserDetails(switchToUser);
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+					principal, null, principal.getAuthorities());
+
+			SecurityContextHolder.getContext().setAuthentication(token);
+
 			return true;
 		}
 

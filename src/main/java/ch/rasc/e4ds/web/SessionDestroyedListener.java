@@ -1,9 +1,10 @@
 package ch.rasc.e4ds.web;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.joda.time.DateTime;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,8 @@ import ch.rasc.e4ds.entity.QAccessLog;
 import com.mysema.query.jpa.impl.JPAUpdateClause;
 
 @Component
-public class SessionDestroyedListener implements ApplicationListener<SessionDestroyedEvent> {
+public class SessionDestroyedListener implements
+		ApplicationListener<SessionDestroyedEvent> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -22,7 +24,8 @@ public class SessionDestroyedListener implements ApplicationListener<SessionDest
 	@Override
 	@Transactional
 	public void onApplicationEvent(SessionDestroyedEvent event) {
-		new JPAUpdateClause(entityManager, QAccessLog.accessLog).set(QAccessLog.accessLog.logOut, DateTime.now())
+		new JPAUpdateClause(entityManager, QAccessLog.accessLog)
+				.set(QAccessLog.accessLog.logOut, LocalDateTime.now())
 				.where(QAccessLog.accessLog.sessionId.eq(event.getId())).execute();
 	}
 

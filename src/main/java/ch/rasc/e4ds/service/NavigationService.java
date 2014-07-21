@@ -3,10 +3,10 @@ package ch.rasc.e4ds.service;
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.TREE_LOAD;
 
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,17 +15,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import ch.ralscha.extdirectspring.annotation.ExtDirectMethod;
+import ch.rasc.e4ds.dto.MenuNode;
 import ch.rasc.e4ds.entity.Role;
 
 @Service
 public class NavigationService {
 
-	@Autowired
-	private MessageSource messageSource;
+	private final MessageSource messageSource;
 
 	private final MenuNode root;
 
-	public NavigationService() {
+	@Autowired
+	public NavigationService(MessageSource messageSource) {
+		this.messageSource = messageSource;
+
 		root = new MenuNode("root");
 
 		MenuNode businessNode = new MenuNode("navigation_business", null, true);
@@ -36,7 +39,8 @@ public class NavigationService {
 						"E4ds.view.poll.PollChart", Role.USER, Role.ADMIN));
 		root.addChild(businessNode);
 
-		MenuNode administrationNode = new MenuNode("navigation_administration", null, true);
+		MenuNode administrationNode = new MenuNode("navigation_administration", null,
+				true);
 		administrationNode
 				.addChild(new MenuNode(
 						"user_users",
@@ -54,7 +58,7 @@ public class NavigationService {
 				.addChild(new MenuNode(
 						"logevents",
 						"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA00lEQVQ4y2NYuXJlMxD/JRG/ZoABqAHPgTiBBByBbsBNKDsGiDNIwGboBjwG4v8k4GZsBuxcvXq1GgFsgM+A1SD2qlWrIoDsPHQMFDdav349D0EDgPR0IN6LBYcRZQDQmVpA28zQMVBcglgXHAXi71hwEVEG4APEumA/EH/EgvPWrl3LBzWgEV8sGACxDTIG+t9jzZo1GkA1ZVADokjyAlBuPVIieg40lItUA45CNYMylB9M0ASUaJAMuA3EE7FgmO0/gTgJlw0P8WThj1BDDJD1AAB30hUSZGmhygAAAABJRU5ErkJggg==",
-						"E4ds.view.logevent.List", Role.ADMIN));
+						"E4ds.view.loggingevent.List", Role.ADMIN));
 		systemNode
 				.addChild(new MenuNode(
 						"config",
@@ -66,9 +70,10 @@ public class NavigationService {
 	@ExtDirectMethod(TREE_LOAD)
 	@PreAuthorize("isAuthenticated()")
 	public MenuNode getNavigation(Locale locale, HttpServletRequest request) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return MenuNode
-				.copyOf(root, authentication.getAuthorities(), new MutableInt(0), locale, messageSource, request);
+		Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		return MenuNode.copyOf(root, authentication.getAuthorities(),
+				new AtomicInteger(0), locale, messageSource, request);
 	}
 
 }

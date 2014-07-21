@@ -1,30 +1,28 @@
 package ch.rasc.e4ds.security;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.User;
-
-import com.mysema.query.jpa.impl.JPAQuery;
+import ch.rasc.e4ds.repository.UserRepository;
 
 @Component
 public class JpaUserDetailsService implements UserDetailsService {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final UserRepository userRepository;
+
+	@Autowired
+	public JpaUserDetailsService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = new JPAQuery(entityManager).from(QUser.user).where(QUser.user.userName.eq(username))
-				.singleResult(QUser.user);
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
+		User user = userRepository.findByUserName(username);
 		if (user != null) {
 			return new JpaUserDetails(user);
 		}

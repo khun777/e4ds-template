@@ -1,15 +1,13 @@
 package ch.rasc.e4ds.entity;
 
-import javax.persistence.Convert;
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
-import org.joda.time.DateTime;
-
 import ch.rasc.edsutil.entity.AbstractPersistable;
-import ch.rasc.edsutil.entity.DateTimeConverter;
-import ch.rasc.edsutil.jackson.ISO8601DateTimeSerializer;
+import ch.rasc.edsutil.jackson.ISO8601LocalDateTimeSerializer;
 import ch.rasc.extclassgenerator.Model;
 import ch.rasc.extclassgenerator.ModelField;
 
@@ -17,7 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
-@Model(value = "E4ds.model.AccessLog", readMethod = "accessLogService.read", paging = true)
+@Model(value = "E4ds.model.AccessLog", readMethod = "accessLogService.read",
+		paging = true)
 public class AccessLog extends AbstractPersistable {
 
 	@Size(max = 100)
@@ -27,13 +26,13 @@ public class AccessLog extends AbstractPersistable {
 	@Size(max = 255)
 	private String userName;
 
-	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
-	private DateTime logIn;
+	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
+	private LocalDateTime logIn;
 
-	@Convert(converter = DateTimeConverter.class)
 	@ModelField(dateFormat = "c")
-	private DateTime logOut;
+	@JsonSerialize(using = ISO8601LocalDateTimeSerializer.class)
+	private LocalDateTime logOut;
 
 	@ModelField
 	@Transient
@@ -59,21 +58,19 @@ public class AccessLog extends AbstractPersistable {
 		this.userName = userName;
 	}
 
-	@JsonSerialize(using = ISO8601DateTimeSerializer.class)
-	public DateTime getLogIn() {
+	public LocalDateTime getLogIn() {
 		return logIn;
 	}
 
-	public void setLogIn(DateTime logIn) {
+	public void setLogIn(LocalDateTime logIn) {
 		this.logIn = logIn;
 	}
 
-	@JsonSerialize(using = ISO8601DateTimeSerializer.class)
-	public DateTime getLogOut() {
+	public LocalDateTime getLogOut() {
 		return logOut;
 	}
 
-	public void setLogOut(DateTime logOut) {
+	public void setLogOut(LocalDateTime logOut) {
 		this.logOut = logOut;
 	}
 

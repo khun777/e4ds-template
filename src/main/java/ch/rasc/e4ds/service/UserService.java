@@ -2,6 +2,7 @@ package ch.rasc.e4ds.service;
 
 import static ch.ralscha.extdirectspring.annotation.ExtDirectMethodType.STORE_READ;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -30,7 +31,6 @@ import ch.rasc.edsutil.bean.ExtDirectStoreValidationResult;
 import ch.rasc.edsutil.bean.ValidationError;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.SearchResults;
 import com.mysema.query.jpa.JPQLQuery;
@@ -68,45 +68,57 @@ public class UserService extends BaseCRUDService<User> {
 		QueryUtil.addPagingAndSorting(query, request, User.class, QUser.user);
 		SearchResults<User> searchResult = query.listResults(QUser.user);
 
-		return new ExtDirectStoreResult<>(searchResult.getTotal(), searchResult.getResults());
+		return new ExtDirectStoreResult<>(searchResult.getTotal(),
+				searchResult.getResults());
 	}
 
 	@ExtDirectMethod
 	@Transactional
 	@PreAuthorize("isAuthenticated()")
-	public ExtDirectStoreValidationResult<User> updateSettings(User modifiedUser, Locale locale) {
+	public ExtDirectStoreValidationResult<User> updateSettings(User modifiedUser,
+			Locale locale) {
 
-		List<ValidationError> validations = Lists.newArrayList();
+		List<ValidationError> validations = new ArrayList<>();
 		User dbUser = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principal = SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		if (principal instanceof JpaUserDetails) {
-			dbUser = entityManager.find(User.class, ((JpaUserDetails) principal).getUserDbId());
+			dbUser = entityManager.find(User.class,
+					((JpaUserDetails) principal).getUserDbId());
 			if (dbUser != null) {
 				dbUser.setName(modifiedUser.getName());
 				dbUser.setFirstName(modifiedUser.getFirstName());
 				dbUser.setEmail(modifiedUser.getEmail());
 				dbUser.setLocale(modifiedUser.getLocale());
 				if (StringUtils.hasText(modifiedUser.getPasswordNew())) {
-					if (passwordEncoder.matches(modifiedUser.getOldPassword(), dbUser.getPasswordHash())) {
-						if (modifiedUser.getPasswordNew().equals(modifiedUser.getPasswordNewConfirm())) {
-							dbUser.setPasswordHash(passwordEncoder.encode(modifiedUser.getPasswordNew()));
-						} else {
+					if (passwordEncoder.matches(modifiedUser.getOldPassword(),
+							dbUser.getPasswordHash())) {
+						if (modifiedUser.getPasswordNew().equals(
+								modifiedUser.getPasswordNewConfirm())) {
+							dbUser.setPasswordHash(passwordEncoder.encode(modifiedUser
+									.getPasswordNew()));
+						}
+						else {
 							ValidationError error = new ValidationError();
 							error.setField("passwordNew");
-							error.setMessage(messageSource.getMessage("user_passworddonotmatch", null, locale));
+							error.setMessage(messageSource.getMessage(
+									"user_passworddonotmatch", null, locale));
 							validations.add(error);
 						}
-					} else {
+					}
+					else {
 						ValidationError error = new ValidationError();
 						error.setField("oldPassword");
-						error.setMessage(messageSource.getMessage("user_wrongpassword", null, locale));
+						error.setMessage(messageSource.getMessage("user_wrongpassword",
+								null, locale));
 						validations.add(error);
 					}
 				}
 			}
 		}
 
-		ExtDirectStoreValidationResult<User> result = new ExtDirectStoreValidationResult<>(dbUser);
+		ExtDirectStoreValidationResult<User> result = new ExtDirectStoreValidationResult<>(
+				dbUser);
 		result.setValidations(validations);
 		return result;
 	}
@@ -115,42 +127,49 @@ public class UserService extends BaseCRUDService<User> {
 	protected List<ValidationError> validateEntity(User entity) {
 		List<ValidationError> validations = super.validateEntity(entity);
 
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principal = SecurityContextHolder.getContext().getAuthentication()
+				.getPrincipal();
 		Locale locale = Locale.ENGLISH;
 		if (principal instanceof JpaUserDetails) {
 			locale = ((JpaUserDetails) principal).getLocale();
 		}
 
-		if (entity.getPasswordNew() != null && !entity.getPasswordNew().equals(entity.getPasswordNewConfirm())) {
+		if (entity.getPasswordNew() != null
+				&& !entity.getPasswordNew().equals(entity.getPasswordNewConfirm())) {
 			ValidationError validationError = new ValidationError();
 			validationError.setField("passwordNew");
-			validationError.setMessage(messageSource.getMessage("user_passworddonotmatch", null, locale));
+			validationError.setMessage(messageSource.getMessage(
+					"user_passworddonotmatch", null, locale));
 			validations.add(validationError);
 		}
 
 		// Check uniqueness of userName and email
 		if (StringUtils.hasText(entity.getUserName())) {
-			BooleanBuilder bb = new BooleanBuilder(QUser.user.userName.equalsIgnoreCase(entity.getUserName()));
+			BooleanBuilder bb = new BooleanBuilder(
+					QUser.user.userName.equalsIgnoreCase(entity.getUserName()));
 			if (entity.getId() != null) {
 				bb.and(QUser.user.id.ne(entity.getId()));
 			}
 			if (new JPAQuery(entityManager).from(QUser.user).where(bb).exists()) {
 				ValidationError validationError = new ValidationError();
 				validationError.setField("userName");
-				validationError.setMessage(messageSource.getMessage("user_usernametaken", null, locale));
+				validationError.setMessage(messageSource.getMessage("user_usernametaken",
+						null, locale));
 				validations.add(validationError);
 			}
 		}
 
 		if (StringUtils.hasText(entity.getEmail())) {
-			BooleanBuilder bb = new BooleanBuilder(QUser.user.email.equalsIgnoreCase(entity.getEmail()));
+			BooleanBuilder bb = new BooleanBuilder(
+					QUser.user.email.equalsIgnoreCase(entity.getEmail()));
 			if (entity.getId() != null) {
 				bb.and(QUser.user.id.ne(entity.getId()));
 			}
 			if (new JPAQuery(entityManager).from(QUser.user).where(bb).exists()) {
 				ValidationError validationError = new ValidationError();
 				validationError.setField("email");
-				validationError.setMessage(messageSource.getMessage("user_emailtaken", null, locale));
+				validationError.setMessage(messageSource.getMessage("user_emailtaken",
+						null, locale));
 				validations.add(validationError);
 			}
 		}
@@ -164,10 +183,12 @@ public class UserService extends BaseCRUDService<User> {
 
 		if (StringUtils.hasText(entity.getPasswordNew())) {
 			entity.setPasswordHash(passwordEncoder.encode(entity.getPasswordNew()));
-		} else {
+		}
+		else {
 			if (entity.getId() != null) {
 				String dbPassword = new JPAQuery(entityManager).from(QUser.user)
-						.where(QUser.user.id.eq(entity.getId())).singleResult(QUser.user.passwordHash);
+						.where(QUser.user.id.eq(entity.getId()))
+						.singleResult(QUser.user.passwordHash);
 				entity.setPasswordHash(dbPassword);
 			}
 		}
@@ -200,14 +221,15 @@ public class UserService extends BaseCRUDService<User> {
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("isAuthenticated()")
 	public List<Map<String, String>> readRoles() {
-		List<Map<String, String>> result = Lists.newArrayList();
+		List<Map<String, String>> result = new ArrayList<>();
 		for (Role role : Role.values()) {
 			result.add(ImmutableMap.of("name", role.name()));
 		}
 		return result;
 	}
-	
-	// Override create and update because @PreAuthorize does not protect methods inherited from the superclass
+
+	// Override create and update because @PreAuthorize does not protect methods inherited
+	// from the superclass
 	@Override
 	@Transactional
 	public ExtDirectStoreValidationResult<User> create(User newEntity) {

@@ -1,7 +1,8 @@
 package ch.rasc.e4ds.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -9,17 +10,17 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.joda.time.DateTime;
 
 import ch.rasc.edsutil.entity.AbstractPersistable;
-import ch.rasc.edsutil.entity.DateTimeConverter;
 import ch.rasc.extclassgenerator.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "AppUser")
-@Model(value = "E4ds.model.User", readMethod = "userService.read", createMethod = "userService.create", updateMethod = "userService.update", destroyMethod = "userService.destroy", paging = true)
+@Model(value = "E4ds.model.User", readMethod = "userService.read",
+		createMethod = "userService.create", updateMethod = "userService.update",
+		destroyMethod = "userService.destroy", paging = true)
 public class User extends AbstractPersistable {
 
 	@NotEmpty(message = "{user_missing_username}")
@@ -63,8 +64,7 @@ public class User extends AbstractPersistable {
 	private Integer failedLogins;
 
 	@JsonIgnore
-	@Convert(converter = DateTimeConverter.class)
-	private DateTime lockedOut;
+	private LocalDateTime lockedOut;
 
 	public String getUserName() {
 		return userName;
@@ -138,11 +138,11 @@ public class User extends AbstractPersistable {
 		this.failedLogins = failedLogins;
 	}
 
-	public DateTime getLockedOut() {
+	public LocalDateTime getLockedOut() {
 		return lockedOut;
 	}
 
-	public void setLockedOut(DateTime lockedOut) {
+	public void setLockedOut(LocalDateTime lockedOut) {
 		this.lockedOut = lockedOut;
 	}
 

@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.rasc.e4ds.entity.User;
 
 @Component
-public class UserAuthenticationSuccessfulHandler implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
+public class UserAuthenticationSuccessfulHandler implements
+		ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -21,7 +22,8 @@ public class UserAuthenticationSuccessfulHandler implements ApplicationListener<
 	public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
 		Object principal = event.getAuthentication().getPrincipal();
 		if (principal instanceof JpaUserDetails) {
-			User user = entityManager.find(User.class, ((JpaUserDetails) principal).getUserDbId());
+			User user = entityManager.find(User.class,
+					((JpaUserDetails) principal).getUserDbId());
 			user.setLockedOut(null);
 			user.setFailedLogins(null);
 		}

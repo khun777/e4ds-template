@@ -1,9 +1,10 @@
 package ch.rasc.e4ds.security;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
@@ -16,7 +17,8 @@ import ch.rasc.e4ds.entity.User;
 import com.mysema.query.jpa.impl.JPAQuery;
 
 @Component
-public class UserAuthenticationErrorHandler implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
+public class UserAuthenticationErrorHandler implements
+		ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -26,22 +28,25 @@ public class UserAuthenticationErrorHandler implements ApplicationListener<Authe
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
 		Object principal = event.getAuthentication().getPrincipal();
 		if (principal instanceof String) {
-			User user = new JPAQuery(entityManager).from(QUser.user).where(QUser.user.userName.eq((String) principal))
+			User user = new JPAQuery(entityManager).from(QUser.user)
+					.where(QUser.user.userName.eq((String) principal))
 					.singleResult(QUser.user);
 			if (user != null) {
 				if (user.getFailedLogins() == null) {
 					user.setFailedLogins(1);
-				} else {
+				}
+				else {
 					user.setFailedLogins(user.getFailedLogins() + 1);
 				}
 
 				if (user.getFailedLogins() > 10) {
-					user.setLockedOut(DateTime.now().plusMinutes(10));
+					user.setLockedOut(LocalDateTime.now().plusMinutes(10));
 				}
 
-			} else {
-				LoggerFactory.getLogger(UserAuthenticationErrorHandler.class).warn("Unknown user login attempt: {}",
-						principal);
+			}
+			else {
+				LoggerFactory.getLogger(UserAuthenticationErrorHandler.class).warn(
+						"Unknown user login attempt: {}", principal);
 			}
 		}
 	}

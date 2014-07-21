@@ -4,31 +4,32 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import ch.rasc.e4ds.entity.Configuration;
 import ch.rasc.e4ds.entity.ConfigurationKey;
-import ch.rasc.e4ds.entity.QConfiguration;
-
-import com.mysema.query.jpa.impl.JPAQuery;
+import ch.rasc.e4ds.repository.ConfigurationRepository;
 
 @Service
 public class MailService {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final ConfigurationRepository configurationRepository;
 
 	private String defaultSender = null;
 
 	private JavaMailSenderImpl mailSender = null;
+
+	@Autowired
+	public MailService(ConfigurationRepository configurationRepository) {
+		this.configurationRepository = configurationRepository;
+		configure();
+	}
 
 	public void sendSimpleMessage(String to, String subject, String text) {
 
@@ -41,7 +42,8 @@ public class MailService {
 		mailSender.send(mailMessage);
 	}
 
-	public void sendHtmlMessage(String from, String to, String subject, String text) throws MessagingException {
+	public void sendHtmlMessage(String from, String to, String subject, String text)
+			throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -54,16 +56,14 @@ public class MailService {
 		mailSender.send(message);
 	}
 
-	@Transactional(readOnly = true)
 	public void configure() {
-		List<Configuration> configurations = new JPAQuery(entityManager).from(QConfiguration.configuration).list(
-				QConfiguration.configuration);
+		List<Configuration> configurations = configurationRepository.findAll();
 
 		mailSender = new JavaMailSenderImpl();
 		mailSender.setHost(read(ConfigurationKey.SMTP_SERVER, configurations));
 		String portString = read(ConfigurationKey.SMTP_PORT, configurations);
-		if (StringUtils.isNotBlank(portString)) {
-			mailSender.setPort(Integer.valueOf(portString));
+		if (StringUtils.hasText(portString)) {
+			mailSender.setPort(Integer.parseInt(portString));
 		}
 		mailSender.setUsername(read(ConfigurationKey.SMTP_USERNAME, configurations));
 		mailSender.setPassword(read(ConfigurationKey.SMTP_PASSWORD, configurations));
