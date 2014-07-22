@@ -17,7 +17,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import net.sf.uadetector.ReadableUserAgent;
 import net.sf.uadetector.UserAgentStringParser;
@@ -51,14 +50,19 @@ public class AccessLogService {
 
 	private final static BigDecimal ONE_HUNDRED = new BigDecimal("100");
 
-	@Autowired
-	private Environment environment;
+	private final Environment environment;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	private final MessageSource messageSource;
 
 	@Autowired
-	private MessageSource messageSource;
+	public AccessLogService(Environment environment, EntityManager entityManager,
+			MessageSource messageSource) {
+		this.environment = environment;
+		this.entityManager = entityManager;
+		this.messageSource = messageSource;
+	}
 
 	@ExtDirectMethod(STORE_READ)
 	@PreAuthorize("hasRole('ADMIN')")
@@ -90,7 +94,7 @@ public class AccessLogService {
 			if (log.getLogIn() != null && log.getLogOut() != null) {
 				Duration duration = Duration.between(log.getLogIn(), log.getLogOut());
 				log.setDuration(duration.toMinutes() + " " + minutesText + " " + andText
-						+ " " + (duration.getSeconds() % 60) + " " + secondsText);
+						+ " " + duration.getSeconds() % 60 + " " + secondsText);
 			}
 
 		}

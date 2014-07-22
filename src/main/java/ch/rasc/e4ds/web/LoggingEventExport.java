@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -82,25 +83,48 @@ public class LoggingEventExport {
 					}
 				}
 
-				pw.println(messageSource.getMessage("logevents_timestamp", null, locale)
-						+ "   : "
+				String timestampText = messageSource.getMessage("logevents_timestamp",
+						null, locale);
+				String userText = messageSource.getMessage("user", null, locale);
+				String ipText = messageSource.getMessage("logevents_ip", null, locale);
+				String levelText = messageSource.getMessage("logevents_level", null,
+						locale);
+				String classText = messageSource.getMessage("logevents_class", null,
+						locale);
+				String methodText = messageSource.getMessage("logevents_method", null,
+						locale);
+				String lineText = messageSource
+						.getMessage("logevents_line", null, locale);
+				String messageText = messageSource.getMessage("logevents_message", null,
+						locale);
+
+				String[] texts = { timestampText, userText, ipText, levelText, classText,
+						methodText, lineText, messageText };
+				int maxLength = Arrays.stream(texts).map(String::length)
+						.max(Comparator.naturalOrder()).get();
+
+				timestampText = padRight(timestampText, maxLength);
+				userText = padRight(userText, maxLength);
+				ipText = padRight(ipText, maxLength);
+				levelText = padRight(levelText, maxLength);
+				classText = padRight(classText, maxLength);
+				methodText = padRight(methodText, maxLength);
+				lineText = padRight(lineText, maxLength);
+				messageText = padRight(messageText, maxLength);
+
+				pw.println(timestampText
+						+ ": "
 						+ ZonedDateTime.ofInstant(
 								Instant.ofEpochMilli(event.getTimestmp().longValue()),
 								ZoneOffset.UTC));
-				pw.println(messageSource.getMessage("user", null, locale) + "   : "
-						+ userName);
-				pw.println(messageSource.getMessage("logevents_ip", null, locale)
-						+ "     : " + ip);
-				pw.println(messageSource.getMessage("logevents_level", null, locale)
-						+ "  : " + event.getLevelString());
-				pw.println(messageSource.getMessage("logevents_class", null, locale)
-						+ " : " + event.getCallerClass());
-				pw.println(messageSource.getMessage("logevents_method", null, locale)
-						+ ": " + event.getCallerMethod());
-				pw.println(messageSource.getMessage("logevents_line", null, locale)
-						+ "  : " + event.getCallerLine());
-				pw.println(messageSource.getMessage("logevents_message", null, locale)
-						+ ": " + event.getFormattedMessage());
+
+				pw.println(userText + ": " + userName);
+				pw.println(ipText + ": " + ip);
+				pw.println(levelText + ": " + event.getLevelString());
+				pw.println(classText + ": " + event.getCallerClass());
+				pw.println(methodText + ": " + event.getCallerMethod());
+				pw.println(lineText + ": " + event.getCallerLine());
+				pw.println(messageText + ": " + event.getFormattedMessage());
 
 				Set<LoggingEventException> stacktrace = event.getLoggingEventException();
 
@@ -116,5 +140,14 @@ public class LoggingEventExport {
 
 		}
 
+	}
+
+	private static String padRight(String text, int maxLength) {
+		int pad = maxLength - text.length();
+		if (pad > 0) {
+			return text + new String(new char[pad]).replace("\0", " ");
+		}
+
+		return text;
 	}
 }

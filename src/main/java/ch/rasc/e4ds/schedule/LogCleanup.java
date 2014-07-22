@@ -4,8 +4,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +18,12 @@ import com.mysema.query.jpa.impl.JPAQuery;
 @Component
 public class LogCleanup {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	@Autowired
+	public LogCleanup(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Transactional
 	@Scheduled(cron = "0 0 4 * * *")

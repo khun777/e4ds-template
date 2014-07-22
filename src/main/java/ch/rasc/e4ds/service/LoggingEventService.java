@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +34,15 @@ import com.mysema.query.jpa.impl.JPAQuery;
 @Service
 public class LoggingEventService {
 
-	@Autowired
-	private Environment environment;
+	private final Environment environment;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	@Autowired
+	public LoggingEventService(Environment environment, EntityManager entityManager) {
+		this.environment = environment;
+		this.entityManager = entityManager;
+	}
 
 	private static final ImmutableMap<String, String> mapGuiColumn2DbField = new ImmutableMap.Builder<String, String>()
 			.put("dateTime", "timestmp").put("message", "formattedMessage")

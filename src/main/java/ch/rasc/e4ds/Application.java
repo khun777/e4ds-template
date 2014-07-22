@@ -68,35 +68,13 @@ public class Application extends SpringBootServletInitializer {
 		return new MdcFilter();
 	}
 
-	// @Bean
-	// public Validator validator(MessageSource messageSource) {
-	// LocalValidatorFactoryBean localValidatorFactoryBean = new
-	// LocalValidatorFactoryBean();
-	// localValidatorFactoryBean.setValidationMessageSource(messageSource);
-	// return localValidatorFactoryBean;
-	// }
-
 	@Bean
 	public ch.ralscha.extdirectspring.controller.Configuration configuration() {
 		ch.ralscha.extdirectspring.controller.Configuration config = new ch.ralscha.extdirectspring.controller.Configuration();
 		config.setExceptionToMessage(Collections.singletonMap(
 				AccessDeniedException.class, "accessdenied"));
-
-		// JsonHandler handler = new JsonHandler();
-		// handler.setMapper(objectMapper());
-		// config.setJsonHandler(handler);
-
 		return config;
 	}
-
-	// @Bean
-	// @Primary
-	// public ObjectMapper objectMapper() {
-	// ObjectMapper objectMapper = new ObjectMapper();
-	// objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-	// objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-	// return objectMapper;
-	// }
 
 	@Bean
 	public LocaleResolver localeResolver() {

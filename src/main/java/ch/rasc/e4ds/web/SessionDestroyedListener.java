@@ -3,8 +3,8 @@ package ch.rasc.e4ds.web;
 import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.core.session.SessionDestroyedEvent;
 import org.springframework.stereotype.Component;
@@ -18,8 +18,12 @@ import com.mysema.query.jpa.impl.JPAUpdateClause;
 public class SessionDestroyedListener implements
 		ApplicationListener<SessionDestroyedEvent> {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	@Autowired
+	public SessionDestroyedListener(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Override
 	@Transactional

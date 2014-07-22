@@ -38,14 +38,14 @@ Ext.define('E4ds.view.loggingevent.List', {
 		}, {
 			text: i18n.logevents_message,
 			dataIndex: 'message',
-			width: 200
-		}, {
-			text: i18n.logevents_callerclass,
-			dataIndex: 'callerClass',
-			sortable: false,
 			flex: 1
 		}, {
-			text: i18n.logevents_callerline,
+			text: i18n.logevents_class,
+			dataIndex: 'callerClass',
+			sortable: false,
+			width: 500
+		}, {
+			text: i18n.logevents_line,
 			dataIndex: 'callerLine',
 			align: 'right',
 			sortable: false,

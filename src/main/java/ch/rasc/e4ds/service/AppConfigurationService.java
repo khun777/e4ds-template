@@ -3,7 +3,6 @@ package ch.rasc.e4ds.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,15 @@ import com.mysema.query.jpa.impl.JPAQuery;
 @Lazy
 public class AppConfigurationService {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
+
+	private final MailService mailService;
 
 	@Autowired
-	private MailService mailService;
+	public AppConfigurationService(EntityManager entityManager, MailService mailService) {
+		this.entityManager = entityManager;
+		this.mailService = mailService;
+	}
 
 	@ExtDirectMethod
 	@PreAuthorize("hasRole('ADMIN')")

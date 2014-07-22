@@ -123,7 +123,7 @@ Ext.define('E4ds.controller.Viewport', {
 			if (event.result && !event.result.success) {
 				if (event.result.validations) {
 					me.showValidationMessage(event.result.validations,
-							'Please correct the following errors');
+							i18n.correct_error_dialog_title);
 				}
 			}
 		}

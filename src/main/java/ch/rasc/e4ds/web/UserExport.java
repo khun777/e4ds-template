@@ -1,11 +1,8 @@
 package ch.rasc.e4ds.web;
 
 import java.io.OutputStream;
-import java.util.List;
 import java.util.Locale;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -29,20 +26,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.rasc.e4ds.entity.QUser;
 import ch.rasc.e4ds.entity.User;
+import ch.rasc.e4ds.repository.UserRepository;
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.JPQLQuery;
-import com.mysema.query.jpa.impl.JPAQuery;
 
 @Controller
 @Lazy
 public class UserExport {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	private final UserRepository userRepository;
+
+	private final MessageSource messageSource;
 
 	@Autowired
-	private MessageSource messageSource;
+	public UserExport(UserRepository userRepository, MessageSource messageSource) {
+		this.userRepository = userRepository;
+		this.messageSource = messageSource;
+	}
 
 	@Transactional(readOnly = true)
 	@RequestMapping(value = "/usersExport.xlsx", method = RequestMethod.GET)
@@ -89,22 +89,16 @@ public class UserExport {
 		createCell(row, 4, messageSource.getMessage("user_enabled", null, locale),
 				titleStyle);
 
-		JPQLQuery query = new JPAQuery(entityManager).from(QUser.user);
-
+		BooleanBuilder bb = new BooleanBuilder();
 		if (StringUtils.hasText(filter)) {
-			BooleanBuilder bb = new BooleanBuilder();
 			bb.or(QUser.user.userName.contains(filter));
 			bb.or(QUser.user.name.contains(filter));
 			bb.or(QUser.user.firstName.contains(filter));
 			bb.or(QUser.user.email.contains(filter));
-
-			query.where(bb);
 		}
 
-		List<User> users = query.list(QUser.user);
-
 		int rowNo = 1;
-		for (User user : users) {
+		for (User user : userRepository.findAll(bb)) {
 			row = sheet.createRow(rowNo);
 			rowNo++;
 
