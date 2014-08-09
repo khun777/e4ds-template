@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
@@ -38,6 +39,7 @@ import ch.rasc.edsutil.optimizer.WebResourceProcessor;
 @PropertySource("classpath:/version.properties")
 @EntityScan(basePackageClasses = { ch.rasc.edsutil.entity.AbstractPersistable.class,
 		User.class })
+@EnableScheduling
 public class Application extends SpringBootServletInitializer {
 
 	private static SpringApplicationBuilder configureApp(
