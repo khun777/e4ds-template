@@ -4,7 +4,7 @@
 	<groupId>ch.rasc</groupId>
 	<artifactId>e4ds-template</artifactId>
 	<version>1.0.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<prerequisites>
 		<maven>3.0.3</maven>
@@ -18,7 +18,7 @@
 		<extjs.version>4.2.2</extjs.version>
 		<h2.version>1.4.181</h2.version>
 		<tomcat.version>8.0.9</tomcat.version>
-		<liquibase.version>3.2.2</liquibase.version>
+		<!-- <liquibase.version>3.2.2</liquibase.version>-->
 		<jackson.version>2.4.1</jackson.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
